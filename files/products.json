@@ -1,0 +1,38 @@
+[
+	{
+		"title": "banana",
+		"description": "fruta",
+		"price": 100,
+		"thumbnail": "link",
+		"stock": 60,
+		"code": "b001",
+		"id": 2
+	},
+	{
+		"title": "pera",
+		"description": "fruta",
+		"price": 40,
+		"thumbnail": "link",
+		"stock": 120,
+		"code": "p001",
+		"id": 3
+	},
+	{
+		"title": "naranja",
+		"description": "fruta",
+		"price": 30,
+		"thumbnail": "link",
+		"stock": 50,
+		"code": "n001",
+		"id": 4
+	},
+	{
+		"title": "manzana",
+		"description": "fruta",
+		"price": 25,
+		"thumbnail": "link",
+		"stock": 100,
+		"code": "m001",
+		"id": 1
+	}
+]
