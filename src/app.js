@@ -16,15 +16,16 @@ app.get('/', async (req,res)=>{
 })
 
 app.get('/products', async (req,res)=>{
-    const productsToShow = req.query.limit
+    const productsShowLimit = req.query.limit
     const products = await productManager.getProducts()
-    if (productsToShow) {
+    if (productsShowLimit) {
         let arrayToShow = []
-        for (let i = 0; i < productsToShow; i++) {
-            const maxNumber = products.length
-            let randomValue = Math.floor(Math.random() * (maxNumber));
-            const product = products[randomValue];
-            arrayToShow.push(product)
+        for (let i = 0; i < productsShowLimit; i++) {
+            let randomValue = Math.floor(Math.random() * (products.length));
+            const productToAdd = products[randomValue];
+            arrayToShow.push(productToAdd)
+            const productIndex = products.findIndex((product)=> product.id == productToAdd.id)
+            products.splice(productIndex,1)
         }
         return res.send(arrayToShow)
     } else {

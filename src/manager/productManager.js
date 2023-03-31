@@ -78,24 +78,18 @@ export default class ProductManager {
     }
 
     deleteProduct = async (id) => {
-        let data = await this.getProducts()
-        let productToRemove = await this.getProductById(id)
-        let productKeys = Object.keys(productToRemove)
-        let productsValues = Object.values(productToRemove)
-        if (productToRemove){
-            for (let i = 0; i < productsValues.length-1; i++) {
-                let key = productKeys[i]
-                productToRemove[key] = null
+        let products = await this.getProducts()
+            const productIndex = products.findIndex((product)=> product.id == id)
+            products.splice(productIndex,1)
+    
+            try {
+                await fs.promises.writeFile(this.path, JSON.stringify(products,null,'\t'))
+                return 'The product was successfully removed'
+            } catch (error) {
+                 return error   
             }
-            let filteredData = data.filter(product => product.id != id)
-            let newData = filteredData
-            newData.push(productToRemove)
-            await fs.promises.unlink(this.path)
-            await fs.promises.writeFile(this.path, JSON.stringify(newData, null, '\t'))
-            return console.log('The product was successfully removed')
         }
     }
-}
 
 
 
