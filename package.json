@@ -1,9 +1,9 @@
 {
-  "name": "pitarch-product-manager",
+  "name": "coderhouse-backend-51185-project",
   "version": "1.0.0",
-  "description": "desafio entregable n°2",
+  "description": "desafio entregable n°3",
   "type": "module",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/glpitarch/coderhouse-backend-51185/issues"
   },
-  "homepage": "https://github.com/glpitarch/coderhouse-backend-51185#readme"
+  "homepage": "https://github.com/glpitarch/coderhouse-backend-51185#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
