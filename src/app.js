@@ -16,18 +16,23 @@ app.get('/', async (req,res)=>{
 })
 
 app.get('/products', async (req,res)=>{
-    const productsShowLimit = req.query.limit
+    let productsShowLimit = req.query.limit
     const products = await productManager.getProducts()
     if (productsShowLimit) {
-        let arrayToShow = []
-        for (let i = 0; i < productsShowLimit; i++) {
-            let randomValue = Math.floor(Math.random() * (products.length));
-            const productToAdd = products[randomValue];
-            arrayToShow.push(productToAdd)
-            const productIndex = products.findIndex((product)=> product.id == productToAdd.id)
-            products.splice(productIndex,1)
+        if (productsShowLimit > products.length) {
+            console.log('El valor limite supera la cantidad de productos existentes')
+            return res.send(products)
+        } else {
+            let arrayToShow = []
+            for (let i = 0; i < productsShowLimit; i++) {
+                let randomValue = Math.floor(Math.random() * (products.length));
+                const productToAdd = products[randomValue];
+                arrayToShow.push(productToAdd)
+                const productIndex = products.findIndex((product)=> product.id == productToAdd.id)
+                products.splice(productIndex,1)
+            }
+            return res.send(arrayToShow)
         }
-        return res.send(arrayToShow)
     } else {
         res.send(products)
     }
