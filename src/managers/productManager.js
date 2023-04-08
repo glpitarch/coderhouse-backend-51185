@@ -21,12 +21,7 @@ export default class ProductManager {
         let data = await this.getProducts();
         let dataLength = await data.length
         let productId = 0
-
-        if (dataLength == 0) {
-            productId = 0
-        } else {
-            productId = data[dataLength-1].id
-        }
+        dataLength == 0 ? (productId = 0) : (productId = data[dataLength-1].id)
         
         let product = {
             id: ++productId,

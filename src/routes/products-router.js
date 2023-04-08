@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import ProductManager from "../manager/productManager.js";
+import ProductManager from "../managers/productManager.js";
 const productManager = new ProductManager()
 
 const router = Router();
@@ -39,26 +39,19 @@ router.post('/', async (req,res)=>{
         let key = keys[i]
         if (key == 'category') {
             category = value
-        }
-        else if (key == 'title') {
+        } else if (key == 'title') {
             title = value
-        }
-        else if (key == 'description') {
+        } else if (key == 'description') {
             description = value
-        }
-        else if (key == 'price') {
+        } else if (key == 'price') {
             price = value
-        }
-        else if (key == 'stock') {
+        } else if (key == 'stock') {
             stock = value
-        }
-        else if (key == 'code') {
+        } else if (key == 'code') {
             code = value
-        }
-        else if (key == 'thumbnail' && value) {
+        } else if (key == 'thumbnail' && value) {
             thumbnail = value
-        }
-        else if (key == 'status' && value) {
+        } else if (key == 'status' && value) {
             thumbnail = value
         }
     }
