@@ -1,0 +1,68 @@
+[
+	{
+		"id": 1,
+		"category": "frutas",
+		"title": "pera",
+		"description": "fruta",
+		"price": 90,
+		"stock": 5,
+		"code": "pe001",
+		"thumbnail": [],
+		"status": true
+	},
+	{
+		"id": 2,
+		"category": "frutas",
+		"title": "naranja",
+		"description": "fruta",
+		"price": 30,
+		"stock": 5,
+		"code": "na002",
+		"thumbnail": [],
+		"status": true
+	},
+	{
+		"id": 3,
+		"category": "frutas",
+		"title": "manzana",
+		"description": "fruta",
+		"price": 100,
+		"stock": 55,
+		"code": "m001",
+		"thumbnail": [],
+		"status": true
+	},
+	{
+		"id": 4,
+		"category": "frutas",
+		"title": "kiwi",
+		"description": "fruta",
+		"price": 1500,
+		"stock": 5,
+		"code": "kiwi01",
+		"thumbnail": [],
+		"status": true
+	},
+	{
+		"id": 5,
+		"category": "verduras",
+		"title": "mandarina",
+		"description": "fruta",
+		"price": 3000,
+		"stock": 15,
+		"code": "sandia01",
+		"thumbnail": [],
+		"status": true
+	},
+	{
+		"id": 6,
+		"category": "frutas",
+		"title": "melon",
+		"description": "fruta",
+		"price": 5000,
+		"stock": 60,
+		"code": "mel025",
+		"thumbnail": [],
+		"status": true
+	}
+]
