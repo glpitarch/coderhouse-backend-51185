@@ -5,10 +5,19 @@ Sin id, thumbnail y status:
 	{
 		"category": "frutas",
 		"title": "manzana",
-		"description": "verdura",
-		"price": 789,
-		"stock": 59,
-		"code": "Man01"
+		"description": "fruta",
+		"price": 50,
+		"stock": 300,
+		"code": "fruman01"
+	}
+
+	{
+		"category": "frutas",
+		"title": "banana",
+		"description": "fruta",
+		"price": 80,
+		"stock": 150,
+		"code": "fruban01"
 	}
 
 Con id, thumbnail y status:
@@ -17,10 +26,10 @@ Con id, thumbnail y status:
 		"id": 1,
 		"category": "frutas",
 		"title": "manzana",
-		"description": "verdura",
-		"price": 789,
-		"stock": 59,
-		"code": "Man01",
+		"description": "fruta",
+		"price": 50,
+		"stock": 300,
+		"code": "fruman01"
 		"thumbnail": [],
 		"status": true
 	}
