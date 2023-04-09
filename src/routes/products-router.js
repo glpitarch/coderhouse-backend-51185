@@ -1,16 +1,16 @@
 import { Router } from 'express';
-import ProductManager from "../managers/productManager.js";
-const productManager = new ProductManager()
+import productManager from "../managers/productManager.js";
 
 const router = Router();
 
-router.get('/', async (req,res)=>{
+router.get('/', async (req,res) => {
     let productsShowLimit = req.query.limit
     const products = await productManager.getProducts()
     if (productsShowLimit) {
         if (productsShowLimit > products.length) {
-            console.log('El valor limite supera la cantidad de productos existentes')
-            return res.send(products)
+            return res.status(400).send(`
+                The limit value exceeds the number of products available!
+            `)
         } else {
             let arrayToShow = []
             for (let i = 0; i < productsShowLimit; i++) {
@@ -22,12 +22,10 @@ router.get('/', async (req,res)=>{
             }
             return res.send(arrayToShow)
         }
-    } else {
-        res.send(products)
-    }
+    } return res.send(products)
 })
 
-router.post('/', async (req,res)=>{
+router.post('/', async (req,res) => {
     let newProduct = req.body
     let keys = Object.keys(newProduct)
     let values = Object.values(newProduct)
@@ -52,27 +50,27 @@ router.post('/', async (req,res)=>{
         } else if (key == 'thumbnail' && value) {
             thumbnail = value
         } else if (key == 'status' && value) {
-            thumbnail = value
+            status = value
         }
     }
     let product = await productManager.addProduct(category, title, description, price, stock, code, thumbnail, status)
     res.send(product)
 })
 
-router.get('/:id', async (req,res)=>{
+router.get('/:id', async (req,res) => {
     const id = req.params.id
     let product = await productManager.getProductById(id)
     res.send(product)
 })
 
-router.put('/:id', async (req,res)=>{
+router.put('/:id', async (req,res) => {
     const id = req.params.id
     let valuesToUpdate = req.body
     let product = await productManager.updateProduct(id, valuesToUpdate)
     res.send(product)
 })
 
-router.delete('/:id', async (req,res)=>{
+router.delete('/:id', async (req,res) => {
     const id = req.params.id
     let product = await productManager.deleteProduct(id)
     res.send(product)

@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-export default class CartManager {
+class CartManager {
 
     constructor(){
         this.path = './files/cart.json'
@@ -17,6 +17,16 @@ export default class CartManager {
         }
     }
 
+    getCarts = async () => {
+        if (fs.existsSync(this.path)){
+            const data = await fs.promises.readFile(this.path, 'utf-8')
+            const carts = JSON.parse(data)
+            return carts;
+        } else {
+          return 'The carts file was not found'  
+        }
+    }
+
     addCart = async (cartsData) => {
         let dataLength = await cartsData.length
         let productId = 0
@@ -30,4 +40,25 @@ export default class CartManager {
         return cart
     }
 
+    getCartById = async (id) => {
+        let data = await this.getCarts();
+        let cart = data.find(cart => cart.id == id)
+        if (cart) {
+            return cart
+        } else {
+            return 'The cart was not found'
+        }
+    }
+
+    updateCartFileById = async (cartIdToUpdate, cartUpdated) => {
+        let cartsData = await cartManager.getCarts()
+        let cartIndexToUpdate = cartsData.findIndex(cart => cart.id == cartIdToUpdate);
+        cartsData.splice(cartIndexToUpdate, 1, cartUpdated)
+        await fs.promises.writeFile(this.path, JSON.stringify(cartsData, null, '\t'))
+        return cartsData
+    }
 }
+
+const cartManager = new CartManager()
+
+export default cartManager
