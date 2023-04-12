@@ -35,22 +35,12 @@ router.post('/', async (req,res) => {
     for (let i = 0; i < values.length; i++) {
         let value = values[i]
         let key = keys[i]
-        if (key == 'category') {
-            category = value
-        } else if (key == 'title') {
-            title = value
-        } else if (key == 'description') {
-            description = value
-        } else if (key == 'price') {
-            price = value
-        } else if (key == 'stock') {
-            stock = value
-        } else if (key == 'code') {
-            code = value
-        } else if (key == 'thumbnail' && value) {
+        console.log(key)
+        console.log(value)
+        if (key == 'thumbnail' && value) {
             thumbnail = value
-        } else if (key == 'status' && value) {
-            status = value
+        } else if (key == 'status' && value === false) {
+            status = false
         }
     }
     let product = await productManager.addProduct(category, title, description, price, stock, code, thumbnail, status)
