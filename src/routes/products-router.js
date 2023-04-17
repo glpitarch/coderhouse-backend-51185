@@ -35,8 +35,6 @@ router.post('/', async (req,res) => {
     for (let i = 0; i < values.length; i++) {
         let value = values[i]
         let key = keys[i]
-        console.log(key)
-        console.log(value)
         if (key == 'thumbnail' && value) {
             thumbnail = value
         } else if (key == 'status' && value === false) {

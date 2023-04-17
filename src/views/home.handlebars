@@ -1,0 +1,14 @@
+<div>
+    <h1 class="txt-align-center">Lista de productos</h1>
+    <div class="flex-row-center">
+        {{#each products}}
+            <div class="productCard">
+                <p>Nombre: {{this.title}}</p>
+                <p>category: {{this.category}}</p>
+                <p>description: {{this.description}}</p>
+                <p>price: {{this.price}}</p>
+                <p>stock: {{this.stock}}</p>
+            </div>
+        {{/each}}
+    </div>
+</div>  

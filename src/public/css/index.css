@@ -1,0 +1,13 @@
+.txt-align-center {
+    text-align: center;
+}
+
+.flex-row-center {
+    display: flex;
+    justify-content: center;
+}
+
+.productCard {
+    padding: 3rem;
+}
+
