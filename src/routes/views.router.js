@@ -14,15 +14,12 @@ router.get('/', async (req,res)=>{
 })
 
 router.get('/realtimeproducts', async (req,res)=>{
-    let products = await productManager.getProducts()
     let titleTag = 'Real time products'
 
     res.render('realTimeProducts', { 
         title: titleTag,
-        style: 'index.css',
-        products
+        style: 'index.css'
     });
 })
-
 
 export default router;

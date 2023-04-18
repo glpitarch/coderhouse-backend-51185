@@ -19,6 +19,7 @@
   "homepage": "https://github.com/glpitarch/coderhouse-backend-51185#readme",
   "dependencies": {
     "express": "^4.18.2",
-    "express-handlebars": "^7.0.6"
+    "express-handlebars": "^7.0.6",
+    "socket.io": "^4.6.1"
   }
 }

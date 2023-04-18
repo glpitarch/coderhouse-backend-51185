@@ -1,14 +1,38 @@
 <div>
     <h1 class="txt-align-center">Real time products with websockets</h1>
-    <div class="flex-row-center">
-        {{#each products}}
-            <div class="productCard">
-                <p>Nombre: {{this.title}}</p>
-                <p>category: {{this.category}}</p>
-                <p>description: {{this.description}}</p>
-                <p>price: {{this.price}}</p>
-                <p>stock: {{this.stock}}</p>
-            </div>
-        {{/each}}
+    <div id="productContainer" class="flex-row-center">
     </div>
-</div>  
+    <div class="flex-row-space">
+        <div class="pad-3 txt-align-center">
+            <h2>Eliminar producto</h2>
+            <p>Ingrese el código del producto que desea eliminar:</p>
+            <input type="text" id="deleteInput"> <button id="deleteButton">Eliminar producto</button>
+        </div>
+        <div class="pad-3 txt-align-center">
+            <h2>Agregar producto</h2>
+            <p>Complete los siguientes campos para agregar el producto:</p>
+            <form class="txt-align-center">
+                <label>Categoría:</label><br>
+                <input class="mb-1" type="text" id="categoryInput"><br>
+                <label >Nombre:</label><br>
+                <input class="mb-1" type="text" id="titleInput"><br>
+                <label>Descripción:</label><br>
+                <input class="mb-1" type="text" id="descriptionInput"><br>
+                <label>Precio:</label><br>
+                <input class="mb-1" type="text" id="priceInput"><br>
+                <label>Stock:</label><br>
+                <input class="mb-1" type="text" id="stockInput"><br>
+                <label>Código:</label><br>
+                <input class="mb-1" type="text" id="codeInput"><br>
+                <label>Thumbnail:</label><br>
+                <input class="mb-1" type="text" id="thumbnailInput"><br>
+                <label>Estado:</label><br>
+                <input class="mb-1" type="text" id="statusInput"><br>
+                <button id="addButton">Agregar producto</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="./js/index.js"></script>

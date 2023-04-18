@@ -42,16 +42,5 @@
 		"code": "fruper01",
 		"thumbnail": [],
 		"status": true
-	},
-	{
-		"id": 5,
-		"category": "frutas",
-		"title": "melon",
-		"description": "fruta",
-		"price": 500,
-		"stock": 5,
-		"code": "frumel01",
-		"thumbnail": [],
-		"status": true
 	}
 ]
