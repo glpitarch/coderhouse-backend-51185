@@ -15,7 +15,6 @@ router.get('/', async (req,res)=>{
 
 router.get('/realtimeproducts', async (req,res)=>{
     let titleTag = 'Real time products'
-
     res.render('realTimeProducts', { 
         title: titleTag,
         style: 'index.css'
