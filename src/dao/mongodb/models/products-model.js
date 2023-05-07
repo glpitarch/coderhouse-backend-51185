@@ -25,10 +25,11 @@ const schema = new mongoose.Schema({
     },
     code: {
         type: String,
-        require: true
+        require: true,
+        unique: true
     },
     thumbnail: {
-        type: String,
+        type: [],
     },
     status: {
         type: Boolean,
