@@ -3,7 +3,7 @@ import fs from 'fs';
 class ProductManager {
 
     constructor(){
-        this.path = './files/products.json'
+        this.path = './dao/file-system/files/products.json'
     }
 
     getProducts = async () => {
@@ -93,6 +93,9 @@ class ProductManager {
     deleteProduct = async (id) => {
         let products = await this.getProducts()
         const productIndex = products.findIndex((product)=> product.id == id)
+        if (productIndex == -1) {
+            return 'Product does not exist'
+        }
         products.splice(productIndex, 1)
             try {
                 await fs.promises.writeFile(this.path, JSON.stringify(products, null, '\t'))

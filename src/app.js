@@ -1,15 +1,18 @@
 import express from 'express'
+import mongoose from 'mongoose';
 import { Server } from 'socket.io'
 import handlebars from 'express-handlebars'
-import productsRouter from './routes/products-router.js'
-import cartsRouter from './routes/carts-router.js'
-import viewsRouter from './routes/views.router.js'
+import productsRouter from './routes/products-router-fs.js'
+import cartsRouter from './routes/carts-router-fs.js'
+import viewsRouter from './routes/views-router.js'
 import __dirname from './utils.js'
-import productManager from './managers/productManager.js'
+import productManager from './dao/file-system/managers/productManager.js'
 
 const PORT = 8080;
+const MONGO = 'mongodb+srv://admin:admin123@cluster0.m8kzlrt.mongodb.net/?retryWrites=true&w=majority'
 
-const app = express();
+const app = express()
+const conection = mongoose.connect(MONGO);
 
 const httpServer = app.listen(PORT, ()=>{
     console.log(`
