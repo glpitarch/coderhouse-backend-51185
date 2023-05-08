@@ -29,7 +29,7 @@ const schema = new mongoose.Schema({
         unique: true
     },
     thumbnail: {
-        type: [],
+        type: Array
     },
     status: {
         type: Boolean,

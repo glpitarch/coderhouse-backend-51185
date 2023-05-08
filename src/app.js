@@ -5,11 +5,13 @@ import handlebars from 'express-handlebars'
 import __dirname from './utils.js'
 import productManager from './dao/file-system/managers/productManager.js'
 /*-----//_ Routes from fileSystem _//-----*/
-import productsRouter from './routes/products-router-fs.js'
-import cartsRouter from './routes/carts-router-fs.js'
-import viewsRouter from './routes/views-router.js'
+import productsRouterFs from './routes/products-router-fs.js'
+import cartsRouterFs from './routes/carts-router-fs.js'
+import viewsRouterFs from './routes/views-router-fs.js'
 /*-----//_ Routes from MongoDB _//-----*/
-import productModel from './routes/products-router-mongodb.js'
+import productsRouterMongo from './routes/products-router-mongodb.js'
+import cartsRouterMongo from './routes/carts-router-mongodb.js';
+import viewsRouterMongo from './routes/views-router-mongodb.js';
 
 const PORT = 8080;
 const MONGO = 'mongodb+srv://admin:admin123@cluster0.m8kzlrt.mongodb.net/?retryWrites=true&w=majority'
@@ -50,13 +52,13 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 /*-----//_ Routes from MongoDB _//-----*/
-app.use('/', viewsRouter);
-app.use('/api/products', productModel);
-app.use('/api/carts', cartsRouter);
+app.use('/', viewsRouterMongo);
+app.use('/api/products', productsRouterMongo);
+app.use('/api/carts', cartsRouterMongo);
 
 /*-----//_ Routes from fileSystem _//-----*/
-/* app.use('/', viewsRouter);
-app.use('/api/products', productsRouter);
-app.use('/api/carts', cartsRouter); */
+/* app.use('/', viewsRouterFs);
+app.use('/api/products', productsRouterFs);
+app.use('/api/carts', cartsRouterFs); */
 
 
