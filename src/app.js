@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 import { Server } from 'socket.io'
 import handlebars from 'express-handlebars'
 import __dirname from './utils.js'
-import productManager from './dao/file-system/managers/productManager.js'
+import productModel from './dao/mongodb/models/products-model.js'
+/* import productManager from './dao/file-system/managers/productManager.js' */
 /*-----//_ Routes from fileSystem _//-----*/
 import productsRouterFs from './routes/products-router-fs.js'
 import cartsRouterFs from './routes/carts-router-fs.js'
@@ -25,9 +26,43 @@ const httpServer = app.listen(PORT, ()=>{
     `)
 })
 
-const io = new Server(httpServer)
-let products = await productManager.getProducts()
+app.engine('handlebars', handlebars.engine());
+app.set('views', __dirname + '/views');
+app.set('view engine', 'handlebars');
+app.use(express.static(__dirname + '/public'))
 
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+
+/*-----//_ Routes for MongoDB _//-----*/
+app.use('/', viewsRouterMongo);
+app.use('/api/products', productsRouterMongo);
+app.use('/api/carts', cartsRouterMongo);
+
+const io = new Server(httpServer)
+const messages = [];
+let products = await productModel.find().lean()
+
+io.on('connection', socket => {
+    console.log('A user has been connected to the server');
+
+    io.emit('productsList', products)
+
+    socket.on('productToDelete', async productId => {
+        await productModel.deleteOne({_id: productId})
+        let products = await productModel.find().lean()
+        io.emit('productsList', products)
+    })
+
+    socket.on('productToAdd', async product => {
+        await productModel.create(product)
+        let products = await productModel.find().lean()
+        io.emit('productsList', products)
+    })
+})
+
+/*-----//_ fileSystem socket.io _//-----*/
+/* let products = await productManager.getProducts()
 io.on('connection', socket => {
     console.log('A user has been connected to the server');
 
@@ -41,22 +76,9 @@ io.on('connection', socket => {
         let { category, title, description, price, stock, code, thumbnail, status } = product
         await productManager.addProduct( category, title, description, price, stock, code, thumbnail, status )
     })
-})
+}) */
 
-app.engine('handlebars', handlebars.engine());
-app.set('views', __dirname + '/views');
-app.set('view engine', 'handlebars');
-app.use(express.static(__dirname + '/public'))
-
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
-
-/*-----//_ Routes from MongoDB _//-----*/
-app.use('/', viewsRouterMongo);
-app.use('/api/products', productsRouterMongo);
-app.use('/api/carts', cartsRouterMongo);
-
-/*-----//_ Routes from fileSystem _//-----*/
+/*-----//_ Routes for fileSystem _//-----*/
 /* app.use('/', viewsRouterFs);
 app.use('/api/products', productsRouterFs);
 app.use('/api/carts', cartsRouterFs); */
