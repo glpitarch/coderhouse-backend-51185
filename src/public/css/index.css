@@ -11,16 +11,50 @@ body {
     justify-content: center;
 }
 
+.flex-column-center {
+    display: flex;
+    justify-content: center;
+}
+
 .flex-row-space {
     display: flex;
     justify-content: space-around
+}
+
+.m-05 {
+    margin: 0.5rem;
+}
+
+.m-1 {
+    margin: 1rem;
 }
 
 .mb-1 {
     margin-bottom: 1rem;
 }
 
+.pad-05 {
+    padding: 0.5rem;
+}
+
+.pad-2 {
+    padding: 2rem;
+}
+
 .pad-3 {
     padding: 3rem;
 }
+
+.hiden {
+    display: none
+}
+
+.chatInput {
+    width: 40rem;
+    height: 1rem;
+    padding-bottom: 1rem;
+    text-align: start;
+}
+
+
 

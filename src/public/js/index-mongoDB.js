@@ -5,7 +5,6 @@ const addProductButton = document.getElementById('addButton');
 
 socket.on('productsList', products => {
     document.getElementById('productContainer').innerHTML = null
-    console.log(products)
     for (const product of products) {
         let { _id, title, category, description, price, stock, code } = product
         document.getElementById('productContainer').innerHTML += `

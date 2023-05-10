@@ -28,7 +28,7 @@ router.get('/', async (req,res) => {
 router.post('/', async (req,res) => {
     let { category, title, description, price, stock, code, thumbnail, status } = req.body
     if (!category || !title || !description || !price || !stock || !code){
-        return res.status(400).send({error: 'All inputs fields are needed!'})
+        return res.status(400).send({ error: 'All inputs fields are needed!' })
     }
     else if (!status) {
         status = true
@@ -58,13 +58,13 @@ router.get('/:id', async (req,res) => {
 router.put('/:id', async (req,res) => {
     const id = req.params.id
     let valuesToUpdate = req.body
-    let product = await productModel.updateOne({_id:id},{$set:valuesToUpdate})
+    let product = await productModel.updateOne({ _id: id },{ $set: valuesToUpdate })
     res.send(product)
 })
 
 router.delete('/:id', async (req,res) => {
     const id = req.params.id
-    let product = await productModel.deleteOne({_id:id})
+    let product = await productModel.deleteOne({ _id: id })
     res.send(product)
 })
 

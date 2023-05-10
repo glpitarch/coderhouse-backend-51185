@@ -56,7 +56,7 @@ router.post('/:cid/product/:pid', async (req,res) => {
             _id: productId,
             quantity: 1
         }
-        let result = await cartModel.findOneAndUpdate({ _id: cartId }, { $push: { 'products': product }})
+        let result = await cartModel.updateOne({ _id: cartId }, { $push: { 'products': product }})
         res.send({ result })
     }
 })

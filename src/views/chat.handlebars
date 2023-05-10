@@ -1,10 +1,22 @@
-<div>
-   <h1>Chat público</h1>
-
-    <input id="chatbox">
-    <p id="messageLogs"></p>
-
+<div class="txt-align-center">
+    <h1>Chat público</h1>
+    <div id="logInContainer" class="m-2">
+        <p>Bienvenido al chat público. Si deseas participar en el chat deberás ingresar una dirección de email que te identificará:</p>
+        <form>
+            <label>Dirección de correo electrónico</label>
+            <input type="text" placeholder="nombre@servidor.com" id="userEmailInput" class="m-05">
+        </form>
+        <button id="userConfirmationButton" class="m-05 pad-05">Confirmar</button>
+    </div>
+    
+    <div id="chatContainer" class="hiden">
+        <p id="messagesLogs"></p>
+        <div class="flex-row-center">        
+            <input placeholder="escribe tu mensaje aqui" id="chatbox" class="chatInput m-05">
+            <button id="sendMessageButton" class="m-05 pad-05">Enviar</button>   
+        </div>
+    </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/index-mongoDB.js"></script>
+<script src="/js/chat.js"></script>

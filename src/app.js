@@ -4,18 +4,20 @@ import { Server } from 'socket.io'
 import handlebars from 'express-handlebars'
 import __dirname from './utils.js'
 import productModel from './dao/mongodb/models/products-model.js'
+import chatModel from './dao/mongodb/models/chat-model.js'
 /* import productManager from './dao/file-system/managers/productManager.js' */
-/*-----//_ Routes from fileSystem _//-----*/
-import productsRouterFs from './routes/products-router-fs.js'
-import cartsRouterFs from './routes/carts-router-fs.js'
-import viewsRouterFs from './routes/views-router-fs.js'
 /*-----//_ Routes from MongoDB _//-----*/
 import productsRouterMongo from './routes/products-router-mongodb.js'
 import cartsRouterMongo from './routes/carts-router-mongodb.js';
 import viewsRouterMongo from './routes/views-router-mongodb.js';
+import chatRouterMongo from './routes/chat-router-mongodb.js'
+/*-----//_ Routes from fileSystem _//-----*/
+import productsRouterFs from './routes/products-router-fs.js'
+import cartsRouterFs from './routes/carts-router-fs.js'
+import viewsRouterFs from './routes/views-router-fs.js'
 
 const PORT = 8080;
-const MONGO = 'mongodb+srv://admin:admin123@cluster0.m8kzlrt.mongodb.net/?retryWrites=true&w=majority'
+const MONGO = 'mongodb+srv://admin:admin123@cluster0.m8kzlrt.mongodb.net/ecommerce?retryWrites=true&w=majority'
 
 const app = express()
 const conection = mongoose.connect(MONGO);
@@ -38,14 +40,17 @@ app.use(express.urlencoded({extended:true}))
 app.use('/', viewsRouterMongo);
 app.use('/api/products', productsRouterMongo);
 app.use('/api/carts', cartsRouterMongo);
+app.use('/chat', chatRouterMongo);
 
 const io = new Server(httpServer)
-const messages = [];
+
 let products = await productModel.find().lean()
+let mongoDbMessages = await chatModel.find().lean()
 
 io.on('connection', socket => {
     console.log('A user has been connected to the server');
 
+    /*-----//_ Listenings and emits for realTimeProducts _//-----*/
     io.emit('productsList', products)
 
     socket.on('productToDelete', async productId => {
@@ -53,11 +58,23 @@ io.on('connection', socket => {
         let products = await productModel.find().lean()
         io.emit('productsList', products)
     })
-
     socket.on('productToAdd', async product => {
         await productModel.create(product)
         let products = await productModel.find().lean()
         io.emit('productsList', products)
+    })
+
+    /*-----//_ Listenings and emits for Chat _//-----*/
+    io.emit('updateMessages', mongoDbMessages)
+
+    socket.on('authenticated', async userEmail => {
+        io.emit('newUserConnected', userEmail)
+    })
+
+    socket.on('userMessage', async message => {
+        await chatModel.create(message)
+        let chatHistorial = await chatModel.find().lean()
+        io.emit('updateMessages', chatHistorial)
     })
 })
 
