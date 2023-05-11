@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import cartModel from './../dao/mongodb/models/carts-model.js'
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
+
 const router = Router();
 
 router.post('/', async (req,res) => {
@@ -10,7 +11,7 @@ router.post('/', async (req,res) => {
     let newCart = await cartModel.create(cart)
     res.send(`
         New cart created successfully!
-        Cart ID: ${newCart._id}
+        Cart ID: ${ newCart._id }
     `)
 })
 
@@ -57,6 +58,88 @@ router.post('/:cid/product/:pid', async (req,res) => {
             quantity: 1
         }
         let result = await cartModel.updateOne({ _id: cartId }, { $push: { 'products': product }})
+        res.send({ result })
+    }
+})
+
+router.put('/:cid/product/:pid', async (req,res) => {
+    const cartId = req.params.cid
+    const isValidCartId = mongoose.Types.ObjectId.isValid(cartId)
+    if (!isValidCartId) {
+        return res.status(400).send(`
+            Cart does not exist
+        `)
+    }
+    let cartToUpdate = await cartModel.findById(cartId)
+
+    const productId = req.params.pid
+    const isValidProductId = mongoose.Types.ObjectId.isValid(productId)
+    if (!isValidProductId) {
+        return res.status(400).send(`
+            Product does not exist
+        `)
+    }
+    
+    let newQuantity = req.body
+    let isNumber = typeof newQuantity.quantity == 'number'
+    let isGreaterThan = newQuantity.quantity > 0
+    if(isNumber != true || isGreaterThan != true) {
+        return res.status(400).send(`
+            ${ newQuantity } is not a correct value!
+            Value must be a number greater than 0
+        `)
+    }
+
+    let doesTheProductExist = cartToUpdate.products.findIndex(product => product._id == productId)
+    if (doesTheProductExist != -1) {
+        let result = await cartModel.updateOne(
+            { _id: cartId, 'products._id': productId },
+            { $set:{ 'products.$.quantity': newQuantity.quantity }}
+        )
+        res.send({ result })
+    } else {
+        return res.status(400).send(`
+            Product does not exist in cart:
+            Cart ID: ${ cartId }
+            Product ID: ${ productId }
+        `)
+    }
+})
+
+router.delete('/:cid', async (req,res) => {
+    const cartId = req.params.cid
+    let cart = await cartModel.findById(cartId)
+    const isValidCartId = mongoose.Types.ObjectId.isValid(cartId)
+    if (!isValidCartId) {
+        return res.status(500).send(`
+            Cart does not exist
+        `)
+    }
+    cart.products.splice(0)
+    let result = await cartModel.updateOne({ _id: cartId }, { $set: { 'products': cart.products }})
+    res.send(result)
+})
+
+router.delete('/:cid/products/:pid', async (req,res) => {
+    const cartId = req.params.cid
+    let cart = await cartModel.findById(cartId)
+    const isValidCartId = mongoose.Types.ObjectId.isValid(cartId)
+    if (!isValidCartId) {
+        return res.status(500).send(`
+            Cart does not exist
+        `)
+    }
+    const productId = req.params.pid
+    let doesTheProductExist = cart.products.findIndex(product => product._id == productId)
+    if (doesTheProductExist == -1) {
+        return res.status(500).send(`
+            Product does not exist in cart:
+            Cart ID: ${ cartId }
+            Product ID: ${ productId }
+        `)
+    } else {
+        cart.products.splice(doesTheProductExist, 1)
+        let result = await cartModel.updateOne({ _id: cartId }, { $set: { 'products': cart.products }})
         res.send({ result })
     }
 })
