@@ -1,0 +1,15 @@
+<div>
+    <h1 class="txt-align-center">Lista de productos</h1>
+    <div class="flex-row-center">
+        {{#each cart}}
+            <div class="productCard pad-3">
+                <p><strong>Nombre: </strong>{{this._id.title}}</p>
+                <p><strong>Categoria: </strong>{{this._id.category}}</p>
+                <p><strong>Descripción: </strong>{{this._id.description}}</p>
+                <p><strong>Precio por unidad: </strong>{{this._id.price}}</p>
+                <p><strong>Cantidad seleccionada: </strong>{{this.quantity}}</p>
+                <p><strong>Código: </strong>{{this._id.code}}</p>
+            </div>
+        {{/each}}
+    </div>
+</div>  

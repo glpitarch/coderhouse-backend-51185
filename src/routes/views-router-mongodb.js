@@ -1,5 +1,6 @@
 import { Router } from "express";
 import productModel from './../dao/mongodb/models/products-model.js'
+import cartModel from "../dao/mongodb/models/carts-model.js";
 
 const router = Router();
 
@@ -10,6 +11,19 @@ router.get('/', async (req,res)=>{
         title: titleTag,
         style: 'index.css',
         products
+    });
+})
+
+router.get('/carts/:cid', async (req,res)=>{
+    const cid = req.params.cid
+    let cart = await cartModel.findById(cid).populate('products._id').lean()
+    cart = cart.products
+    console.log(cart)
+    let titleTag = 'Cart'
+    res.render('cart', { 
+        title: titleTag,
+        style: 'index.css',
+        cart
     });
 })
 

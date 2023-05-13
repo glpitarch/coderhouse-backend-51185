@@ -20,9 +20,9 @@ router.get('/', async (req,res) => {
     res.send(carts)
 })
 
-router.get('/:id', async (req,res) => {
-    const id = req.params.id
-    let cart = await cartModel.findById(id)
+router.get('/:cid', async (req,res) => {
+    const cid = req.params.cid
+    let cart = await cartModel.findById(cid).populate('products._id')
     res.send(cart)
 })
 
@@ -32,6 +32,7 @@ router.post('/:cid/product/:pid', async (req,res) => {
     if (!isValidCartId) {
         return res.status(500).send(`
             Cart does not exist
+            Cart ID: ${ cartId }
         `)
     }
     let cartToUpdate = await cartModel.findById(cartId)
@@ -41,6 +42,7 @@ router.post('/:cid/product/:pid', async (req,res) => {
     if (!isValidProductId) {
         return res.status(500).send(`
             Product does not exist
+            Product ID: ${ productId }
         `)
     }
     let doesTheProductExist = cartToUpdate.products.findIndex(product => product._id == productId)
@@ -68,6 +70,7 @@ router.put('/:cid/product/:pid', async (req,res) => {
     if (!isValidCartId) {
         return res.status(400).send(`
             Cart does not exist
+            Cart ID: ${ cartId }
         `)
     }
     let cartToUpdate = await cartModel.findById(cartId)
@@ -77,6 +80,7 @@ router.put('/:cid/product/:pid', async (req,res) => {
     if (!isValidProductId) {
         return res.status(400).send(`
             Product does not exist
+            Product ID: ${ productId }
         `)
     }
     
@@ -113,6 +117,7 @@ router.delete('/:cid', async (req,res) => {
     if (!isValidCartId) {
         return res.status(500).send(`
             Cart does not exist
+            Cart ID: ${ cartId }
         `)
     }
     cart.products.splice(0)
@@ -127,6 +132,7 @@ router.delete('/:cid/products/:pid', async (req,res) => {
     if (!isValidCartId) {
         return res.status(500).send(`
             Cart does not exist
+            Cart ID: ${ cartId }
         `)
     }
     const productId = req.params.pid
