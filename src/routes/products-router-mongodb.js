@@ -4,32 +4,46 @@ import productModel from './../dao/mongodb/models/products-model.js'
 const router = Router()
 
 router.get('/', async (req,res) => {
+    const regex = /^[0-9]*$/;
     let query = req.query.query
     let limit = parseInt(req.query.limit)
     let sort = req.query.sort
     let { page = 1 } = req.query
 
+    let isNumber = regex.test(page)
+    if(page < 0 || isNumber == false || page.length > 3) {
+        return res.status(400).send('Incorrect page value')
+    }
+
+    let queryUrl  = ''
     let queryFilter = {}
     if (query) {
         const regex = /^[0-9]*$/;
         let correctedQuery = query.trim()
         if (correctedQuery == 'Sahumerios' || correctedQuery == 'Defumacion' || correctedQuery == 'Conos y Cascadas' || correctedQuery == 'Sahumos'){
             queryFilter = { category: query }
+            queryUrl  = `&query=${ query }`
         } else if (regex.test(correctedQuery)) {
             queryFilter = { stock: correctedQuery }
+            queryUrl  = `&query=${ query }`
         }
     }
 
+    let limitUrl = ''
     let limitOption = 10
     if (limit) {
         limitOption = limit
+        limitUrl = `&limit=${ limit }`
     }
 
+    let sortUrl = ''
     let sortOption = {}
     if (sort == 'asc') {
         sortOption = { price: 1 }
+        sortUrl = `&sort=${ sort }`
     } else if (sort == 'desc') {
         sortOption = { price: -1 }
+        sortUrl = `&sort=${ sort }`
     }
 
     await productModel.paginate( 
@@ -45,7 +59,7 @@ router.get('/', async (req,res) => {
                 prevLinkValue = null
             } else {
                 page = parseInt(page)
-                prevLinkValue = `http://localhost:8080/products?page=${ page - 1 }`
+                prevLinkValue = `http://localhost:8080/products?page=${ page - 1 }${ limitUrl }${ sortUrl }${ queryUrl }`
             }
 
             let nextLinkValue = ''
@@ -53,7 +67,7 @@ router.get('/', async (req,res) => {
                 nextLinkValue = null
             } else {
                 page = parseInt(page)
-                nextLinkValue = `http://localhost:8080/products?page=${ page + 1 }`
+                nextLinkValue = `http://localhost:8080/products?page=${ page + 1 }${ limitUrl }${ sortUrl }${ queryUrl }`
             }
 
             if (err) {
@@ -69,7 +83,7 @@ router.get('/', async (req,res) => {
                     "prevLink": prevLinkValue,
                     "nextLink": nextLinkValue
                 }
-                return res.send({resultInfo})
+                return res.send({ resultInfo })
             } else {
                 let resultInfo = {
                     "status": "succes",
@@ -83,7 +97,7 @@ router.get('/', async (req,res) => {
                     "prevLink": prevLinkValue,
                     "nextLink": nextLinkValue
                 }
-                return res.send({resultInfo})
+                return res.send({ resultInfo })
             }
     })
 })

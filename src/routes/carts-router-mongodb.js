@@ -111,25 +111,26 @@ router.put('/:cid/product/:pid', async (req,res) => {
 })
 
 router.put('/:cid'), async (req,res) => {
- 
+    if (req.body)
+    return res.sendStatus(400)
     const cartId = req.params.cid
     console.log(cartId)
-    const isValidCartId = mongoose.Types.ObjectId.isValid(cartId)
+/*     const isValidCartId = mongoose.Types.ObjectId.isValid(cartId)
     if (!isValidCartId) {
         return res.status(400).send(`
             Cart does not exist
             Cart ID: ${ cartId }
         `)
-    }
+    } */
 
-    let products = []
+/*     let products = [] */
 
     let productsList = req.body
-    products.push(productsList)
+/*     products.push(productsList) */
     console.log(productsList)
 
 
-    let result = await cartModel.updateOne(
+    let result = await cartModel.insertMany(
         { _id: cartId },
         { $set:{ 'products': productsList }}
     )
