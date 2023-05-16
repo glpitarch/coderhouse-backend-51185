@@ -4,25 +4,88 @@ import productModel from './../dao/mongodb/models/products-model.js'
 const router = Router()
 
 router.get('/', async (req,res) => {
-    let productsShowLimit = req.query.limit
-    const products = await productModel.find()
-    if (productsShowLimit) {
-        if (productsShowLimit > products.length) {
-            return res.status(400).send(`
-                The limit value exceeds the number of products available!
-            `)
-        } else {
-            let arrayToShow = []
-            for (let i = 0; i < productsShowLimit; i++) {
-                let randomValue = Math.floor(Math.random() * (products.length));
-                const productToAdd = products[randomValue];
-                arrayToShow.push(productToAdd)
-                const productIndex = products.findIndex((product)=> product.id == productToAdd.id)
-                products.splice(productIndex,1)
-            }
-            return res.send(arrayToShow)
+    let query = req.query.query
+    let limit = parseInt(req.query.limit)
+    let sort = req.query.sort
+    let { page = 1 } = req.query
+
+    let queryFilter = {}
+    if (query) {
+        const regex = /^[0-9]*$/;
+        let correctedQuery = query.trim()
+        if (correctedQuery == 'Sahumerios' || correctedQuery == 'Defumacion' || correctedQuery == 'Conos y Cascadas' || correctedQuery == 'Sahumos'){
+            queryFilter = { category: query }
+        } else if (regex.test(correctedQuery)) {
+            queryFilter = { stock: correctedQuery }
         }
-    } return res.send(products)
+    }
+
+    let limitOption = 10
+    if (limit) {
+        limitOption = limit
+    }
+
+    let sortOption = {}
+    if (sort == 'asc') {
+        sortOption = { price: 1 }
+    } else if (sort == 'desc') {
+        sortOption = { price: -1 }
+    }
+
+    await productModel.paginate( 
+        queryFilter, 
+        { limit: limitOption, page: page, sort: sortOption, lean: true }, 
+        function (err, result) {
+            const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = result
+
+            let products = docs
+
+            let prevLinkValue = ''
+            if (hasPrevPage == false) {
+                prevLinkValue = null
+            } else {
+                page = parseInt(page)
+                prevLinkValue = `http://localhost:8080/products?page=${ page - 1 }`
+            }
+
+            let nextLinkValue = ''
+            if (hasNextPage == false) {
+                nextLinkValue = null
+            } else {
+                page = parseInt(page)
+                nextLinkValue = `http://localhost:8080/products?page=${ page + 1 }`
+            }
+
+            if (err) {
+                let resultInfo = {
+                    "status": "error",
+                    "payload": products,
+                    "totalPages": totalPages,
+                    "prevPage": prevPage,
+                    "nextPage": nextPage,
+                    "page": page,
+                    "hasPrevPage": hasPrevPage,
+                    "hasNextPage": hasNextPage,
+                    "prevLink": prevLinkValue,
+                    "nextLink": nextLinkValue
+                }
+                return res.send({resultInfo})
+            } else {
+                let resultInfo = {
+                    "status": "succes",
+                    "payload": products,
+                    "totalPages": totalPages,
+                    "prevPage": prevPage,
+                    "nextPage": nextPage,
+                    "page": page,
+                    "hasPrevPage": hasPrevPage,
+                    "hasNextPage": hasNextPage,
+                    "prevLink": prevLinkValue,
+                    "nextLink": nextLinkValue
+                }
+                return res.send({resultInfo})
+            }
+    })
 })
 
 router.post('/', async (req,res) => {

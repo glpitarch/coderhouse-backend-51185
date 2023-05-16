@@ -9,6 +9,7 @@ body {
 .flex-row-center {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .flex-column-center {
@@ -29,12 +30,20 @@ body {
     margin: 1rem;
 }
 
+.m-2 {
+    margin: 2rem;
+}
+
 .mb-1 {
     margin-bottom: 1rem;
 }
 
 .pad-05 {
     padding: 0.5rem;
+}
+
+.pad-1 {
+    padding: 1rem;
 }
 
 .pad-2 {
@@ -55,6 +64,28 @@ body {
     padding-bottom: 1rem;
     text-align: start;
 }
+
+.productCard {
+    max-width: 15.625rem;
+    min-height: 22.625rem;
+}
+
+.productImage {
+    width: 15.625rem;
+    height: 15.625rem;
+}
+.productToCardButton {
+    padding: 1rem;
+}
+
+.minSpaceDescriptionField {
+    min-height: 3.375rem;
+}
+
+.minSpaceTitleField {
+    min-height: 2.25rem;
+}
+
 
 
 

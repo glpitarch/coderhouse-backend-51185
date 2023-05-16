@@ -14,11 +14,54 @@ router.get('/', async (req,res)=>{
     });
 })
 
+router.get('/products', async (req,res)=>{
+    const titleTag = 'Productos'
+    let query = req.query.query
+    let limit = parseInt(req.query.limit)
+    let sort = req.query.sort
+    let { page = 1 } = req.query
+
+    let queryFilter = {}
+    if (query) {
+        const regex = /^[0-9]*$/;
+        let correctedQuery = query.trim()
+        if (correctedQuery == 'Sahumerios' || correctedQuery == 'Defumacion' || correctedQuery == 'Conos y Cascadas' || correctedQuery == 'Sahumos'){
+            queryFilter = { category: query }
+        } else if (regex.test(correctedQuery)) {
+            queryFilter = { stock: correctedQuery }
+        }
+    }
+
+    let limitOption = 10
+    if (limit) {
+        limitOption = limit
+    }
+
+    let sortOption = {}
+    if (sort == 'asc') {
+        sortOption = { price: 1 }
+    } else if (sort == 'desc') {
+        sortOption = { price: -1 }
+    }
+
+    const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await productModel.paginate( queryFilter, { limit: limitOption, page: page, sort: sortOption, lean: true })
+    let products = docs
+    
+    res.render('products', { 
+        title: titleTag,
+        style: 'index.css',
+        products,
+        hasPrevPage,
+        hasNextPage,
+        prevPage,
+        nextPage
+    })
+})
+
 router.get('/carts/:cid', async (req,res)=>{
     const cid = req.params.cid
     let cart = await cartModel.findById(cid).populate('products._id').lean()
     cart = cart.products
-    console.log(cart)
     let titleTag = 'Cart'
     res.render('cart', { 
         title: titleTag,
