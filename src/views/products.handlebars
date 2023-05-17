@@ -1,29 +1,63 @@
 <div>
-    <h1 class="txt-align-center">Lista de productos</h1>
-    <div>
-        <div class="flex-row-center">
-            {{#each products}}
-                <div class="productCard pad-3">
-                    <img class="productImage" src={{this.thumbnail}} alt="">
-                    <p class="minSpaceTitleField"><strong>Nombre: </strong>{{this.title}}</p>
-                    <p><strong>Categoria: </strong>{{this.category}}</p>
-                    <p class="minSpaceDescriptionField"><strong>Descripción: </strong>{{this.description}}</p>
-                    <p><strong>Precio: </strong>{{this.price}}</p>
-                    <p><strong>Stock: </strong>{{this.stock}}</p>
-                    <p><strong>Código: </strong>{{this.code}}</p>
-                    <div class="flex-row-center">
-                        <button class="m-1 pad-05">Agregar al carrito</button>
-                    </div>
+    <header>
+        <nav>
+            <div class="navbar">
+                <div>
+                    <img src="./images/logo.png" alt="">
                 </div>
-            {{/each}}
+                <div class="containerNavbarMenu">
+                    <ul id="navbarMenu">
+                        <li id="productsNav">Productos</li>
+                            <div id="productsCategoryList" class="hidden">
+                                <ul class="categoryProducts">
+                                    <a href="/products"><li>Todos los porductos</li></a>
+                                    <a href="/products?query={%22category%22%3A%22Sahumerios%22}"><li>Sahumerios</li></a>
+                                    <a href="/products?query={%22category%22%3A%22Defumacion%22}"><li>Defumacion</li></a>
+                                    <a href="/products?query={%22category%22%3A%22Conos y Cascadas%22}"><li>Conos y Cascadas</li></a>
+                                    <a href="/products?query={%22category%22%3A%22Sahumos%22}"><li>Sahumos</li></a>
+                                </ul>
+                            </div>
+                        <li><a href="/realtimeproducts">Real Time Products</a></li>
+                    </ul> 
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <h1 class="txt-align-center">Lista de productos</h1>
+        <div>
+            <div class="flex-row-center">
+                {{#each products}}
+                    <div class="productCard pad-3">
+                        <img class="productImage" src={{this.thumbnail}} alt="">
+                        <p class="minSpaceTitleField"><strong>Nombre: </strong>{{this.title}}</p>
+                        <p><strong>Categoria: </strong>{{this.category}}</p>
+                        <p class="minSpaceDescriptionField"><strong>Descripción: </strong>{{this.description}}</p>
+                        <p><strong>Precio: </strong>{{this.price}}</p>
+                        <p><strong>Stock: </strong>{{this.stock}}</p>
+                        <p><strong>Código: </strong>{{this.code}}</p>
+                        <div class="flex-row-center">
+                            <button class="m-1 pad-05">Agregar al carrito</button>
+                        </div>
+                    </div>
+                {{/each}}
+                {{#if searchError}}
+                    <h2>{{ searchError }}</h2>
+                {{/if}}
+            </div>
+            <div class="flex-row-center">
+                {{#if hasPrevPage}}
+                    <a href="/products?page={{prevPage}}"><button class="m-2 pad-05">Anterior</button></a>
+                {{/if}}
+                {{#if hasNextPage}}
+                    <a href="/products?page={{nextPage}}"><button class="m-2 pad-05">Siguiente</button></a>
+                {{/if}}
+            </div>
         </div>
-        <div class="flex-row-center">
-            {{#if hasPrevPage}}
-                <a href="/products?page={{prevPage}}"><button class="m-2 pad-05">Anterior</button></a>
-            {{/if}}
-            {{#if hasNextPage}}
-                <a href="/products?page={{nextPage}}"><button class="m-2 pad-05">Siguiente</button></a>
-            {{/if}}
-        </div>
-    </div>    
-</div>  
+    </main>
+    <footer>
+
+    </footer>    
+</div>
+
+<script src="/js/index.js"></script>

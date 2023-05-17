@@ -1,43 +1,73 @@
 <div>
-    <h1 class="txt-align-center">Real time products with websockets</h1>
-    <div id="productContainer" class="flex-row-center">
-    </div>
-    <div class="flex-row-space">
-        <div class="pad-3 txt-align-center">
-            <h2>Eliminar producto</h2>
-            <p>Ingrese el código del producto que desea eliminar:</p>
-            <input type="text" id="deleteInput"> <button id="deleteButton">Eliminar producto</button>
+    <header>
+        <nav>
+            <div class="navbar">
+                <div>
+                    <a href="/products"><img src="./images/logo.png" alt=""></a>
+                </div>
+                <div class="containerNavbarMenu">
+                    <ul id="navbarMenu">
+                        <li id="productsNav">Productos</li>
+                            <div id="productsCategoryList" class="hidden">
+                                <ul class="categoryProducts">
+                                    <a href="/products"><li>Todos los porductos</li></a>
+                                    <a href="/products?query={%22category%22%3A%22Sahumerios%22}"><li>Sahumerios</li></a>
+                                    <a href="/products?query={%22category%22%3A%22Defumacion%22}"><li>Defumacion</li></a>
+                                    <a href="/products?query={%22category%22%3A%22Conos y Cascadas%22}"><li>Conos y Cascadas</li></a>
+                                    <a href="/products?query={%22category%22%3A%22Sahumos%22}"><li>Sahumos</li></a>
+                                </ul>
+                            </div>
+                        <li><a href="/realtimeproducts">Real Time Products</a></li>
+                    </ul> 
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <h1 class="txt-align-center">Real time products with websockets</h1>
+        <div id="productContainer" class="flex-row-center">
         </div>
-        <div class="pad-3 txt-align-center">
-            <h2>Agregar producto</h2>
-            <p>Complete los siguientes campos para agregar el producto:</p>
-            <form class="txt-align-center">
-                <label>Categoría:</label><br>
-                <input class="mb-1" type="text" id="categoryInput"><br>
-                <label >Nombre:</label><br>
-                <input class="mb-1" type="text" id="titleInput"><br>
-                <label>Descripción:</label><br>
-                <input class="mb-1" type="text" id="descriptionInput"><br>
-                <label>Precio:</label><br>
-                <input class="mb-1" type="text" id="priceInput"><br>
-                <label>Stock:</label><br>
-                <input class="mb-1" type="text" id="stockInput"><br>
-                <label>Código:</label><br>
-                <input class="mb-1" type="text" id="codeInput"><br>
-                <label>Thumbnail:</label><br>
-                <input class="mb-1" type="text" id="thumbnailInput"><br>
-                <label>Estado:</label><br>
-                <input class="mb-1" type="text" id="statusInput"><br>
-                <button id="addButton">Agregar producto</button>
-            </form>
+        <div class="flex-row-space">
+            <div class="pad-3 txt-align-center">
+                <h2>Eliminar producto</h2>
+                <p>Ingrese el código del producto que desea eliminar:</p>
+                <input type="text" id="deleteInput"> <button id="deleteButton">Eliminar producto</button>
+            </div>
+            <div class="pad-3 txt-align-center">
+                <h2>Agregar producto</h2>
+                <p>Complete los siguientes campos para agregar el producto:</p>
+                <form class="txt-align-center">
+                    <label>Categoría:</label><br>
+                    <input class="mb-1" type="text" id="categoryInput"><br>
+                    <label >Nombre:</label><br>
+                    <input class="mb-1" type="text" id="titleInput"><br>
+                    <label>Descripción:</label><br>
+                    <input class="mb-1" type="text" id="descriptionInput"><br>
+                    <label>Precio:</label><br>
+                    <input class="mb-1" type="text" id="priceInput"><br>
+                    <label>Stock:</label><br>
+                    <input class="mb-1" type="text" id="stockInput"><br>
+                    <label>Código:</label><br>
+                    <input class="mb-1" type="text" id="codeInput"><br>
+                    <label>Thumbnail:</label><br>
+                    <input class="mb-1" type="text" id="thumbnailInput"><br>
+                    <label>Estado:</label><br>
+                    <input class="mb-1" type="text" id="statusInput"><br>
+                    <button id="addButton">Agregar producto</button>
+                </form>
+            </div>
         </div>
-    </div>
+    </main>
+    <footer>
+
+    </footer>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
 
 {{!-- Index for MongoDB --}}
 <script src="/js/index-mongoDB.js"></script>
+<script src="/js/index.js"></script>
 
 {{!-- Index for fileSystem --}}
 {{!-- <script src="/js/index-fs.js"></script> --}}

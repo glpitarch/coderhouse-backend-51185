@@ -30,12 +30,7 @@ router.get('/products', async (req,res)=>{
 
     let queryFilter = {}
     if (query) {
-        let correctedQuery = query.trim()
-        if (correctedQuery == 'Sahumerios' || correctedQuery == 'Defumacion' || correctedQuery == 'Conos y Cascadas' || correctedQuery == 'Sahumos'){
-            queryFilter = { category: query }
-        } else if (regex.test(correctedQuery)) {
-            queryFilter = { stock: correctedQuery }
-        }
+        queryFilter = JSON.parse(query)
     }
 
     let limitOption = 10
@@ -50,13 +45,23 @@ router.get('/products', async (req,res)=>{
         sortOption = { price: -1 }
     }
 
-    const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await productModel.paginate( queryFilter, { limit: limitOption, page: page, sort: sortOption, lean: true })
+    const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await productModel.paginate( 
+        queryFilter, 
+        { limit: limitOption, page: page, sort: sortOption, lean: true }
+    )
     let products = docs
-    
+    let productsLength = products.length
+
+    let searchError = ''
+    if (productsLength == 0) {
+        searchError = 'No se ha encontrado ningun producto con los filtros solicitados'
+    }
+
     res.render('products', { 
         title: titleTag,
         style: 'index.css',
         products,
+        searchError,
         hasPrevPage,
         hasNextPage,
         prevPage,

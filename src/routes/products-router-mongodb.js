@@ -5,7 +5,7 @@ const router = Router()
 
 router.get('/', async (req,res) => {
     const regex = /^[0-9]*$/;
-    let query = req.query.query
+    let query = JSON.parse(req.query.query)
     let limit = parseInt(req.query.limit)
     let sort = req.query.sort
     let { page = 1 } = req.query
@@ -18,15 +18,7 @@ router.get('/', async (req,res) => {
     let queryUrl  = ''
     let queryFilter = {}
     if (query) {
-        const regex = /^[0-9]*$/;
-        let correctedQuery = query.trim()
-        if (correctedQuery == 'Sahumerios' || correctedQuery == 'Defumacion' || correctedQuery == 'Conos y Cascadas' || correctedQuery == 'Sahumos'){
-            queryFilter = { category: query }
-            queryUrl  = `&query=${ query }`
-        } else if (regex.test(correctedQuery)) {
-            queryFilter = { stock: correctedQuery }
-            queryUrl  = `&query=${ query }`
-        }
+        queryFilter = query
     }
 
     let limitUrl = ''

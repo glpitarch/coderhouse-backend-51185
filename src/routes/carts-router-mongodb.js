@@ -110,33 +110,68 @@ router.put('/:cid/product/:pid', async (req,res) => {
     }
 })
 
-router.put('/:cid'), async (req,res) => {
-    if (req.body)
-    return res.sendStatus(400)
+router.put('/:cid', async (req,res) => {
+
     const cartId = req.params.cid
-    console.log(cartId)
-/*     const isValidCartId = mongoose.Types.ObjectId.isValid(cartId)
+
+    const isValidCartId = mongoose.Types.ObjectId.isValid(cartId)
     if (!isValidCartId) {
         return res.status(400).send(`
             Cart does not exist
             Cart ID: ${ cartId }
         `)
-    } */
+    }
 
-/*     let products = [] */
+    let cartToUpdate = await cartModel.findById(cartId)
 
     let productsList = req.body
-/*     products.push(productsList) */
-    console.log(productsList)
 
+    const isValidId = (productId) => {
+        let isValid = mongoose.Types.ObjectId.isValid(productId)
+        return isValid
+    }
+    for (const product of productsList) {
 
-    let result = await cartModel.insertMany(
+        let isValid = isValidId(product._id)
+        if (!isValid) {
+            return res.status(400).send(`
+                Product does not exist:
+                Product ID: ${ product._id }
+            `)
+        }
+
+        let doesTheProductExist = cartToUpdate.products.findIndex(item => item._id == product._id)
+
+        if (doesTheProductExist != -1) {
+            cartToUpdate.products[doesTheProductExist].quantity = cartToUpdate.products[doesTheProductExist].quantity + product.quantity
+        } else {
+            cartToUpdate.products.push(product)
+        }
+    }
+
+    let result = await cartModel.updateOne(
         { _id: cartId },
-        { $set:{ 'products': productsList }}
+        { $set:{ 'products': cartToUpdate.products }}
     )
+    res.send({ result })
+})
 
-    return res.send({ result })
-}
+
+/*     let doesTheProductExist = cartToUpdate.products.findIndex(product => product._id == productId)
+    if (doesTheProductExist != -1) {
+        let result = await cartModel.updateOne(
+            { _id: cartId, 'products._id': productId },
+            { $set:{ 'products.$.quantity': newQuantity.quantity }}
+        )
+        res.send({ result })
+    } else {
+        return res.status(400).send(`
+            Product does not exist in cart:
+            Cart ID: ${ cartId }
+            Product ID: ${ productId }
+        `)
+    } */
+/* }) */
 
 router.delete('/:cid', async (req,res) => {
     const cartId = req.params.cid
