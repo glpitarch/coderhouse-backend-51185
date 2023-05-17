@@ -4,6 +4,7 @@ body {
 
 main {
     padding: 2rem;
+    min-height: 50rem;
 }
 
 nav {
