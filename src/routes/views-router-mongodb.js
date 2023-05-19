@@ -9,7 +9,7 @@ router.get('/', async (req,res)=>{
     let titleTag = 'Home'
     res.render('home', { 
         title: titleTag,
-        style: 'index.css',
+        style: 'styles.css',
         products
     });
 })
@@ -44,11 +44,12 @@ router.get('/products', async (req,res)=>{
     } else if (sort == 'desc') {
         sortOption = { price: -1 }
     }
-
+    
     const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await productModel.paginate( 
         queryFilter, 
         { limit: limitOption, page: page, sort: sortOption, lean: true }
     )
+
     let products = docs
     let productsLength = products.length
 
@@ -59,7 +60,7 @@ router.get('/products', async (req,res)=>{
 
     res.render('products', { 
         title: titleTag,
-        style: 'index.css',
+        style: 'styles.css',
         products,
         searchError,
         hasPrevPage,
@@ -76,7 +77,7 @@ router.get('/carts/:cid', async (req,res)=>{
     let titleTag = 'Cart'
     res.render('cart', { 
         title: titleTag,
-        style: 'index.css',
+        style: 'styles.css',
         cart
     });
 })
@@ -85,7 +86,7 @@ router.get('/realtimeproducts', async (req,res)=>{
     let titleTag = 'Real time products'
     res.render('realTimeProducts', { 
         title: titleTag,
-        style: 'index.css'
+        style: 'styles.css'
     });
 })
 
@@ -93,7 +94,7 @@ router.get('/chat', async (req,res)=>{
     let titleTag = 'Online Chat'
     res.render('chat', { 
         title: titleTag,
-        style: 'index.css'
+        style: 'styles.css'
     });
 })
 

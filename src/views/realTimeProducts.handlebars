@@ -1,22 +1,12 @@
 <div>
-    <header>
-        <nav>
-            <div class="navbar">
+<header>
+        <nav class="bg-color-1 min-h-12">
+            <div class="r-flex justify-content-center align-items-center min-h-12 min-w-15">
                 <div>
                     <a href="/products"><img src="./images/logo.png" alt=""></a>
                 </div>
-                <div class="containerNavbarMenu">
+                <div class="navbarMenuContainer">
                     <ul id="navbarMenu">
-                        <li id="productsNav">Productos</li>
-                            <div id="productsCategoryList" class="hidden">
-                                <ul class="categoryProducts">
-                                    <a href="/products"><li>Todos los porductos</li></a>
-                                    <a href="/products?query={%22category%22%3A%22Sahumerios%22}"><li>Sahumerios</li></a>
-                                    <a href="/products?query={%22category%22%3A%22Defumacion%22}"><li>Defumacion</li></a>
-                                    <a href="/products?query={%22category%22%3A%22Conos y Cascadas%22}"><li>Conos y Cascadas</li></a>
-                                    <a href="/products?query={%22category%22%3A%22Sahumos%22}"><li>Sahumos</li></a>
-                                </ul>
-                            </div>
                         <li><a href="/realtimeproducts">Real Time Products</a></li>
                     </ul> 
                 </div>
@@ -24,16 +14,16 @@
         </nav>
     </header>
     <main>
-        <h1 class="txt-align-center">Real time products with websockets</h1>
-        <div id="productContainer" class="flex-row-center">
-        </div>
-        <div class="flex-row-space">
-            <div class="pad-3 txt-align-center">
+        <h1 class="txt-center">Real time products with websockets</h1>
+
+        {{!-- DELETE & ADD PRODUCTS FORM --}}
+        <div class="r-flex justify-content-center">
+            <div class="p-3 txt-center">
                 <h2>Eliminar producto</h2>
                 <p>Ingrese el código del producto que desea eliminar:</p>
                 <input type="text" id="deleteInput"> <button id="deleteButton">Eliminar producto</button>
             </div>
-            <div class="pad-3 txt-align-center">
+            <div class="p-3 txt-center">
                 <h2>Agregar producto</h2>
                 <p>Complete los siguientes campos para agregar el producto:</p>
                 <form class="txt-align-center">
@@ -57,17 +47,21 @@
                 </form>
             </div>
         </div>
-    </main>
-    <footer>
 
-    </footer>
+        {{!-- PRODUCTS CONTAINER RENDER --}}
+        <div id="productContainer" class="r-flex justify-content-center wrap">
+        </div>
+    </main>
+    <footer class="min-h-5 bg-color-1">
+
+    </footer> 
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
 
 {{!-- Index for MongoDB --}}
+<script src="/js/index-realTimeProducts-mongoDB.js"></script>
 <script src="/js/index-mongoDB.js"></script>
-<script src="/js/index.js"></script>
 
 {{!-- Index for fileSystem --}}
 {{!-- <script src="/js/index-fs.js"></script> --}}
