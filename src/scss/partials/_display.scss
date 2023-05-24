@@ -8,6 +8,10 @@
     display: block;
 }
 
+.inline-block {
+    display: inline-block;
+}
+
 .r-flex {
     display: flex;
     flex-direction: row;
@@ -44,8 +48,20 @@
     justify-content: space-evenly;
 }
 
-.justify-self {
+.justify-content-flex-end {
+    justify-content: flex-end;
+}
+
+.justify-self-start {
     justify-self: flex-start;
+}
+
+.justify-self-center {
+    justify-self: center;
+}
+
+.justify-self-end {
+    justify-self: flex-end;
 }
 
 /*----->_[ ALIGN ]_<-----*/
@@ -58,7 +74,19 @@
     align-items: center;
 }
 
+.align-items-end {
+    align-items: flex-end;
+}
+
 .align-self-center {
     align-self: center;
 }
 
+/*----->_[ POSITION ]_<-----*/
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}

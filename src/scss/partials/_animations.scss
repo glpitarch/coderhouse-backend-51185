@@ -1,0 +1,75 @@
+.ani-appear {
+    animation-duration: 3s;
+    animation-name: appear;
+  }
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 50;
+    }
+    100% {
+        opacity: 100;
+    }
+}
+
+.ani-disappear {
+    animation-duration: 1.5s;
+    animation-name: disappear;
+  }
+
+@keyframes disappear {
+    0% {
+        opacity: 100;
+    }
+    50% {
+        opacity: 50;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.left-to-right {
+    animation-duration: 2s;
+    animation-name: left-to-right;
+}
+
+@keyframes left-to-right {
+    0% {
+        margin-right:  50vw;
+    }
+    100% {
+        margin-left:  0;
+    }
+}
+
+.bottom-to-top {
+    animation-duration: 2s;
+    animation-name: bottom-to-top;
+}
+
+@keyframes bottom-to-top {
+    0% {
+        margin-top:  10vw;
+        background-color: grey;
+    }
+    100% {
+        margin-top:  0;
+        margin-bottom: 2rem;
+    }
+}
+
+.bounce:hover {
+    animation-name: bounce;
+    animation-timing-function: ease;
+}
+
+@keyframes bounce {
+  0%   { transform: translateY(-1rem); }
+  100% { transform: translateY(0rem); }
+}
+
+

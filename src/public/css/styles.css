@@ -21,6 +21,9 @@
   margin-bottom: 2rem; }
 
 /*----->_[ margin +Y ]_<-----*/
+.mt-02e5 {
+  margin-top: 0.5rem; }
+
 .mt-1 {
   margin-top: 1rem; }
 
@@ -31,6 +34,9 @@
   margin-top: 3rem; }
 
 /*----->_[ margin -Y ]_<-----*/
+.mb-02e5 {
+  margin-bottom: 0.5rem; }
+
 .mb-1 {
   margin-bottom: 1rem; }
 
@@ -56,6 +62,12 @@
 
 .mr-4 {
   margin-right: 4rem; }
+
+.mr-8 {
+  margin-right: 8rem; }
+
+.mr-10 {
+  margin-right: 13rem; }
 
 /*----->_[ margin +X-X]_<-----*/
 .mx-1 {
@@ -102,13 +114,45 @@
   padding-bottom: 2rem; }
 
 /*----->_[ DIMENSION ]_<-----*/
+/*----->_[ width ]_<-----*/
+.w-1 {
+  width: 1rem; }
+
+.w-5 {
+  width: 5rem; }
+
 /*----->_[ max width ]_<-----*/
+.max-w-5 {
+  max-width: 5rem; }
+
+.max-w-10 {
+  max-width: 10rem; }
+
+.max-w-15 {
+  max-width: 15rem; }
+
+.max-w-17 {
+  max-width: 17rem; }
+
 .max-w-48 {
   max-width: 48rem; }
 
 /*----->_[ min width ]_<-----*/
+.min-w-1 {
+  min-width: 1rem; }
+
 .min-w-5 {
   min-width: 5rem; }
+
+.min-w-8 {
+  min-width: 8rem; }
+
+.min-w-15 {
+  min-width: 15rem; }
+
+/*----->_[ height ]_<-----*/
+.h-2 {
+  height: 2rem; }
 
 /*----->_[ max height ]_<-----*/
 .max-h-1 {
@@ -156,6 +200,9 @@ body {
 .black {
   color: black; }
 
+.orangered {
+  color: orangered; }
+
 /*----->_[ BACKGROUND COLOR ]_<-----*/
 .bg-color-1 {
   background-color: #6f4b14c4; }
@@ -169,6 +216,9 @@ body {
 
 .block {
   display: block; }
+
+.inline-block {
+  display: inline-block; }
 
 .r-flex {
   display: flex;
@@ -197,8 +247,17 @@ body {
 .justify-content-evenly {
   justify-content: space-evenly; }
 
-.justify-self {
+.justify-content-flex-end {
+  justify-content: flex-end; }
+
+.justify-self-start {
   justify-self: flex-start; }
+
+.justify-self-center {
+  justify-self: center; }
+
+.justify-self-end {
+  justify-self: flex-end; }
 
 /*----->_[ ALIGN ]_<-----*/
 .align-items-start {
@@ -207,8 +266,18 @@ body {
 .align-items-center {
   align-items: center; }
 
+.align-items-end {
+  align-items: flex-end; }
+
 .align-self-center {
   align-self: center; }
+
+/*----->_[ POSITION ]_<-----*/
+.relative {
+  position: relative; }
+
+.absolute {
+  position: absolute; }
 
 #navbarMenu {
   display: flex;
@@ -222,20 +291,20 @@ body {
     list-style: none;
     color: black;
     text-decoration: none;
-    padding-right: 2rem; }
+    margin-right: 2rem;
+    min-height: 2rem; }
 
-#dropdownCategoryMenu li {
-  padding-top: 1rem;
-  margin-right: 2rem; }
-
-.appearDropdown {
-  display: flex;
-  justify-content: center;
-  position: absolute;
-  min-height: 15rem;
-  margin-right: 14rem;
-  margin-top: 2rem;
-  background-color: beige; }
+#dropdownCategoryMenu {
+  margin-top: 17rem;
+  margin-right: 12rem;
+  background-color: rgba(245, 245, 245, 0.5);
+  border-style: none;
+  border-color: whitesmoke;
+  border-radius: 5%; }
+  #dropdownCategoryMenu li {
+    margin-top: 1rem;
+    margin-right: 2rem;
+    border-style: none; }
 
 .productCard {
   max-width: 15.625rem;
@@ -253,3 +322,66 @@ body {
 
 .minSpaceTitleField {
   min-height: 2.25rem; }
+
+.ani-appear {
+  animation-duration: 3s;
+  animation-name: appear; }
+
+@keyframes appear {
+  0% {
+    opacity: 0; }
+  50% {
+    opacity: 50; }
+  100% {
+    opacity: 100; } }
+
+.ani-disappear {
+  animation-duration: 1.5s;
+  animation-name: disappear; }
+
+@keyframes disappear {
+  0% {
+    opacity: 100; }
+  50% {
+    opacity: 50; }
+  100% {
+    opacity: 0; } }
+
+.left-to-right {
+  animation-duration: 2s;
+  animation-name: left-to-right; }
+
+@keyframes left-to-right {
+  0% {
+    margin-right: 50vw; }
+  100% {
+    margin-left: 0; } }
+
+.bottom-to-top {
+  animation-duration: 2s;
+  animation-name: bottom-to-top; }
+
+@keyframes bottom-to-top {
+  0% {
+    margin-top: 10vw;
+    background-color: grey; }
+  100% {
+    margin-top: 0;
+    margin-bottom: 2rem; } }
+
+.bounce:hover {
+  animation-name: bounce;
+  animation-timing-function: ease; }
+
+@keyframes bounce {
+  0% {
+    transform: translateY(-1rem); }
+  100% {
+    transform: translateY(0rem); } }
+
+#navbarMenu li:hover {
+  box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.5); }
+
+.productCard:hover {
+  background-color: #acabaa7a;
+  box-shadow: inset 0 -2px 0 5px rgba(0, 0, 0, 0.5); }

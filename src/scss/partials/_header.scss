@@ -11,23 +11,22 @@
                 list-style: none;
                 color: black;
                 text-decoration: none;
-                padding-right: 2rem;
+                margin-right: 2rem;
+                min-height: 2rem;
             }   
 }
 
 #dropdownCategoryMenu {
+    margin-top: 17rem;
+    margin-right: 12rem;
+    background-color: rgba(245, 245, 245, 0.5);
+    border-style: none;
+    border-color: whitesmoke;
+    border-radius: 5%;
         li {
-            padding-top: 1rem;
+            margin-top: 1rem;
             margin-right: 2rem;
+            border-style: none;
         }
 }
 
-.appearDropdown {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    min-height: 15rem;
-    margin-right: 14rem;
-    margin-top: 2rem;
-    background-color: beige;
-}

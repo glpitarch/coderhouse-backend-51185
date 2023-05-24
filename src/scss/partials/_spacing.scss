@@ -1,5 +1,4 @@
 /*----->_[ MARGIN ]_<-----*/
-
 .m-0 {
     margin: 0;
 }
@@ -17,7 +16,6 @@
 }
 
 /*----->_[ margin +Y-Y ]_<-----*/
-
 .my-1 {
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -29,6 +27,9 @@
 }
 
 /*----->_[ margin +Y ]_<-----*/
+.mt-02e5 {
+    margin-top: 0.5rem;
+}
 
 .mt-1 {
     margin-top: 1rem;
@@ -43,6 +44,9 @@
 }
 
 /*----->_[ margin -Y ]_<-----*/
+.mb-02e5 {
+    margin-bottom: 0.5rem;
+}
 
 .mb-1 {
     margin-bottom: 1rem;
@@ -53,13 +57,11 @@
 }
 
 /*----->_[ margin -X]_<-----*/
-
 .ml-02e5 {
     margin-left: 0.5rem;
 }
 
 /*----->_[ margin +X]_<-----*/
-
 .mr-02e5 {
     margin-right: 0.5rem;
 }
@@ -80,15 +82,21 @@
     margin-right: 4rem;
 }
 
-/*----->_[ margin +X-X]_<-----*/
+.mr-8 {
+    margin-right: 8rem;
+}
 
+.mr-10 {
+    margin-right: 13rem;
+}
+
+/*----->_[ margin +X-X]_<-----*/
 .mx-1 {
     margin-left: 1rem;
     margin-right: 1rem;
 }
 
 /*----->_[ padding ]_<-----*/
-
 .p-0 {
     padding: 0;
 }
@@ -114,7 +122,6 @@
 }
 
 /*----->_[ padding -Y ]_<-----*/
-
 .pb-0 {
     padding-bottom: 0;
 }
@@ -124,13 +131,11 @@
 }
 
 /*----->_[ padding +X ]_<-----*/
-
 .pr-1 {
     padding-right: 0.5rem;
 }
 
 /*----->_[ padding +Y-Y ]_<-----*/
-
 .py-1 {
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -142,21 +147,59 @@
 }
 
 /*----->_[ DIMENSION ]_<-----*/
+/*----->_[ width ]_<-----*/
+.w-1 {
+    width: 1rem;
+}
+
+.w-5 {
+    width: 5rem;
+}
 
 /*----->_[ max width ]_<-----*/
+.max-w-5 {
+    max-width: 5rem;
+}
+
+.max-w-10 {
+    max-width: 10rem;
+}
+
+.max-w-15 {
+    max-width: 15rem;
+}
+
+.max-w-17 {
+    max-width: 17rem;
+}
 
 .max-w-48 {
     max-width: 48rem;
 }
 
 /*----->_[ min width ]_<-----*/
+.min-w-1 {
+    min-width: 1rem;
+}
 
 .min-w-5 {
     min-width: 5rem;
 }
 
-/*----->_[ max height ]_<-----*/
+.min-w-8 {
+    min-width: 8rem;
+}
 
+.min-w-15 {
+    min-width: 15rem;
+}
+
+/*----->_[ height ]_<-----*/
+.h-2 {
+    height: 2rem;
+}
+
+/*----->_[ max height ]_<-----*/
 .max-h-1 {
     max-height: 1rem;
 }
@@ -166,7 +209,6 @@
 }
 
 /*----->_[ min height ]_<-----*/
-
 .min-h-2 {
     min-height: 2rem;
 }

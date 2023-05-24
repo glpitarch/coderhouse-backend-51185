@@ -1,23 +1,27 @@
 import express from 'express'
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 import { Server } from 'socket.io'
 import handlebars from 'express-handlebars'
+import session from 'express-session'
+import MongoStore from 'connect-mongo'
 import __dirname from './utils.js'
 import productModel from './dao/mongodb/models/products-model.js'
 import chatModel from './dao/mongodb/models/chat-model.js'
 /* import productManager from './dao/file-system/managers/productManager.js' */
 /*-----//_ Routes from MongoDB _//-----*/
 import productsRouterMongo from './routes/products-router-mongodb.js'
-import cartsRouterMongo from './routes/carts-router-mongodb.js';
-import viewsRouterMongo from './routes/views-router-mongodb.js';
+import cartsRouterMongo from './routes/carts-router-mongodb.js'
+import viewsRouterMongo from './routes/views-router-mongodb.js'
 import chatRouterMongo from './routes/chat-router-mongodb.js'
+import sessionRouter from './routes/sessions-router.js';
 /*-----//_ Routes from fileSystem _//-----*/
-import productsRouterFs from './routes/products-router-fs.js'
+/* import productsRouterFs from './routes/products-router-fs.js'
 import cartsRouterFs from './routes/carts-router-fs.js'
-import viewsRouterFs from './routes/views-router-fs.js'
+import viewsRouterFs from './routes/views-router-fs.js' */
 
+const DB = 'ecommerce'
 const PORT = 8080;
-const MONGO = 'mongodb+srv://admin:admin123@cluster0.m8kzlrt.mongodb.net/ecommerce?retryWrites=true&w=majority'
+const MONGO = `mongodb+srv://admin:admin123@cluster0.m8kzlrt.mongodb.net/${ DB }?retryWrites=true&w=majority`
 
 const app = express()
 const conection = mongoose.connect(MONGO);
@@ -35,11 +39,21 @@ app.use(express.static(__dirname + '/public'))
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+app.use(session({
+    store: new MongoStore({
+        mongoUrl: MONGO,
+        ttl: 3600
+    }),
+    secret: 'CoderSecret',
+    resave: false,
+    saveUninitialized: false
+}))
 
 /*-----//_ Routes for MongoDB _//-----*/
 app.use('/', viewsRouterMongo);
 app.use('/api/products', productsRouterMongo);
 app.use('/api/carts', cartsRouterMongo);
+app.use('/api/session', sessionRouter);
 app.use('/chat', chatRouterMongo);
 
 const io = new Server(httpServer)

@@ -4,16 +4,6 @@ import cartModel from "../dao/mongodb/models/carts-model.js";
 
 const router = Router();
 
-router.get('/', async (req,res)=>{
-    let products = await productModel.find().lean()
-    let titleTag = 'Home'
-    res.render('home', { 
-        title: titleTag,
-        style: 'styles.css',
-        products
-    });
-})
-
 router.get('/products', async (req,res)=>{
     const regex = /^[0-9]*$/;
     const titleTag = 'Productos'
@@ -58,10 +48,15 @@ router.get('/products', async (req,res)=>{
         searchError = 'No se ha encontrado ningun producto con los filtros solicitados'
     }
 
+    let user = req.session.user
+    const isAdmin = user.role == 'Administrador' ? true : false
+
     res.render('products', { 
         title: titleTag,
         style: 'styles.css',
         products,
+        user,
+        isAdmin,
         searchError,
         hasPrevPage,
         hasNextPage,
@@ -71,10 +66,10 @@ router.get('/products', async (req,res)=>{
 })
 
 router.get('/carts/:cid', async (req,res)=>{
+    const titleTag = 'Cart'
     const cid = req.params.cid
     let cart = await cartModel.findById(cid).populate('products._id').lean()
     cart = cart.products
-    let titleTag = 'Cart'
     res.render('cart', { 
         title: titleTag,
         style: 'styles.css',
@@ -83,7 +78,7 @@ router.get('/carts/:cid', async (req,res)=>{
 })
 
 router.get('/realtimeproducts', async (req,res)=>{
-    let titleTag = 'Real time products'
+    const titleTag = 'Real time products'
     res.render('realTimeProducts', { 
         title: titleTag,
         style: 'styles.css'
@@ -91,11 +86,62 @@ router.get('/realtimeproducts', async (req,res)=>{
 })
 
 router.get('/chat', async (req,res)=>{
-    let titleTag = 'Online Chat'
+    const titleTag = 'Online Chat'
     res.render('chat', { 
         title: titleTag,
         style: 'styles.css'
     });
 })
+
+/*----->_[ Sessions ]_<-----*/
+const publicAcces = (req,res,next) =>{
+    if (req.session.user) {
+        return res.redirect('/profile');
+    } 
+    next();
+}
+
+const privateAcces = (req,res,next)=>{
+    if (!req.session.user) {
+        return res.redirect('/');
+    }
+    next();
+}
+
+router.get('/register', publicAcces, (req,res)=>{
+    const titleTag = 'Registro'
+    res.render('register', { 
+        title: titleTag,
+        style: 'styles.css'
+    })
+})
+
+router.get('/', publicAcces, (req,res)=>{
+    const titleTag = 'login'
+    res.render('login', { 
+        title: titleTag,
+        style: 'styles.css'
+    })
+})
+
+router.get('/profile', privateAcces, (req,res)=>{
+    const titleTag = 'Perfil'
+    res.render('profile', {
+        user: req.session.user,
+        title: titleTag,
+        style: 'styles.css'
+    })
+})
+
+/* Ruta antigua "HOME" de anterior entrega */
+/* router.get('/', async (req,res)=>{
+    let products = await productModel.find().lean()
+    let titleTag = 'Home'
+    res.render('home', { 
+        title: titleTag,
+        style: 'styles.css',
+        products
+    });
+}) */
 
 export default router;

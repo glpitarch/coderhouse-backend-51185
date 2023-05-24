@@ -1,35 +1,66 @@
 <div>
     <header>
-        <nav class="bg-color-1 min-h-12">
-            <div class="r-flex justify-content-center align-items-center min-h-12 min-w-15">
+        <nav class="r-flex justify-content-center bg-color-1 min-h-12">
+            <div class="r-flex align-items-center min-h-12 min-w-15">
                 <div>
-                    <a href="/products"><img src="./images/logo.png" alt=""></a>
+                    <a href="/products"><img src="./images/icons/brand-logo.png" alt=""></a>
                 </div>
                 <div class="navbarMenuContainer">
-                    <ul id="navbarMenu">
+                    <ul id="navbarMenu" class="min-h-5 align-items-center">
                         <li id="navbarProducts">Productos</li>
-                            <div id="dropdownCategoryMenu" class="hidden">
-                                <ul class="min-h-15">
-                                    <a href="/products"><li>Todos los porductos</li></a>
-                                    <a href="/products?query={%22category%22%3A%22Sahumerios%22}"><li>Sahumerios</li></a>
-                                    <a href="/products?query={%22category%22%3A%22Defumacion%22}"><li>Defumacion</li></a>
-                                    <a href="/products?query={%22category%22%3A%22Conos y Cascadas%22}"><li>Conos y Cascadas</li></a>
-                                    <a href="/products?query={%22category%22%3A%22Sahumos%22}"><li>Sahumos</li></a>
-                                </ul>
-                            </div>
+                            <ul id="dropdownCategoryMenu" class="hidden ani-appear">
+                                <a href="/products"><li>Todos los porductos</li></a>
+                                <a href="/products?query={%22category%22%3A%22Sahumerios%22}"><li>Sahumerios</li></a>
+                                <a href="/products?query={%22category%22%3A%22Defumacion%22}"><li>Defumacion</li></a>
+                                <a href="/products?query={%22category%22%3A%22Conos y Cascadas%22}"><li>Conos y Cascadas</li></a>
+                                <a href="/products?query={%22category%22%3A%22Sahumos%22}"><li>Sahumos</li></a>
+                            </ul>
                         <li><a href="/realtimeproducts">Real Time Products</a></li>
                     </ul> 
                 </div>
             </div>
+            <div class="r-flex justify-content-end align-items-center txt-center">
+                <div>
+                    <div class="txt-center m-0 p-0">
+                        <a href="/profile"><img  src="./images/icons/user.png" alt=""></a>
+                    </div>
+                    {{#if user}}
+                        <div>
+                            <strong><p class="m-0 mb-02e5">¡Bienvenido!</p></strong> 
+                        </div>
+                        <div class="txt-center">
+                            <strong><p class="m-0">{{user.role}}: {{user.name}}</p></strong> 
+                            <strong><p class="m-0">email: {{user.email}}</p></strong> 
+                            {{#if isAdmin}}
+                                <p class="m-0 orangered">Esta cuenta tiene derechos de administrador</p>
+                            {{/if}}
+                        </div>
+                        <div class="txt-center mt-02e5">
+                            <a href="/api/session/logout"><button>Cerrar sesión</button></a>
+                        </div>
+                        {{else}}
+                        <div class="txt-left">
+                            <strong><p class="m-0">Iniciar sesión: <a href="/">aquí</a></p></strong>
+                            <strong><p class="m-0">Registrarse: <a href="/register">aquí</a></p></strong> 
+                        </div>
+                    {{/if}}
+                </div>
+            </div>
         </nav>
         <div id="advancedSearchButtonContainer" class="r-flex justify-content-center align-items-center min-h-5 bg-color-2">
-            <button id="advancedSearchButton" class="min-h-2">Busqueda avanzada</button>
+            <button id="advancedSearchButton" class="min-h-2">Búsqueda avanzada</button>
         </div>
-        <div id="advancedSearchBarContainer" class="hidden">
+        <div id="advancedSearchBarContainer" class="ani-appear hidden">
             <div class="c-flex align-items-center min-h-15 bg-color-2">
                 <h3>Filtrar por:</h3>
                 <div class="r-flex justify-content-center align-self-center max-w-48">
-                    <div class="c-flex justify-self mr-2 ml-02e5 txt-center">
+                    <div class="c-flex justify-self-start mr-2 txt-center">
+                        <div class="mb-1">
+                            <input type="checkbox" id="checkboxProductName">Nombre del producto:
+                        </div>
+                        <input type="text" id="productNameInput">
+                    </div>
+                    <div class="c-flex justify-self-start mr-2 ml-02e5 txt-center">
                         <div class="mb-1">
                             <input type="checkbox" name="" id="checkboxCategory">Categoría:
                         </div>
@@ -40,12 +71,6 @@
                             <option value="Conos y Cascadas">Conos y Cascadas</option>
                             <option value="Sahumos">Sahumos</option>
                         </select>
-                    </div>
-                    <div class="c-flex justify-self mr-2 txt-center">
-                        <div class="mb-1">
-                            <input type="checkbox" id="checkboxProductName">Nombre del producto:
-                        </div>
-                        <input type="text" id="">
                     </div>
                     <div class="c-flex justify-content-around mr-2 txt-center">
                         <div>
@@ -68,13 +93,13 @@
                         </div>
                             <span class="mt-1 txt-left">Valor mínimo</span>
                         <div class="r-flex align-self-center">
-                            <input class="mr-02e5 black" type="range" id="minValueStockRange" min="0" max="500" onchange="showValue()">
-                            <span id="minValueStock">250</span>
+                            <input class="mr-02e5" type="range" id="minValueStockRange" min="0" max="100" onchange="showValue()">
+                            <span id="minValueStock">50</span>
                         </div>
                             <span  class="mt-1 txt-left">Valor máximo</span>
                         <div class="r-flex align-self-center">
-                            <input class="mr-02e5" type="range" id="maxValueStockRange" min="0" max="500" onchange="showValue()">
-                            <span id="maxValueStock">250</span>
+                            <input class="mr-02e5" type="range" id="maxValueStockRange" min="0" max="100" onchange="showValue()">
+                            <span id="maxValueStock">50</span>
                         </div>
                     </div>
                 </div>
@@ -89,7 +114,7 @@
         <div>
             <div class="r-flex justify-content-center wrap">
                 {{#each products}}
-                    <div class="productCard p-3">
+                    <div class="productCard p-3 ani-appear">
                         <img class="productImage" src={{this.thumbnail}} alt="">
                         <p class="minSpaceTitleField"><strong>Nombre: </strong>{{this.title}}</p>
                         <p><strong>Categoria: </strong>{{this.category}}</p>
@@ -97,7 +122,7 @@
                         <p><strong>Precio: </strong>{{this.price}}</p>
                         <p><strong>Stock: </strong>{{this.stock}}</p>
                         <p><strong>Código: </strong>{{this.code}}</p>
-                        <div class="r-flex">
+                        <div class="r-flex justify-content-center">
                             <button class="m-1 p-02e5">Agregar al carrito</button>
                         </div>
                     </div>
