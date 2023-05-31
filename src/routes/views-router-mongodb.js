@@ -1,10 +1,10 @@
-import { Router } from "express";
+import { Router } from "express"
 import productModel from './../dao/mongodb/models/products-model.js'
-import cartModel from "../dao/mongodb/models/carts-model.js";
+import cartModel from "./../dao/mongodb/models/carts-model.js"
 
 const router = Router();
 
-router.get('/products', async (req,res)=>{
+router.get('/products', async (req,res) => {
     const regex = /^[0-9]*$/;
     const titleTag = 'Productos'
 
@@ -49,7 +49,11 @@ router.get('/products', async (req,res)=>{
     }
 
     let user = req.session.user
+    console.log(user)
     const isAdmin = user.role == 'Administrador' ? true : false
+    const isExternalAcces = user.password == '' ? true : false
+    const isFromGithub = user.last_name == 'github' ? true : false
+    const githubAcces = isExternalAcces == true && isFromGithub == true ? true : false
 
     res.render('products', { 
         title: titleTag,
@@ -57,6 +61,8 @@ router.get('/products', async (req,res)=>{
         products,
         user,
         isAdmin,
+        isExternalAcces,
+        githubAcces,
         searchError,
         hasPrevPage,
         hasNextPage,
@@ -65,7 +71,7 @@ router.get('/products', async (req,res)=>{
     })
 })
 
-router.get('/carts/:cid', async (req,res)=>{
+router.get('/carts/:cid', async (req,res) => {
     const titleTag = 'Cart'
     const cid = req.params.cid
     let cart = await cartModel.findById(cid).populate('products._id').lean()
@@ -74,41 +80,41 @@ router.get('/carts/:cid', async (req,res)=>{
         title: titleTag,
         style: 'styles.css',
         cart
-    });
+    })
 })
 
-router.get('/realtimeproducts', async (req,res)=>{
+router.get('/realtimeproducts', async (req,res) => {
     const titleTag = 'Real time products'
     res.render('realTimeProducts', { 
         title: titleTag,
         style: 'styles.css'
-    });
+    })
 })
 
-router.get('/chat', async (req,res)=>{
+router.get('/chat', async (req,res) => {
     const titleTag = 'Online Chat'
     res.render('chat', { 
         title: titleTag,
         style: 'styles.css'
-    });
+    })
 })
 
 /*----->_[ Sessions ]_<-----*/
-const publicAcces = (req,res,next) =>{
+const publicAcces = (req,res,next) => {
     if (req.session.user) {
         return res.redirect('/profile');
     } 
-    next();
+    next()
 }
 
-const privateAcces = (req,res,next)=>{
+const privateAcces = (req,res,next) => {
     if (!req.session.user) {
         return res.redirect('/');
     }
-    next();
+    next()
 }
 
-router.get('/register', publicAcces, (req,res)=>{
+router.get('/register', publicAcces, (req,res) => {
     const titleTag = 'Registro'
     res.render('register', { 
         title: titleTag,
@@ -116,7 +122,7 @@ router.get('/register', publicAcces, (req,res)=>{
     })
 })
 
-router.get('/', publicAcces, (req,res)=>{
+router.get('/', publicAcces, (req,res) => {
     const titleTag = 'login'
     res.render('login', { 
         title: titleTag,
@@ -124,24 +130,31 @@ router.get('/', publicAcces, (req,res)=>{
     })
 })
 
-router.get('/profile', privateAcces, (req,res)=>{
+router.get('/profile', privateAcces, (req,res) => {
     const titleTag = 'Perfil'
+    let user = req.session.user
+    const isAdmin = user.role == 'Administrador' ? true : false
+    const isExternalAcces = user.password == '' ? true : false
+    const isFromGithub = user.last_name == 'github' ? true : false
+    const githubAcces = isExternalAcces == true && isFromGithub == true ? true : false
     res.render('profile', {
         user: req.session.user,
+        isAdmin,
+        githubAcces,
         title: titleTag,
         style: 'styles.css'
     })
 })
 
 /* Ruta antigua "HOME" de anterior entrega */
-/* router.get('/', async (req,res)=>{
+/* router.get('/', async (req,res) => {
     let products = await productModel.find().lean()
     let titleTag = 'Home'
     res.render('home', { 
         title: titleTag,
         style: 'styles.css',
         products
-    });
+    })
 }) */
 
-export default router;
+export default router
