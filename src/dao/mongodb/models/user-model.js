@@ -1,13 +1,20 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
 
-const collection = 'user';
+const collection = 'user'
 
 const schema = new mongoose.Schema({
     first_name: String,
     last_name: String,
     email: String,
     age: Number,
-    password: String
+    password: String,
+    cart: {
+            _id: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'carts'
+            }
+        },
+    role: String
 })
 
 const userModel = mongoose.model(collection, schema);

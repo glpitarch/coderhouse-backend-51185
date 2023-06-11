@@ -26,13 +26,14 @@ router.post('/login', passport.authenticate('login', { failureRedirect: '/faillo
             error: "Incorrect data"
         })
     }
-
-    let role = ''
+    
+    let role = 'user'
     let isValid = validatePassword('adminCod3r123', req.user)
-    req.user.email == 'adminCoder@coder.com' && isValid == true ? role = 'Administrador' : role = 'Usuario'
+    req.user.email == 'adminCoder@coder.com' && isValid == true ? role = 'admin' : role = 'user'
 
     req.session.user = {
-        name: `${ req.user.first_name } ${ req.user.last_name }`,
+        first_name: `${ req.user.first_name }`,
+        last_name: `${ req.user.last_name }`,
         email: req.user.email,
         age: req.user.age,
         role: role
@@ -63,7 +64,7 @@ router.get('/logout', (req,res) => {
     })
 })
 
-router.get('/github', passport.authenticate('github', { scope: ['user: email'] }), async (req,res) => {})
+router.get('/github', passport.authenticate('github'))
 
 router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login' }), async (req,res) => {
 

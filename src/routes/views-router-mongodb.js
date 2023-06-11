@@ -49,11 +49,8 @@ router.get('/products', async (req,res) => {
     }
 
     let user = req.session.user
-    console.log(user)
     const isAdmin = user.role == 'Administrador' ? true : false
     const isExternalAcces = user.password == '' ? true : false
-    const isFromGithub = user.last_name == 'github' ? true : false
-    const githubAcces = isExternalAcces == true && isFromGithub == true ? true : false
 
     res.render('products', { 
         title: titleTag,
@@ -62,7 +59,6 @@ router.get('/products', async (req,res) => {
         user,
         isAdmin,
         isExternalAcces,
-        githubAcces,
         searchError,
         hasPrevPage,
         hasNextPage,

@@ -1,15 +1,14 @@
 <div class="c-flex align-items-center">
     <h1 class="txt-center">Tu perfil</h1>
-    {{#if githubAcces}}
+    {{#if isExternalAcces}}
         <div>
-            <strong><p>Nombre de usuario:</strong> {{user.first_name}}</p>
-            {{#if user.email}}
-                <strong><p>Dirección de correo electrónico:</strong> {{user.email}}</p>
-            {{/if}}
+            <strong><p>Nombre de usuario:</strong> {{user.first_name}} {{user.last_name}}</p>
+            <strong><p>Dirección de correo electrónico:</strong> {{user.email}}</p>
+            <strong><p>Rol:</strong> {{user.role}}</p>
         </div>
         {{else}}
             <div>
-                <strong><p>Nombre de usuario:</strong> {{user.name}}</p>
+                <strong><p>Nombre de usuario:</strong> {{user.first_name}} {{user.last_name}}</p>
                 <strong><p>Dirección de correo electrónico:</strong> {{user.email}}</p>
                 <strong><p>Edad:</strong> {{user.age}}</p>
                 <strong><p>Rol:</strong> {{user.role}}</p>

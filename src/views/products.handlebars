@@ -24,36 +24,26 @@
                     <div class="txt-center m-0 p-0">
                         <a href="/profile"><img  src="./images/icons/user.png" alt=""></a>
                     </div>
-                    {{#if isExternalAcces}}
-                        <div>
-                            <strong><p class="m-0 mb-02e5">¡Bienvenido!</p></strong>
-                            <strong><p class="m-0">Usuario: {{user.first_name}}</p></strong>  
-                        </div>
-                        <div class="txt-center mt-02e5">
-                            <a href="/api/session/logout"><button>Cerrar sesión</button></a>
-                        </div>
-                        {{else}}
-                            {{#if user}}
-                                <div>
-                                    <strong><p class="m-0 mb-02e5">¡Bienvenido!</p></strong> 
-                                </div>
-                                <div class="txt-center">
-                                    <strong><p class="m-0">{{user.role}}: {{user.name}}</p></strong> 
-                                    <strong><p class="m-0">email: {{user.email}}</p></strong> 
-                                    {{#if isAdmin}}
-                                        <p class="m-0 orangered">Esta cuenta tiene derechos de administrador</p>
-                                    {{/if}}
-                                </div>
-                                <div class="txt-center mt-02e5">
-                                    <a href="/api/session/logout"><button>Cerrar sesión</button></a>
-                                </div>
-                                {{else}}
-                                <div class="txt-left">
-                                    <strong><p class="m-0">Iniciar sesión: <a href="/">aquí</a></p></strong>
-                                    <strong><p class="m-0">Registrarse: <a href="/register">aquí</a></p></strong> 
-                                </div>
-                            {{/if}}
-                    {{/if}}
+                        {{#if user}}
+                            <div>
+                                <strong><p class="m-0 mb-02e5">¡Bienvenido!</p></strong> 
+                            </div>
+                            <div class="txt-center">
+                                <strong><p class="m-0">{{user.role}}: {{user.first_name}} {{user.last_name}}</p></strong> 
+                                <strong><p class="m-0">email: {{user.email}}</p></strong> 
+                                {{#if isAdmin}}
+                                    <p class="m-0 orangered">Esta cuenta tiene derechos de administrador</p>
+                                {{/if}}
+                            </div>
+                            <div class="txt-center mt-02e5">
+                                <a href="/api/session/logout"><button>Cerrar sesión</button></a>
+                            </div>
+                            {{else}}
+                            <div class="txt-left">
+                                <strong><p class="m-0">Iniciar sesión: <a href="/">aquí</a></p></strong>
+                                <strong><p class="m-0">Registrarse: <a href="/register">aquí</a></p></strong> 
+                            </div>
+                        {{/if}}
                 </div>
             </div>
         </nav>
@@ -88,13 +78,13 @@
                         </div>
                             <span class="mt-1 txt-left">Valor mínimo</span>
                         <div class="r-flex align-self-center">
-                            <input class="mr-02e5" type="range" id="minValuePriceRange" min="0" max="500" onchange="showValue()">
-                            <span id="minValuePrice">250</span>
+                            <input class="mr-02e5" type="range" id="minValuePriceRange" min="0" max="1000" onchange="showValue()">
+                            <span id="minValuePrice">500</span>
                         </div>
                             <span class="mt-1 txt-left">Valor máximo</span>
                         <div class="r-flex align-self-center">
-                            <input class="mr-02e5" type="range" id="maxValuePriceRange" min="0" max="500" onchange="showValue()">
-                            <span id="maxValuePrice">250</span>
+                            <input class="mr-02e5" type="range" id="maxValuePriceRange" min="0" max="1000" onchange="showValue()">
+                            <span id="maxValuePrice">500</span>
                         </div>
                     </div>
                     <div class="c-flex justify-content-around mr-02e5 txt-center">
