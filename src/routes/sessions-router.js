@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import passport from 'passport'
 import { validatePassword } from './../utils.js'
+import { authSession } from './../utils.js'
 
 const router = Router()
 
@@ -64,10 +65,16 @@ router.get('/logout', (req,res) => {
     })
 })
 
+router.get('/current', authSession, (req,res) => {
+    res.send({
+        status:"success",
+        payload: req.session.user
+    })
+})
+
 router.get('/github', passport.authenticate('github'))
 
 router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login' }), async (req,res) => {
-
     req.session.user = req.user
     res.redirect('/products')
 })
