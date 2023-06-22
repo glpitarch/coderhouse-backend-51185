@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import chatModel from '../dao/mongodb/models/chat-model.js'
+import chatModel from '../dao/persistence/mongodb/models/chat-model.js'
 
 const router = Router()
 

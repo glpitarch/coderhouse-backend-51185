@@ -3,7 +3,7 @@ import fs from 'fs';
 class ProductManager {
 
     constructor(){
-        this.path = './dao/file-system/files/products.json'
+        this.path = './dao/persistence/file-system/files/products.json'
     }
 
     getProducts = async () => {

@@ -1,3 +1,5 @@
+import { config } from './config/config.js'
+
 import express from 'express'
 import mongoose from 'mongoose'
 import { Server } from 'socket.io'
@@ -9,9 +11,10 @@ import MongoStore from 'connect-mongo'
 import __dirname from './utils.js'
 import initializePassport from './config/passport-config.js'
 
+
 /*-----//_ MongoDB _//-----*/
-import productModel from './dao/mongodb/models/products-model.js'
-import chatModel from './dao/mongodb/models/chat-model.js'
+import productModel from './dao/persistence/mongodb/models/products-model.js'
+import chatModel from './dao/persistence/mongodb/models/chat-model.js'
 import productsRouterMongo from './routes/products-router-mongodb.js'
 import cartsRouterMongo from './routes/carts-router-mongodb.js'
 import viewsRouterMongo from './routes/views-router-mongodb.js'
@@ -19,27 +22,23 @@ import chatRouterMongo from './routes/chat-router-mongodb.js'
 import sessionRouter from './routes/sessions-router.js'
 
 /*-----//_ fileSystem _//-----*/
-/* import productManager from './dao/file-system/managers/productManager.js'
+/* import productManager from './dao/persistence/file-system/managers/productManager.js'
 import productsRouterFs from './routes/products-router-fs.js'
 import cartsRouterFs from './routes/carts-router-fs.js'
 import viewsRouterFs from './routes/views-router-fs.js' */
 
-const DB = 'ecommerce'
-const PORT = 8080;
-const MONGO = `mongodb+srv://admin:admin123@cluster0.m8kzlrt.mongodb.net/${ DB }?retryWrites=true&w=majority`
-
 const app = express()
-const conection = mongoose.connect(MONGO);
+const conection = mongoose.connect(config.mongo.url);
 
-const httpServer = app.listen(PORT, () => {
+const httpServer = app.listen(config.server.port, () => {
     console.log(`
-        The server is online on port: ${ PORT }
+        The server is online on port: ${ config.server.port }
     `)
 })
 
-app.engine('handlebars', handlebars.engine());
-app.set('views', __dirname + '/views');
-app.set('view engine', 'handlebars');
+app.engine('handlebars', handlebars.engine())
+app.set('views', __dirname + '/views')
+app.set('view engine', 'handlebars')
 
 app.use(express.static(__dirname + '/public'))
 app.use(express.json())
@@ -47,10 +46,10 @@ app.use(express.urlencoded({extended:true}))
 
 app.use(session({
     store: new MongoStore({
-        mongoUrl: MONGO,
+        mongoUrl: config.mongo.url,
         ttl: 3600
     }),
-    secret: 'CoderSecret',
+    secret: config.secretWord.pass,
     resave: false,
     saveUninitialized: false
 }))
@@ -78,14 +77,22 @@ io.on('connection', socket => {
     io.emit('productsList', products)
 
     socket.on('productToDelete', async productId => {
-        await productModel.deleteOne({_id: productId})
-        let products = await productModel.find().lean()
-        io.emit('productsList', products)
+        try {
+            await productModel.deleteOne({_id: productId})
+            let products = await productModel.find().lean()
+            io.emit('productsList', products)
+        } catch (error) {
+            console.log(error)
+        }
     })
     socket.on('productToAdd', async product => {
-        await productModel.create(product)
-        let products = await productModel.find().lean()
-        io.emit('productsList', products)
+        try {
+            await productModel.create(product)
+            let products = await productModel.find().lean()
+            io.emit('productsList', products)
+        } catch (error) {
+            console.log(error)
+        }
     })
 
     /*-----//_ Listenings and emits for Chat _//-----*/
@@ -96,9 +103,13 @@ io.on('connection', socket => {
     })
 
     socket.on('userMessage', async message => {
-        await chatModel.create(message)
-        let chatHistorial = await chatModel.find().lean()
-        io.emit('updateMessages', chatHistorial)
+        try {
+            await chatModel.create(message)
+            let chatHistorial = await chatModel.find().lean()
+            io.emit('updateMessages', chatHistorial)
+        } catch (error) {
+            console.log(error)
+        }
     })
 })
 

@@ -1,9 +1,10 @@
 import passport from 'passport'
 import local from 'passport-local'
-import userModel from './../dao/mongodb/models/user-model.js'
-import cartModel from './../dao/mongodb/models/carts-model.js'
+import userModel from './../dao/persistence/mongodb/models/user-model.js'
+import cartModel from './../dao/persistence/mongodb/models/carts-model.js'
 import { createHash, validatePassword } from './../utils.js'
 import GitHubStrategy from 'passport-github2'
+import { config } from './config.js'
 
 const LocalStrategy = local.Strategy;
 
@@ -22,6 +23,8 @@ const initializePassport = () => {
                 newCart = await cartModel.create(newCart)
 
                 let role = 'user'
+                password == config.auth.pass && email == config.auth.email ? role = 'admin' : role = 'user'
+                
                 const newUser = {
                         first_name,
                         last_name,

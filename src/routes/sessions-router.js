@@ -2,6 +2,7 @@ import { Router } from 'express'
 import passport from 'passport'
 import { validatePassword } from './../utils.js'
 import { authSession } from './../utils.js'
+import { config } from './../config/config.js'
 
 const router = Router()
 
@@ -29,8 +30,8 @@ router.post('/login', passport.authenticate('login', { failureRedirect: '/faillo
     }
     
     let role = 'user'
-    let isValid = validatePassword('adminCod3r123', req.user)
-    req.user.email == 'adminCoder@coder.com' && isValid == true ? role = 'admin' : role = 'user'
+    let isValid = validatePassword(config.auth.pass, req.user)
+    req.user.email == config.auth.email && isValid == true ? role = 'admin' : role = 'user'
 
     req.session.user = {
         first_name: `${ req.user.first_name }`,
