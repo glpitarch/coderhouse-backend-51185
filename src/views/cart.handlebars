@@ -1,15 +1,90 @@
 <div>
-    <h1 class="txt-align-center">Lista de productos</h1>
-    <div class="flex-row-center">
-        {{#each cart}}
-            <div class="productCard pad-3">
-                <p class="minSpaceTitleField"><strong>Nombre: </strong>{{this._id.title}}</p>
-                <p><strong>Categoria: </strong>{{this._id.category}}</p>
-                <p class="minSpaceDescriptionField"><strong>Descripción: </strong>{{this._id.description}}</p>
-                <p><strong>Precio por unidad: </strong>{{this._id.price}}</p>
-                <p><strong>Cantidad seleccionada: </strong>{{this.quantity}}</p>
-                <p><strong>Código: </strong>{{this._id.code}}</p>
+    <header>
+        <nav class="bg-color-1 min-h-12">
+            <div class="r-flex justify-content-center align-items-center min-h-12 min-w-15">
+                <div>
+                    <a href="/products"><img src="./images/icons/brand-logo.png" alt=""></a>
+                </div>
+                <div class="navbarMenuContainer">
+                    <ul id="navbarMenu">
+                        <li><a href="/products">Productos</a></li>
+                        <li><a href="/realtimeproducts">Real Time Products</a></li>
+                        <li><a href="/chat">Chat online</a></li>
+                        <li><a href="/cart">Carrito</a></li>
+                    </ul> 
+                </div>
+                <div class="r-flex justify-content-end align-items-center txt-center">
+                <div>
+                    <div class="txt-center m-0 p-0">
+                        <a href="/profile"><img  src="./images/icons/user.png" alt=""></a>
+                    </div>
+                        {{#if user}}
+                            <div>
+                                <strong><p class="m-0 mb-02e5">¡Bienvenido!</p></strong> 
+                            </div>
+                            <div class="txt-center">
+                                <strong><p class="m-0">{{user.role}}: {{user.first_name}} {{user.last_name}}</p></strong> 
+                                <strong><p id="userEmail" data-user-email="{{user.email}}" class="m-0">email: {{user.email}}</p></strong> 
+                                {{#if isAdmin}}
+                                    <p class="m-0 orangered">Esta cuenta tiene derechos de administrador</p>
+                                {{/if}}
+                            </div>
+                            <div class="txt-center mt-02e5">
+                                <a href="/api/session/logout"><button>Cerrar sesión</button></a>
+                            </div>
+                            {{else}}
+                            <div class="txt-left">
+                                <strong><p class="m-0">Iniciar sesión: <a href="/">aquí</a></p></strong>
+                                <strong><p class="m-0">Registrarse: <a href="/register">aquí</a></p></strong> 
+                            </div>
+                        {{/if}}
+                </div>
             </div>
-        {{/each}}
-    </div>
+        </nav>
+    </header>
+    <main>
+        <h1 class="txt-center">Lista de productos en carrito</h1>
+        {{#if totalPricePucharse}}
+            <div class="r-flex justify-content-center">
+                <table>
+                    <thead class="bg-color-2">
+                        <tr>
+                            <th>Cantidad</th>
+                            <th>Artículo</th>
+                            <th>Precio</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each productsInCart}}
+                            <tr>
+                                <td class="txt-center min-w-5">{{quantity}}</td>
+                                <td class="txt-center max-w-15">{{_id.title}}</td>
+                                <td class="txt-center min-w-5">{{_id.price}}</td>
+                                <td class="txt-center min-w-5">{{totalPrice}}</td>
+                                <td>
+                                    <button id="deleteProductButton" data-product-id="{{_id._id}}"> X </button>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            <div class="txt-center">
+                <h3><strong>El total de su compra es: {{totalPricePucharse}}</strong></h3>
+            </div>
+            {{#if user.cart._id}}
+                <div class="r-flex justify-content-center">
+                    <button id="checkoutButton" data-cart-id="{{user.cart._id}}" class="m-1 p-02e5">Realizar compra</button>
+                </div>
+            {{/if}}
+        {{else}}
+            <div class="r-flex justify-content-center txt-center">
+                <h3><strong>Aun no tiene productos en su carrito. Si quisiera comprar algun producto puede hacer click <a href="/products">aqui</a> para dirigirse a la sección de productos y elegir el que más te guste.</strong></h3>
+            </div>
+        {{/if}}
+    </main>
 </div>  
+
+<script src="/js/cart-mongodb.js"></script>

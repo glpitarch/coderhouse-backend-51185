@@ -80,7 +80,11 @@ export default class ViewsController {
         let user = req.session.user
         const isAdmin = user.role == 'admin' ? true : false
         const isExternalAcces = user.password == '' ? true : false
-    
+        const cid = user.cart._id
+        let cart = await cartModel.findById(cid).populate('products._id').lean()
+        products.forEach(product => {
+            product['cartId'] = cart._id
+        })
         res.render('products', { 
             title: titleTag,
             style: 'styles.css',
@@ -98,9 +102,16 @@ export default class ViewsController {
 
     async chat (req,res) {
         const titleTag = 'Online Chat'
+        let user = req.session.user
+        const isAdmin = user.role == 'admin' ? true : false
+        const isExternalAcces = user.password == '' ? true : false
+        
         res.render('chat', { 
             title: titleTag,
-            style: 'styles.css'
+            style: 'styles.css',
+            user,
+            isAdmin,
+            isExternalAcces
         })
     }
 
@@ -114,13 +125,36 @@ export default class ViewsController {
 
     async cart (req,res) {
         const titleTag = 'Cart'
-        const cid = req.params.cid
-        let cart = await cartModel.findById(cid).populate('products._id').lean()
-        cart = cart.products
-        res.render('cart', { 
-            title: titleTag,
-            style: 'styles.css',
-            cart
-        })
+        try {
+            let user = req.session.user
+            const isAdmin = user.role == 'admin' ? true : false
+            const isExternalAcces = user.password == '' ? true : false
+            const cid = user.cart._id
+            let cart = await cartModel.findById(cid).populate('products._id').lean()
+            let productsInCart = cart.products
+            let totalPrices = []
+            productsInCart.forEach(product => {
+                let totalPriceItem = product._id.price * product.quantity
+                product["totalPrice"] = totalPriceItem
+                totalPrices.push(product.totalPrice)
+            })
+            let totalPricePucharse = 0
+            if (productsInCart.length > 0) {
+                totalPricePucharse = totalPrices.reduce((acc, price) => {
+                    return acc + price
+                })
+            }
+            res.render('cart', { 
+                title: titleTag,
+                style: 'styles.css',
+                productsInCart,
+                totalPricePucharse,
+                user,
+                isAdmin,
+                isExternalAcces
+            })
+        } catch (error) {
+            console.log(error.message)
+        }
     }
 }

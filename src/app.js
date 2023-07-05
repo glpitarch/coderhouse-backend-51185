@@ -59,11 +59,11 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 /*-----//_ Routes for MongoDB _//-----*/
-app.use('/', viewsRouterMongo);
-app.use('/api/products', productsRouterMongo);
-app.use('/api/carts', cartsRouterMongo);
-app.use('/api/session', sessionRouter);
-app.use('/chat', chatRouterMongo);
+app.use('/', viewsRouterMongo)
+app.use('/api/products', productsRouterMongo)
+app.use('/api/carts', cartsRouterMongo)
+app.use('/api/session', sessionRouter)
+app.use('/chat', chatRouterMongo)
 
 const io = new Server(httpServer)
 
@@ -71,7 +71,7 @@ let products = await productModel.find().lean()
 let mongoDbMessages = await chatModel.find().lean()
 
 io.on('connection', socket => {
-    console.log('A user has been connected to the server');
+    console.log('A user has been connected to the server')
 
     /*-----//_ Listenings and emits for realTimeProducts _//-----*/
     io.emit('productsList', products)

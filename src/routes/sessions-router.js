@@ -1,13 +1,13 @@
 import { Router } from 'express'
 import passport from 'passport'
-import { validatePassword } from './../utils.js'
-import { authSession } from './../utils.js'
+import { validatePassword } from '../utils.js'
+import { authSession } from './../middlewares/auth-session.js'
 import { config } from './../config/config.js'
+import GetSessionDataDto from './../dao/dto/session-data-dto.js'
 
 const router = Router()
 
 router.post('/register', passport.authenticate('register', { failureRedirect:'/failregister'} ), async (req, res) => {
-
     res.send({ 
         status:"succes", 
         message:"User registered"
@@ -16,12 +16,10 @@ router.post('/register', passport.authenticate('register', { failureRedirect:'/f
 })
 
 router.get('/failregister', async (req,res) => {
-    console.log('Registration failed')
     res.send({ error: 'Registration failed' })
 })
 
 router.post('/login', passport.authenticate('login', { failureRedirect: '/faillogin' }), async (req,res) => {
-
     if(!req.user){
         return res.status(400).send({
             status: "error",
@@ -38,7 +36,8 @@ router.post('/login', passport.authenticate('login', { failureRedirect: '/faillo
         last_name: `${ req.user.last_name }`,
         email: req.user.email,
         age: req.user.age,
-        role: role
+        role: role,
+        cart: req.user.cart
     }
     
     res.send({
@@ -67,9 +66,11 @@ router.get('/logout', (req,res) => {
 })
 
 router.get('/current', authSession, (req,res) => {
+    let sessionData = req.session.user
+    const userSessionData = new GetSessionDataDto(sessionData)
     res.send({
         status:"success",
-        payload: req.session.user
+        payload: userSessionData
     })
 })
 

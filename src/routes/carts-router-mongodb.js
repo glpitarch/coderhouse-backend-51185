@@ -1,23 +1,30 @@
 import { Router } from 'express'
-import CartController from './../dao/controllers/cart-controller.js'
+import CartsController from './../dao/controllers/carts-controller.js'
+import TicketController from './../dao/controllers/ticket-controller.js'
+import { handlePolicies } from './../middlewares/policies.js'
 
 const router = Router()
-const cartController = new CartController()
+const cartsController = new CartsController()
+const ticketController = new TicketController()
 
-router.post('/', cartController.addCart)
+router.post('/', cartsController.createCart)
 
-router.get('/', cartController.getCarts)
+router.get('/', cartsController.getCarts)
 
-router.get('/:cid', cartController.getCartById)
+router.get('/:cid', cartsController.getCartById)
 
-router.post('/:cid/product/:pid', cartController.addProductToCart)
+router.post('/:cid/product/:pid', handlePolicies(['ONLY_USERS']), cartsController.addProductToCart)
 
-router.put('/:cid/product/:pid', cartController.updateProductQuantityInCart)
+router.post('/:cid/purchase', ticketController.createTicket)
 
-router.put('/:cid', cartController.updateFullCart)
+router.get('/purchase/email/confirmation', ticketController.purchaseEmail)
 
-router.delete('/:cid', cartController.deleteEveryProductInCart)
+router.put('/:cid/product/:pid', cartsController.updateProductQuantityInCart)
 
-router.delete('/:cid/products/:pid', cartController.deleteProductInCart)
+router.put('/:cid', cartsController.updateFullCart)
+
+router.delete('/:cid', cartsController.deleteEveryProductInCart)
+
+router.delete('/:cid/products/:pid', cartsController.deleteProductInCart)
 
 export default router

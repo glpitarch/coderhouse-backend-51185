@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-class ProductManager {
+export class ProductsManagerFileSystem {
 
     constructor(){
         this.path = './dao/persistence/file-system/files/products.json'
@@ -105,8 +105,3 @@ class ProductManager {
             }
         }
     }
-
-const productManager = new ProductManager()
-
-export default productManager
-

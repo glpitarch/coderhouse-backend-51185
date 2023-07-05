@@ -1,8 +1,8 @@
-import productModel from './../persistence/mongodb/models/products-model.js'
+import productModel from './../models/products-model.js'
 
-class ProductsServicesMongo{
+export class ProductsManagerMongo {
 
-    async addProduct(product){
+    async createProduct(product){
         try {
             const newProduct = await productModel.create(product)
             return newProduct
@@ -44,5 +44,3 @@ class ProductsServicesMongo{
         }
     }
 }
-
-export { ProductsServicesMongo }

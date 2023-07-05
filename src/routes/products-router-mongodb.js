@@ -1,18 +1,19 @@
 import { Router } from 'express'
-import ProductController from './../dao/controllers/product-controller.js'
+import ProductsController from '../dao/controllers/products-controller.js'
 import { newProductValidation } from './../middlewares/new-product-validation.js'
+import { handlePolicies } from './../middlewares/policies.js'
 
 const router = Router()
-const productController = new ProductController()
+const productsController = new ProductsController()
 
-router.get('/', productController.getProducts)
+router.get('/', productsController.getProducts)
 
-router.post('/', newProductValidation, productController.addProduct)
+router.post('/', handlePolicies(['ADMIN']), newProductValidation, productsController.createProduct)
 
-router.get('/:id', productController.getProductById)
+router.get('/:id', productsController.getProductById)
 
-router.put('/:id', productController.updateProduct)
+router.put('/:id', handlePolicies(['ADMIN']), productsController.updateProduct)
 
-router.delete('/:id', productController.deleteProduct)
+router.delete('/:id', handlePolicies(['ADMIN']), productsController.deleteProduct)
 
 export default router

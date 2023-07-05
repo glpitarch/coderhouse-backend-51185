@@ -2,7 +2,7 @@ import passport from 'passport'
 import local from 'passport-local'
 import userModel from './../dao/persistence/mongodb/models/user-model.js'
 import cartModel from './../dao/persistence/mongodb/models/carts-model.js'
-import { createHash, validatePassword } from './../utils.js'
+import { createHash, validatePassword } from '../utils.js'
 import GitHubStrategy from 'passport-github2'
 import { config } from './config.js'
 
@@ -71,9 +71,9 @@ const initializePassport = () => {
     }))
 
     passport.use('github', new GitHubStrategy({
-        clientID:'Iv1.a00cc378b1104f5e',
-        clientSecret:'505629c16f631cc685b06311fa09e3088b2d8a27',
-        callbackURL: 'http://localhost:8080/api/session/githubcallback',
+        clientID: config.github.clientID,
+        clientSecret: config.github.clientSecret,
+        callbackURL: config.github.callbackURL,
         scope: ["user:email"],
 
     }, async (accesToken, refreshToken, profile, done) => {

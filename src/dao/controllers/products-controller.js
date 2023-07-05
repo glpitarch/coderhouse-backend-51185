@@ -1,10 +1,8 @@
-import { ProductsServicesMongo } from './../services/products-services-mongodb.js'
+import { productsServices } from '../repositories/index.js'
 import productModel from './../persistence/mongodb/models/products-model.js'
 
-const productServicesMongo = new ProductsServicesMongo()
-
-export default class ProductController {
-    async addProduct (req,res) {
+export default class ProductsController {
+    async createProduct (req,res) {
         try {
             let { category, title, description, price, stock, code, thumbnail, status } = req.body
             if (!status) {
@@ -20,7 +18,7 @@ export default class ProductController {
                 thumbnail,
                 status
             }
-            const productAdded = await productServicesMongo.addProduct(newProduct)
+            const productAdded = await productsServices.createProduct(newProduct)
             res.json({
                 status: "success",
                 result: productAdded,
@@ -72,7 +70,7 @@ export default class ProductController {
                 sortOption = { price: -1 }
                 sortUrl = `&sort=${ sort }`
             }
-        
+            
             await productModel.paginate( 
                 queryFilter, 
                 { limit: limitOption, page: page, sort: sortOption, lean: true }, 
@@ -144,7 +142,7 @@ export default class ProductController {
     async getProductById (req,res) {
         try {
             const id = req.params.id
-            const product = await productServicesMongo.getProductById(id)
+            const product = await productsServices.getProductById(id)
             res.status(200).json({
                 status: "success",
                 result: product
@@ -161,7 +159,7 @@ export default class ProductController {
         try {
             const id = req.params.id
             const valuesToUpdate = req.body
-            const productUpdated = await productServicesMongo.updateProduct(id, valuesToUpdate)
+            const productUpdated = await productsServices.updateProduct(id, valuesToUpdate)
             res.json({
                 status:"success",
                 result: productUpdated,
@@ -177,7 +175,7 @@ export default class ProductController {
     async deleteProduct (req,res) {
         try {
             const id = req.params.id
-            const productDeleted = await productServicesMongo.deleteProduct(id)
+            const productDeleted = await productsServices.deleteProduct(id)
             res.json({
                 status:"success",
                 result: productDeleted

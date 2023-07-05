@@ -1,11 +1,9 @@
-import { CartsServicesMongo } from './../services/carts-services-mongodb.js'
+import { cartsServices } from '../repositories/index.js'
 
-const cartServices = new CartsServicesMongo()
-
-export default class CartController {
+export default class CartsController {
     async getCarts (req,res) {
         try {
-            const carts = await cartServices.getCarts()
+            const carts = await cartsServices.getCarts()
             res.json({
                 status: "success",
                 result: carts
@@ -18,9 +16,9 @@ export default class CartController {
         }
     }
 
-    async addCart (req,res) {
+    async createCart (req,res) {
         try {
-            const newCart = await cartServices.addCart()
+            const newCart = await cartsServices.createCart()
             res.json({
                 status: "success",
                 result: newCart
@@ -36,7 +34,7 @@ export default class CartController {
     async getCartById (req,res) {
         try {
             const cid = req.params.cid
-            const cart = await cartServices.getCartById(cid)
+            const cart = await cartsServices.getCartById(cid)
             res.json({
                 status: "success",
                 result: cart
@@ -53,7 +51,7 @@ export default class CartController {
         try {
             const cartId = req.params.cid
             const productId = req.params.pid
-            const updatedCart = await cartServices.addProductToCart(cartId, productId)
+            const updatedCart = await cartsServices.addProductToCart(cartId, productId)
             res.json({
                 status: "success",
                 result: updatedCart
@@ -71,7 +69,7 @@ export default class CartController {
             const cartId = req.params.cid
             const productId = req.params.pid
             const newQuantity = req.body
-            const updatedCart = await cartServices.updateProductQuantityInCart(cartId, productId, newQuantity)
+            const updatedCart = await cartsServices.updateProductQuantityInCart(cartId, productId, newQuantity)
             res.json({
                 status: "success",
                 result: updatedCart
@@ -88,7 +86,7 @@ export default class CartController {
         try {
             const cartId = req.params.cid
             const productsList = req.body
-            const updatedCart = await cartServices.updateFullCart(cartId, productsList)
+            const updatedCart = await cartsServices.updateFullCart(cartId, productsList)
             res.json({
                 status: "success",
                 result: updatedCart
@@ -104,7 +102,7 @@ export default class CartController {
     async deleteEveryProductInCart (req,res) {
         try {
             const cartId = req.params.cid
-            let updatedCart = await cartServices.deleteEveryProductInCart(cartId)
+            let updatedCart = await cartsServices.deleteEveryProductInCart(cartId)
             res.json({
                 status: "success",
                 result: updatedCart
@@ -121,7 +119,7 @@ export default class CartController {
         try {
             const cartId = req.params.cid
             const productId = req.params.pid
-            let updatedCart = await cartServices.deleteProductInCart(cartId, productId)
+            let updatedCart = await cartsServices.deleteProductInCart(cartId, productId)
             res.json({
                 status: "success",
                 result: updatedCart

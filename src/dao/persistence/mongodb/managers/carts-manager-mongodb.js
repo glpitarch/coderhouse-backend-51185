@@ -1,9 +1,9 @@
 import mongoose from "mongoose"
-import cartModel from './../persistence/mongodb/models/carts-model.js'
+import cartModel from './../models/carts-model.js'
 
-class CartsServicesMongo{
+export class CartsManagerMongo {
 
-    async getCarts(){
+    async getCarts() {
         try {
             const carts = await cartModel.find()
             return carts
@@ -12,7 +12,7 @@ class CartsServicesMongo{
         }
     }
 
-    async addCart(){
+    async createCart() {
         try {
             let cart = {
                 products: []
@@ -24,7 +24,7 @@ class CartsServicesMongo{
         }
     }
 
-    async getCartById(id){
+    async getCartById(id) {
         try {
             if (id.trim().length != 24) {
                 throw new Error('The cart ID is not valid')
@@ -37,9 +37,9 @@ class CartsServicesMongo{
         } catch (error) {
             throw new Error(error.message);
         }
-    };
+    }
 
-    async addProductToCart(cartId,productId){
+    async addProductToCart(cartId,productId) {
         try {
             const isValidCartId = mongoose.Types.ObjectId.isValid(cartId)
             if (!isValidCartId) {
@@ -73,7 +73,7 @@ class CartsServicesMongo{
         }
     }
 
-    async updateProductQuantityInCart(cartId, productId, newQuantity){
+    async updateProductQuantityInCart(cartId, productId, newQuantity) {
         try {
             const isValidCartId = mongoose.Types.ObjectId.isValid(cartId)
             if (!isValidCartId) {
@@ -107,7 +107,7 @@ class CartsServicesMongo{
         }
     } 
 
-    async updateFullCart(cartId, productsList){
+    async updateFullCart(cartId, productsList) {
         try {
             const isValidCartId = mongoose.Types.ObjectId.isValid(cartId)
             if (!isValidCartId) {
@@ -149,14 +149,13 @@ class CartsServicesMongo{
         }
     }
 
-    async deleteProductInCart(cartId, productId){
+    async deleteProductInCart(cartId, productId) {
         try {
             const isValidCartId = mongoose.Types.ObjectId.isValid(cartId)
             if (!isValidCartId) {
                 throw new Error ('Cart ID does not exist')
             }
             let cartToUpdate = await cartModel.findById(cartId)
-
             let doesTheProductExist = cartToUpdate.products.findIndex(product => product._id == productId)
             if (doesTheProductExist == -1) {
                 throw new Error ('Product does not exist in cart')
@@ -170,7 +169,7 @@ class CartsServicesMongo{
         }
     }
 
-    async deleteEveryProductInCart(cartId){
+    async deleteEveryProductInCart(cartId) {
         try {
             const isValidCartId = mongoose.Types.ObjectId.isValid(cartId)
             if (!isValidCartId) {
@@ -185,5 +184,3 @@ class CartsServicesMongo{
         }
     }
 }
-
-export { CartsServicesMongo }

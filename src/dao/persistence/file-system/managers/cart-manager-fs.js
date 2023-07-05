@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-class CartManager {
+export class CartsManagerFileSystem {
 
     constructor(){
         this.path = './dao/persistence/file-system/files/cart.json'
@@ -58,7 +58,3 @@ class CartManager {
         return cartsData
     }
 }
-
-const cartManager = new CartManager()
-
-export default cartManager

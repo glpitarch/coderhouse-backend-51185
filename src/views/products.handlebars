@@ -16,6 +16,8 @@
                                 <a href="/products?query={%22category%22%3A%22Sahumos%22}"><li>Sahumos</li></a>
                             </ul>
                         <li><a href="/realtimeproducts">Real Time Products</a></li>
+                        <li><a href="/chat">Chat online</a></li>
+                        <li><a href="/cart">Carrito</a></li>
                     </ul> 
                 </div>
             </div>
@@ -29,7 +31,7 @@
                                 <strong><p class="m-0 mb-02e5">¡Bienvenido!</p></strong> 
                             </div>
                             <div class="txt-center">
-                                <strong><p class="m-0">{{user.role}}: {{user.first_name}} {{user.last_name}}</p></strong> 
+                                <strong><p id="cartId" data-cart-id="{{user.cart._id}}" class="m-0">{{user.role}}: {{user.first_name}} {{user.last_name}}</p></strong> 
                                 <strong><p class="m-0">email: {{user.email}}</p></strong> 
                                 {{#if isAdmin}}
                                     <p class="m-0 orangered">Esta cuenta tiene derechos de administrador</p>
@@ -123,7 +125,7 @@
                         <p><strong>Stock: </strong>{{this.stock}}</p>
                         <p><strong>Código: </strong>{{this.code}}</p>
                         <div class="r-flex justify-content-center">
-                            <button class="m-1 p-02e5">Agregar al carrito</button>
+                            <button id="addButton-{{this._id}}" data-product-id="{{this._id}}" class="m-1 p-02e5">Agregar al carrito</button>
                         </div>
                     </div>
                 {{/each}}

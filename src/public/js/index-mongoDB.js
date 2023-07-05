@@ -1,6 +1,25 @@
+const navbarProducts = document.getElementById('navbarProducts')
+const advancedSearchButton = document.getElementById('advancedSearchButton')
+const getCartId = document.getElementById('cartId')
+const cartId = getCartId.getAttribute('data-cart-id')
 
-let navbarProducts = document.getElementById('navbarProducts')
-let advancedSearchButton = document.getElementById('advancedSearchButton')
+const addProductButtons = document.querySelectorAll('[id^="addButton-"]');
+addProductButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    const productId = button.getAttribute('data-product-id')
+        fetch(`/api/carts/${cartId}/product/${productId}`, {
+          method: 'POST'
+        })
+          .then(response => {
+            if (response.ok) {
+              window.location.replace('/cart')
+            }
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      })
+  })
 
 const addClass = (id, className) => {
     let data = document.getElementById(id)
@@ -93,6 +112,7 @@ const showValue = () => {
     document.getElementById('maxValueStock').innerHTML = maxStockPriceRange
   }
 
-navbarProducts.addEventListener("mouseover", () => { changeClass('dropdownCategoryMenu','hidden', 'absolute')});
-advancedSearchButton.addEventListener("click", () => { changeClass('advancedSearchBarContainer', 'hidden', 'block') });
-searchButton.addEventListener("click", () => { urlFilterCreator() });
+navbarProducts.addEventListener("mouseover", () => { changeClass('dropdownCategoryMenu','hidden', 'absolute')})
+advancedSearchButton.addEventListener("click", () => { changeClass('advancedSearchBarContainer', 'hidden', 'block') })
+searchButton.addEventListener("click", () => { urlFilterCreator() })
+

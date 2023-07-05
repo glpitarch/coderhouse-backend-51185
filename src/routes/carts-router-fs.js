@@ -1,6 +1,6 @@
-import { Router } from 'express';
-import cartManager from '../dao/persistence/file-system/managers/cartManager.js';
-import productManager from '../dao/persistence/file-system/managers/productManager.js';
+import { Router } from 'express'
+import cartManager from './../dao/persistence/file-system/managers/cartManager.js'
+import productManager from './../dao/persistence/file-system/managers/productManager.js'
 
 const router = Router();
 
