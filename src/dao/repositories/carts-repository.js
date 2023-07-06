@@ -1,4 +1,4 @@
-class CartsServices {
+class CartsRepository {
     constructor(cartsDao){
         this.cartsDao = cartsDao
     }
@@ -76,4 +76,4 @@ class CartsServices {
     }
 }
 
-export { CartsServices }
+export { CartsRepository }

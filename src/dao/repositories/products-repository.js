@@ -1,4 +1,4 @@
-export class ProductsServices {
+export class ProductsRepository {
     constructor(productsDao){
         this.productsDao = productsDao;
     }

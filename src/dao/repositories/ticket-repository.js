@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid"
 
-class TicketServices {
+class TicketRepository {
     constructor(ticketDao){
         this.ticketDao = ticketDao
     }
@@ -67,4 +67,4 @@ class TicketServices {
     }
 }
 
-export { TicketServices }
+export { TicketRepository }
