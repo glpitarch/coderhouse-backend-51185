@@ -30,12 +30,12 @@ class CartsRepository {
         }
     }
 
-    async addProductToCart(cartId,productId){
+    async addProductToCart(cartId, productId){
         try {
             const result = await this.cartsDao.addProductToCart(cartId, productId)
             return result
         } catch (error) {
-            throw new Error(error.message);
+            throw new Error(error);
         }
     }
 
@@ -60,6 +60,15 @@ class CartsRepository {
     async deleteProductInCart(cartId, productId){
         try {
             const result = await this.cartsDao.deleteProductInCart(cartId, productId)
+            return result
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
+    async cleaningCartPostPurchase(cartId, inStock) {
+        try {
+            const result = await this.cartsDao.cleaningCartPostPurchase(cartId, inStock)
             return result
         } catch (error) {
             throw new Error(error.message)

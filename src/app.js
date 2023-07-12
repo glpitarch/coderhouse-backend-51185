@@ -1,3 +1,4 @@
+/*-----//_ App config _//-----*/
 import { config } from './config/config.js'
 
 import express from 'express'
@@ -8,9 +9,13 @@ import session from 'express-session'
 import passport from 'passport'
 import MongoStore from 'connect-mongo'
 
+/*-----//_ Helpers & configs _//-----*/
 import __dirname from './utils.js'
 import initializePassport from './config/passport-config.js'
+import { errorHandler } from './middlewares/error-handler.js'
 
+/*-----//_ Mocking _//-----*/
+import mocksRouter from './routes/mocks-router.js'
 
 /*-----//_ MongoDB _//-----*/
 import productModel from './dao/persistence/mongodb/models/products-model.js'
@@ -58,6 +63,9 @@ initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
+/*-----//_ Routes for Mocks _//-----*/
+app.use('/mockingproducts', mocksRouter)
+
 /*-----//_ Routes for MongoDB _//-----*/
 app.use('/', viewsRouterMongo)
 app.use('/api/products', productsRouterMongo)
@@ -65,6 +73,10 @@ app.use('/api/carts', cartsRouterMongo)
 app.use('/api/session', sessionRouter)
 app.use('/chat', chatRouterMongo)
 
+/*-----//_ All Routes middleware _//-----*/
+app.use(errorHandler)
+
+/*-----//_ Mongodb socket.io _//-----*/
 const io = new Server(httpServer)
 
 let products = await productModel.find().lean()

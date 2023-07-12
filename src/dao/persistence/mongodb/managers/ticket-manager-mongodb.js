@@ -13,7 +13,7 @@ export class TicketManagerMongo {
         }
     }
 
-    async checkOutProductsQuantity(cartId) {
+    async checkOutProductsQuantity(cartId)  {
         try {
             let cart = await cartModel.findById(cartId).populate('products._id').lean()
             let productsInCart = cart.products
@@ -40,7 +40,7 @@ export class TicketManagerMongo {
               }
             return result
         } catch (error) {
-            console.log(error.message)
+            throw new Error(error.message)
         }
     }
 

@@ -19,7 +19,7 @@ class TicketRepository {
             const result = await this.ticketDao.checkOutProductsQuantity(cartId)
             return result
         } catch (error) {
-            console.log(error.message)
+            throw new Error(error.message)
         }
     }
 

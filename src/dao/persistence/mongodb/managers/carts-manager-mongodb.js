@@ -124,10 +124,7 @@ export class CartsManagerMongo {
 
                 let isValid = isValidId(product._id)
                 if (!isValid) {
-                    return res.status(400).send(`
-                        Product does not exist:
-                        Product ID: ${ product._id }
-                    `)
+                    return ` Product ID: ${ product._id } does not exist`
                 }
         
                 let doesTheProductExist = cartToUpdate.products.findIndex(item => item._id == product._id)
@@ -164,6 +161,20 @@ export class CartsManagerMongo {
                 let result = await cartModel.updateOne({ _id: cartId }, { $set: { 'products': cartToUpdate.products }})
                 return result
             }
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
+    async cleaningCartPostPurchase(cartId, inStock) {
+        try {
+            let result = []
+            for (const product of inStock) {
+                let productId = product._id._id.toString()
+                 let productDeleted = await this.deleteProductInCart(cartId, productId)
+                 result.push(productDeleted)
+            }
+            return result
         } catch (error) {
             throw new Error(error.message)
         }

@@ -32,10 +32,8 @@ export class ProductsRepository {
 
     async deleteProduct(id){
         try {
-            await this.productsDao.deleteProduct(id)
-            return { 
-                message: "product successfully removed" 
-            }
+            const product = await this.productsDao.deleteProduct(id)
+            return product
         } catch (error) {
             throw new Error(error.message)
         }
