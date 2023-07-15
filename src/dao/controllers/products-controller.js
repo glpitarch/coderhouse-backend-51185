@@ -94,9 +94,12 @@ export default class ProductsController {
                 sortUrl = `&sort=${ sort }`
             }  
             
-            await productModel.paginate( 
-                queryFilter, 
-                { limit: limitOption, page: page, sort: sortOption, lean: true }, 
+            await productModel.paginate( queryFilter, { 
+                limit: limitOption, 
+                page: page, 
+                sort: sortOption, 
+                lean: true 
+            }, 
                 function (err, result) {
                     const { docs, hasPrevPage, hasNextPage, nextPage, prevPage, totalPages } = result
         

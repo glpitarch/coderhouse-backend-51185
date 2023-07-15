@@ -26,7 +26,7 @@ class CartsRepository {
             const cart = await this.cartsDao.getCartById(id)
             return cart
         } catch (error) {
-            throw new Error(error.message);
+            throw new Error(error.message)
         }
     }
 

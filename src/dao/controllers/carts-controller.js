@@ -85,10 +85,10 @@ export default class CartsController {
                 result: updatedCart
             })
         } catch (error) {
-            if (error.message == "An error occurred trying to get HTTP ID parameter") {
+            if (error.message === "An error occurred trying to get HTTP ID parameter") {
                 next(error)
             } else {
-                res.status(400).json({
+                res.json({
                     status: "error",
                     error: error.message
                 })
@@ -131,10 +131,10 @@ export default class CartsController {
                 result: updatedCart
             })
         } catch (error) {
-            if (error.message == "An error occurred trying to get HTTP ID parameter" || "An error occurred trying to update product quantity in cart") {
+            if (error.message === "An error occurred trying to get HTTP ID parameter" || error.message === "An error occurred trying to update product quantity in cart") {
                 next(error)
             } else {
-                res.status(400).json({
+                res.json({
                     status: "error",
                     error: error.message
                 })
@@ -160,10 +160,10 @@ export default class CartsController {
                 result: updatedCart
             })
         } catch (error) {
-            if (error.message == "An error occurred trying to get HTTP ID parameter") {
+            if (error.message === "An error occurred trying to get HTTP ID parameter") {
                 next(error)
             } else {
-                res.status(400).json({
+                res.json({
                     status: "error",
                     error: error.message
                 })
@@ -188,10 +188,10 @@ export default class CartsController {
                 result: updatedCart
             })
         } catch (error) {
-            if (error.message == "An error occurred trying to get HTTP ID parameter") {
+            if (error.message === "An error occurred trying to get HTTP ID parameter") {
                 next(error)
             } else {
-                res.status(400).json({
+                res.json({
                     status: "error",
                     error: error.message
                 })
@@ -225,10 +225,10 @@ export default class CartsController {
                 result: updatedCart
             })
         } catch (error) {
-            if (error.message == "An error occurred trying to get HTTP ID parameter") {
+            if (error.message === "An error occurred trying to get HTTP ID parameter") {
                 next(error)
             } else {
-                res.status(400).json({
+                res.json({
                     status: "error",
                     error: error.message
                 })

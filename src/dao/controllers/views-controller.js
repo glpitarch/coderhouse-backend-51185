@@ -1,149 +1,188 @@
 import productModel from './../persistence/mongodb/models/products-model.js'
-import cartModel from './../persistence/mongodb/models/carts-model.js'
+import { cartsServices } from './../repositories/index.js'
+import HandlebarsUtils from './../../helpers/handlebars/hb-utils.js'
+import { EError } from './../../helpers/errors/enums/EError.js'
+import { CustomError } from './../../helpers/errors/custom-error.js'
+import { productQueryErrorInfo } from './../../helpers/errors/products/product-query-error.js'
+
+const handlebarsUtils = new HandlebarsUtils()
 
 export default class ViewsController {
-    async login (req,res) {
-        const titleTag = 'login'
-        res.render('login', { 
-            title: titleTag,
-            style: 'styles.css'
-        })
+    async register (req, res) {
+        try {
+            const titleTag = 'Registro'
+            res.render('register', { 
+                title: titleTag,
+                style: 'styles.css'
+            })
+        } catch (error) {
+            res.send({
+                error: "error",
+                message: error.message
+            })
+        }
+    }
+
+    async login (req, res) {
+        try {
+            const titleTag = 'login'
+            res.render('login', { 
+                title: titleTag,
+                style: 'styles.css'
+            })
+        } catch (error) {
+            res.send({
+                error: "error",
+                message: error.message
+            })
+        }
     }  
 
-    async profile (req,res) {
-        const titleTag = 'Perfil'
-        let user = req.session.user
-        const isAdmin = user.role == 'admin' ? true : false
-        const isExternalAcces = user.password == '' ? true : false
-
-        res.render('profile', {
-            user: req.session.user,
-            isAdmin,
-            isExternalAcces,
-            title: titleTag,
-            style: 'styles.css'
-        })
+    async profile (req, res) {
+        try {
+            const titleTag = 'Perfil'
+            let user = req.session.user
+            const isAdmin = await handlebarsUtils.isAdmin(user)
+            const isExternalAcces = await handlebarsUtils.isExternalAcces(user)
+            res.render('profile', {
+                user: req.session.user,
+                isAdmin,
+                isExternalAcces,
+                title: titleTag,
+                style: 'styles.css'
+            })
+        } catch (error) {
+            res.send({
+                error: "error",
+                message: error.message
+            })
+        }
     }
 
-    async register (req,res) {
-        const titleTag = 'Registro'
-        res.render('register', { 
-            title: titleTag,
-            style: 'styles.css'
-        })
-    }
+    async products (req, res, next) {
+        try {
+            const titleTag = 'Productos'
 
-    async products (req,res) {
-        const regex = /^[0-9]*$/;
-        const titleTag = 'Productos'
-    
-        let query = req.query.query
-        let limit = parseInt(req.query.limit)
-        let sort = req.query.sort
-        let { page = 1 } = req.query
-    
-        let isNumber = regex.test(page)
-        if(page < 0 || isNumber == false || page.length > 3) {
-            return res.status(400).send('Incorrect page value')
-        }
-    
-        let queryFilter = {}
-        if (query) {
-            queryFilter = JSON.parse(query)
-        }
-    
-        let limitOption = 10
-        if (limit) {
-            limitOption = limit
-        }
-    
-        let sortOption = {}
-        if (sort == 'asc') {
-            sortOption = { price: 1 }
-        } else if (sort == 'desc') {
-            sortOption = { price: -1 }
-        }
+            let user = req.session.user
+            const isAdmin = await handlebarsUtils.isAdmin(user)
+            const isExternalAcces = await handlebarsUtils.isExternalAcces(user)
+
+            const regex = /^[0-9]*$/
+            let query = req.query.query
+            let limit = parseInt(req.query.limit)
+            let sort = req.query.sort
+            let { page = 1 } = req.query
+
+            let isNumber = regex.test(page)
+            if(page < 0 || isNumber == false || page.length > 3) {
+                CustomError.createError({
+                    name: "Invalid query",
+                    message: "An error occurred trying to get HTTP query",
+                    cause: productQueryErrorInfo(query),
+                    errorCode: EError.INVALID_QUERY,
+                })
+            }
         
-        const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await productModel.paginate( 
-            queryFilter, 
-            { limit: limitOption, page: page, sort: sortOption, lean: true }
-        )
-    
-        let products = docs
-        let productsLength = products.length
-    
-        let searchError = ''
-        if (productsLength == 0) {
-            searchError = 'No se ha encontrado ningun producto con los filtros solicitados'
-        }
-    
-        let user = req.session.user
-        const isAdmin = user.role == 'admin' ? true : false
-        const isExternalAcces = user.password == '' ? true : false
-        const cid = user.cart._id
-        let cart = await cartModel.findById(cid).populate('products._id').lean()
-        products.forEach(product => {
-            product['cartId'] = cart._id
-        })
-        res.render('products', { 
-            title: titleTag,
-            style: 'styles.css',
-            products,
-            user,
-            isAdmin,
-            isExternalAcces,
-            searchError,
-            hasPrevPage,
-            hasNextPage,
-            prevPage,
-            nextPage
-        })
-    }
-
-    async chat (req,res) {
-        const titleTag = 'Online Chat'
-        let user = req.session.user
-        const isAdmin = user.role == 'admin' ? true : false
-        const isExternalAcces = user.password == '' ? true : false
+            let queryFilter = {}
+            if (query) {
+                queryFilter = JSON.parse(query)
+            }
         
-        res.render('chat', { 
-            title: titleTag,
-            style: 'styles.css',
-            user,
-            isAdmin,
-            isExternalAcces
-        })
+            let limitOption = 10
+            if (limit) {
+                limitOption = limit
+            }
+        
+            let sortOption = {}
+            if (sort == 'asc') {
+                sortOption = { price: 1 }
+            } else if (sort == 'desc') {
+                sortOption = { price: -1 }
+            }
+            
+            const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await productModel.paginate( queryFilter, 
+                { limit: limitOption, 
+                    page: page, 
+                    sort: sortOption, 
+                    lean: true }
+            )
+        
+            let products = docs
+            let productsLength = products.length
+        
+            let searchError = ''
+            if (productsLength == 0) {
+                searchError = 'No se ha encontrado ningun producto con los filtros solicitados'
+            }
+        
+            const cid = user.cart._id
+            products = await handlebarsUtils.addCartIdToProducts(cid, products)
+
+            res.render('products', { 
+                title: titleTag,
+                style: 'styles.css',
+                products,
+                user,
+                isAdmin,
+                isExternalAcces,
+                searchError,
+                hasPrevPage,
+                hasNextPage,
+                prevPage,
+                nextPage
+            })
+        } catch (error) {
+            next(error)
+        }
     }
 
-    async realTimeProducts (req,res) {
-        const titleTag = 'Real time products'
-        res.render('realTimeProducts', { 
-            title: titleTag,
-            style: 'styles.css'
-        })
+    async chat (req, res) {
+        try {
+            const titleTag = 'Online Chat'
+            let user = req.session.user
+            const isAdmin = await handlebarsUtils.isAdmin(user)
+            const isExternalAcces = await handlebarsUtils.isExternalAcces(user)
+            res.render('chat', { 
+                title: titleTag,
+                style: 'styles.css',
+                user,
+                isAdmin,
+                isExternalAcces
+            })
+        } catch (error) {
+            res.send({
+                error: "error",
+                message: error.message
+            })
+        }
     }
 
-    async cart (req,res) {
+    async realTimeProducts (req, res) {
+        try {
+            const titleTag = 'Real time products'
+            res.render('realTimeProducts', { 
+                title: titleTag,
+                style: 'styles.css'
+            })
+        } catch (error) {
+            res.send({
+                error: "error",
+                message: error.message
+            })
+        }
+    }
+
+    async cart (req, res) {
         const titleTag = 'Cart'
         try {
             let user = req.session.user
-            const isAdmin = user.role == 'admin' ? true : false
-            const isExternalAcces = user.password == '' ? true : false
+            const isAdmin = await handlebarsUtils.isAdmin(user)
+            const isExternalAcces = await handlebarsUtils.isExternalAcces(user)
             const cid = user.cart._id
-            let cart = await cartModel.findById(cid).populate('products._id').lean()
+            let cart = await cartsServices.getCartById(cid)
+            cart = cart.toObject()
             let productsInCart = cart.products
-            let totalPrices = []
-            productsInCart.forEach(product => {
-                let totalPriceItem = product._id.price * product.quantity
-                product["totalPrice"] = totalPriceItem
-                totalPrices.push(product.totalPrice)
-            })
-            let totalPricePucharse = 0
-            if (productsInCart.length > 0) {
-                totalPricePucharse = totalPrices.reduce((acc, price) => {
-                    return acc + price
-                })
-            }
+            const totalPricePucharse = await handlebarsUtils.totalPricePucharse(productsInCart)
             res.render('cart', { 
                 title: titleTag,
                 style: 'styles.css',
@@ -154,7 +193,10 @@ export default class ViewsController {
                 isExternalAcces
             })
         } catch (error) {
-            console.log(error.message)
+            res.send({
+                error: "error",
+                message: error.message
+            })
         }
     }
 }
