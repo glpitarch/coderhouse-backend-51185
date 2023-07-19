@@ -5,9 +5,9 @@ export const emailMailerAccount = config.gmail.emailMailerAccount
 const emailMailerPass = config.gmail.emailMailerPass
 
 const transporter = nodemailer.createTransport({
-    host:"smtp.gmail.com",
-    port:587,
-    auth:{
+    host: "smtp.gmail.com",
+    port: 587,
+    auth: {
         user: emailMailerAccount,
         pass: emailMailerPass
     },

@@ -13,6 +13,7 @@ import MongoStore from 'connect-mongo'
 import __dirname from './utils.js'
 import initializePassport from './config/passport-config.js'
 import { errorHandler } from './middlewares/error-handler.js'
+import { addLogger } from './helpers/logger/logger.js'
 
 /*-----//_ Mocking _//-----*/
 import mocksRouter from './routes/mocks-router.js'
@@ -63,7 +64,22 @@ initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
-/*-----//_ Routes for Mocks _//-----*/
+/*-----//_ Logger middleware _//-----*/
+app.use(addLogger)
+
+/*-----//_ prueba de loggs _//-----*/
+app.use('/loggerTest', (req, res) => {
+    req.logger.debug('debug logger test')
+    req.logger.http('http logger test')
+    req.logger.info('info logger test')
+    req.logger.warning('warning logger test')
+    req.logger.error('error logger test')
+    req.logger.fatal('fatal logger test')
+
+    res.send("Logger test")
+})
+
+/*-----//_ Route for Mocks _//-----*/
 app.use('/mockingproducts', mocksRouter)
 
 /*-----//_ Routes for MongoDB _//-----*/

@@ -2,7 +2,7 @@ import passport from 'passport'
 import local from 'passport-local'
 import userModel from './../dao/persistence/mongodb/models/user-model.js'
 import cartModel from './../dao/persistence/mongodb/models/carts-model.js'
-import { createHash, validatePassword } from '../utils.js'
+import { createHash, validatePassword } from './../utils.js'
 import GitHubStrategy from 'passport-github2'
 import { config } from './config.js'
 
@@ -11,7 +11,7 @@ const LocalStrategy = local.Strategy;
 const initializePassport = () => {
     passport.use('register', new LocalStrategy(
         { passReqToCallback: true, usernameField: 'email' }, 
-        async (req, username, password, done) =>{
+        async (req, username, password, done) => {
             const { first_name, last_name, email, age } = req.body
             try {
                 let user = await userModel.findOne({ email: username })
@@ -43,7 +43,7 @@ const initializePassport = () => {
         }
     ))
 
-    passport.serializeUser((user,done) => {
+    passport.serializeUser((user, done) => {
         done(null, user._id)
     })
 

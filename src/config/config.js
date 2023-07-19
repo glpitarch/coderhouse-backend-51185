@@ -13,6 +13,7 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET
 const CALLBACK_URL = process.env.CALLBACK_URL
 const MAILER_EMAIL = process.env.MAILER_EMAIL
 const MAILER_EMAIL_PASS = process.env.MAILER_EMAIL_PASS
+const ENVIRONMENT = process.env.ENVIRONMENT
 
 export const config = {
     server: {
@@ -37,5 +38,8 @@ export const config = {
     gmail: {
         emailMailerAccount: MAILER_EMAIL,
         emailMailerPass: MAILER_EMAIL_PASS
+    },
+    logger: {
+        environment: ENVIRONMENT
     }
 }

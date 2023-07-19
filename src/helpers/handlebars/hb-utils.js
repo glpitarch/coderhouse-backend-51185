@@ -1,5 +1,3 @@
-import { cartsServices } from "./../../dao/repositories/index.js"
-
 export default class HandlebarsUtils {
     async isAdmin (userSession) {
         return userSession.role == 'admin' ? true : false

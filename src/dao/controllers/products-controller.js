@@ -1,4 +1,4 @@
-import { productsServices } from '../repositories/index.js'
+import { productsServices } from './../repositories/index.js'
 import productModel from './../persistence/mongodb/models/products-model.js'
 import { CustomError } from './../../helpers/errors/custom-error.js'
 import { EError } from './../../helpers/errors/enums/EError.js'
@@ -21,7 +21,7 @@ export default class ProductsController {
             if( (!category || !title || !description || !price || !stock || !code) || (stock < 0 || price < 0 || !isStockNumber || !isPriceNumber) ){
                 CustomError.createError({
                     name: "Create product error",
-                    message: "An error occurred while processing your create product request",
+                    message: "An error occurred while processing your creation product request",
                     cause: createProductErrorInfo(req.body),
                     errorCode: EError.INVALID_JSON,
                 })
@@ -37,12 +37,14 @@ export default class ProductsController {
                 status
             }
             const productAdded = await productsServices.createProduct(newProduct)
+            req.logger.info('Product created successfully')
             res.json({
                 status: "success",
                 result: productAdded,
                 message: "product added"
             })
         } catch (error) {
+            req.logger.error('Product creation failed')
             next(error)
         }
     }

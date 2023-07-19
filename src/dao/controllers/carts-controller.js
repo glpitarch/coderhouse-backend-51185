@@ -26,6 +26,7 @@ export default class CartsController {
                 result: newCart
             }) 
         } catch (error) {
+            req.logger.fatal('The cart creation proccess has failed')
             next(error)
         }
     }

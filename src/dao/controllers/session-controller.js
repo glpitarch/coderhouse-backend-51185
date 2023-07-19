@@ -1,11 +1,10 @@
 import { validatePassword } from "./../../utils.js"
 import { config } from "./../../config/config.js"
 import GetSessionDataDto from "./../dto/session-data-dto.js"
-import { EError } from "../../helpers/errors/enums/EError.js"
-import { CustomError } from "../../helpers/errors/custom-error.js"
 
 export default class SessionController {
     async register (req, res, next) {
+        req.logger.info('User registered successfully')
         res.json({ 
             status: "succes", 
             message: "User registered"
@@ -13,6 +12,7 @@ export default class SessionController {
     }
 
     async registerFailed (req, res, next) {
+        req.logger.info('User registration failed')
             res.json({ 
                 status: "error", 
                 message: "User registration failed"
@@ -40,7 +40,6 @@ export default class SessionController {
                 role: role,
                 cart: req.user.cart
             }
-            
             res.json({
                 status: "success",
                 payload: req.user,
@@ -90,6 +89,7 @@ export default class SessionController {
                 payload: userSessionData
             })
         } catch (error) {
+            req.logger.error('Fail to GET session data')
             res.json({ 
                 status: "error", 
                 message: "Fail to GET session data"
@@ -102,6 +102,7 @@ export default class SessionController {
             req.session.user = req.user
             res.redirect('/products')
         } catch (error) {
+            req.logger.warning('github callback failed')
             res.json({ 
                 status: "error", 
                 message: error.message

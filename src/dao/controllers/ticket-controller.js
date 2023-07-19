@@ -91,6 +91,7 @@ export default class TicketController {
                 result: result
             })
         } catch (error) {
+            req.logger.error('An error occurred trying to create a purchase ticket')
             if (error.message === "An error occurred trying to get HTTP ID parameter" || error.message === "An error occurred trying to authenticate session") {
                 next(error)
             } else {

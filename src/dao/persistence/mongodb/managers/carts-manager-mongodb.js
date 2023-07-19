@@ -39,7 +39,7 @@ export class CartsManagerMongo {
         }
     }
 
-    async addProductToCart(cartId,productId) {
+    async addProductToCart(cartId, productId) {
         try {
             const isValidCartId = mongoose.Types.ObjectId.isValid(cartId)
             if (!isValidCartId) {

@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import { timestamp } from "../../../../utils.js"
+import { timestamp } from "./../../../../utils.js"
 
 const collection = 'ticket'
 

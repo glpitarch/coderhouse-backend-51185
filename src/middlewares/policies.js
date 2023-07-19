@@ -1,4 +1,4 @@
-export const handlePolicies = policies => (req,res,next) => {
+export const handlePolicies = policies => (req, res, next) => {
     const user = req.session.user
 
     if(policies.includes('PUBLIC')) {
