@@ -51,8 +51,8 @@ export default class ProductsController {
     
     async getProducts (req, res, next) {
         try {
-            const regex = /^[0-9]*$/;
-            let query = JSON.parse(req.query.query)
+            const regex = /^[0-9]*$/
+            let query = JSON.parse(req.query.query ?? '{}') 
             let limit = parseInt(query.limit)
             let sort = query.sort
             let page = query.page

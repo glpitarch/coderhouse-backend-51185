@@ -26,6 +26,7 @@ import cartsRouterMongo from './routes/carts-router-mongodb.js'
 import viewsRouterMongo from './routes/views-router-mongodb.js'
 import chatRouterMongo from './routes/chat-router-mongodb.js'
 import sessionRouter from './routes/sessions-router.js'
+import loggerRouter from './routes/logger-router.js'
 
 /*-----//_ fileSystem _//-----*/
 /* import productManager from './dao/persistence/file-system/managers/productManager.js'
@@ -67,18 +68,6 @@ app.use(passport.session())
 /*-----//_ Logger middleware _//-----*/
 app.use(addLogger)
 
-/*-----//_ prueba de loggs _//-----*/
-app.use('/loggerTest', (req, res) => {
-    req.logger.debug('debug logger test')
-    req.logger.http('http logger test')
-    req.logger.info('info logger test')
-    req.logger.warning('warning logger test')
-    req.logger.error('error logger test')
-    req.logger.fatal('fatal logger test')
-
-    res.send("Logger test")
-})
-
 /*-----//_ Route for Mocks _//-----*/
 app.use('/mockingproducts', mocksRouter)
 
@@ -88,6 +77,7 @@ app.use('/api/products', productsRouterMongo)
 app.use('/api/carts', cartsRouterMongo)
 app.use('/api/session', sessionRouter)
 app.use('/chat', chatRouterMongo)
+app.use('/loggerTest', loggerRouter)
 
 /*-----//_ All Routes middleware _//-----*/
 app.use(errorHandler)
