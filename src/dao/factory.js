@@ -5,6 +5,7 @@ const persistence = config.server.persistence
 let cartsDao
 let productsDao
 let ticketsDao
+let usersDao
 
 switch (persistence) {
     case "mongo":
@@ -14,6 +15,8 @@ switch (persistence) {
         productsDao = new ProductsManagerMongo()
         const { TicketManagerMongo } = await import("./persistence/mongodb/managers/ticket-manager-mongodb.js")
         ticketsDao = new TicketManagerMongo()
+        const { UsersManagerMongo } = await import("./persistence/mongodb/managers/users-manager-mongodb.js")
+        usersDao = new UsersManagerMongo()
     break
     
     case "file":
@@ -24,4 +27,4 @@ switch (persistence) {
     break
 }
 
-export { cartsDao, productsDao, ticketsDao }
+export { cartsDao, productsDao, ticketsDao, usersDao }

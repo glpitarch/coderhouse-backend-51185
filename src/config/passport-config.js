@@ -6,7 +6,7 @@ import { createHash, validatePassword } from './../utils.js'
 import GitHubStrategy from 'passport-github2'
 import { config } from './config.js'
 
-const LocalStrategy = local.Strategy;
+const LocalStrategy = local.Strategy
 
 const initializePassport = () => {
     passport.use('register', new LocalStrategy(

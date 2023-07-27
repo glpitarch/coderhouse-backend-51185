@@ -28,16 +28,16 @@ export default class SessionController {
                 })
             }
             
-            let role = 'user'
+            let role = req.user.role
             let isValid = validatePassword(config.auth.pass, req.user)
-            req.user.email == config.auth.email && isValid == true ? role = 'admin' : role = 'user'
+            req.user.email == config.auth.email && isValid == true ? role = 'admin' : role = req.user.role
         
             req.session.user = {
                 first_name: `${ req.user.first_name }`,
                 last_name: `${ req.user.last_name }`,
                 email: req.user.email,
                 age: req.user.age,
-                role: role,
+                role: req.user.role,
                 cart: req.user.cart
             }
             res.json({
@@ -70,7 +70,7 @@ export default class SessionController {
                         error: "Session could not be closed"
                     })
                 }
-                res.redirect('/');
+                res.redirect('/')
             })
         } catch (error) {
             res.json({ 

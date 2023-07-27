@@ -7,6 +7,7 @@ import { productQueryErrorInfo } from './../../helpers/errors/products/product-q
 import { idErrorInfo } from './../../helpers/errors/general/invalid-id-error.js'
 import { updateProductErrorInfo } from './../../helpers/errors/products/update-product-error.js'
 import { nonexistentIdErrorInfo } from './../../helpers/errors/general/nonexistent-id-error.js'
+import { rolePermissionErrorInfo } from './../../helpers/errors/users/role-permission-error.js'
 
 export default class ProductsController {
     async createProduct (req, res, next) {
@@ -26,6 +27,9 @@ export default class ProductsController {
                     errorCode: EError.INVALID_JSON,
                 })
             }
+            let owner = 'admin'
+            req.session.user.role == 'premium' ? owner = req.session.user.email : owner = 'admin'
+
             let newProduct = {
                 category,
                 title,
@@ -34,7 +38,8 @@ export default class ProductsController {
                 stock,
                 code,
                 thumbnail,
-                status
+                status,
+                owner
             }
             const productAdded = await productsServices.createProduct(newProduct)
             req.logger.info('Product created successfully')
@@ -232,6 +237,23 @@ export default class ProductsController {
                     message: "An error occurred trying to get HTTP ID parameter",
                     cause: idErrorInfo(id),
                     errorCode: EError.INVALID_PARAM,
+                })
+            }
+            const productToDelete = await productsServices.getProductById(id)
+            const productOwnerInfo = productToDelete.owner
+            if (req.session.user.role == 'premium' && productOwnerInfo == req.session.user.email) {
+                const productDeleted = await productsServices.deleteProduct(id)
+                res.json({
+                    status:"success",
+                    result: productDeleted
+                })
+            }
+            if (req.session.user.role != 'admin') {
+                CustomError.createError({
+                    name: "Delete product error",
+                    message: "An error occurred while processing your delete product request",
+                    cause: rolePermissionErrorInfo(req.session.user.role),
+                    errorCode: EError.AUTH_ERROR,
                 })
             }
             const productDeleted = await productsServices.deleteProduct(id)

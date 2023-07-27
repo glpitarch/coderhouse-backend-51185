@@ -7,19 +7,26 @@ const schema = new mongoose.Schema({
     last_name: String,
     email: {
             type: String,
+            required: true,
             unique: true
         },
     age: Number,
-    password: String,
+    password: {
+        type: String,
+        required: true
+    },
     cart: {
             _id: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'carts'
             }
         },
-    role: String
+    role: {
+        type: String,
+        required: true,
+    }
 })
 
 const userModel = mongoose.model(collection, schema);
 
-export default userModel;
+export default userModel

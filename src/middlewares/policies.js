@@ -4,16 +4,14 @@ export const handlePolicies = policies => (req, res, next) => {
     if(policies.includes('PUBLIC')) {
         return next()
     }
+    if(!user) {
+        return res.status(403).send('You must authenticate first to access this section')
+    }
     if(policies.includes('PRIVATE')) {
-        if(!user) {
-            return res.status(403).send('Not authorized')
-        } 
-        else {
-            return next()
-        }
+        return next()
     }
     if(policies.includes('ONLY_USERS')) {
-        if(!user || user.role == 'admin') {
+        if(user.role == 'admin') {
             return res.status(403).send('Not authorized')
         } 
         else {
@@ -21,23 +19,14 @@ export const handlePolicies = policies => (req, res, next) => {
         }
     }
     if(policies.includes('PREMIUM')) {
-        if(!user) {
-            return res.status(403).send('Not authorized')
-        } 
-        else if (user.role == 'premium')  {
+        if (user.role == 'premium')  {
             return next()
-        } else {
-            return res.status(403).send('Not authorized')
         }
     }
     if(policies.includes('ADMIN')) {
-        if(!user) {
-            return res.status(403).send('Not authorized')
-        } 
-        else if (user.role == 'admin')  {
+        if (user.role == 'admin')  {
             return next()
-        } else {
-            return res.status(403).send('Not authorized')
         }
     }
+    return res.status(403).send('Not authorized')
 }

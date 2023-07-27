@@ -1,9 +1,11 @@
 import { cartsServices } from './../repositories/index.js'
+import { productsServices } from '././../repositories/index.js'
 import { CustomError } from './../../helpers/errors/custom-error.js'
 import { EError } from './../../helpers/errors/enums/EError.js'
 import { idErrorInfo } from './../../helpers/errors/general/invalid-id-error.js'
 import { nonexistentIdErrorInfo } from './../../helpers/errors/general/nonexistent-id-error.js'
 import { newQuantityInCartErrorInfo } from './../../helpers/errors/carts/new-quantity-in-cart-error.js'
+import { premiumUserAddProductErrorInfo } from './../../helpers/errors/carts/premium-user-add-product-error.js'
 
 export default class CartsController {
     async getCarts (req, res, next) {
@@ -79,6 +81,23 @@ export default class CartsController {
                     cause: idErrorInfo(productId),
                     errorCode: EError.INVALID_PARAM,
                 })
+            }
+            if (req.session.user.role == 'premium') {
+                const product = await productsServices.getProductById(productId)
+                if (req.session.user.email == product.owner) {
+                    CustomError.createError({
+                        name: "Invalid ID param",
+                        message: "An error occurred trying to add a product to a cart",
+                        cause: premiumUserAddProductErrorInfo(productId, product.owner, req.session.user.email),
+                        errorCode: EError.AUTH_ERROR,
+                    })
+                } else {
+                    const updatedCart = await cartsServices.addProductToCart(cartId, productId)
+                    res.json({
+                        status: "success",
+                        result: updatedCart
+                    })
+                }
             }
             const updatedCart = await cartsServices.addProductToCart(cartId, productId)
             res.json({

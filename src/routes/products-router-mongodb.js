@@ -7,12 +7,12 @@ const productsController = new ProductsController()
 
 router.get('/', productsController.getProducts)
 
-router.post('/', handlePolicies(['ADMIN']), productsController.createProduct)
+router.post('/', handlePolicies(['ADMIN', 'PREMIUM']), productsController.createProduct)
 
 router.get('/:id', productsController.getProductById)
 
-router.put('/:id', handlePolicies(['ADMIN']), productsController.updateProduct)
+router.put('/:id', handlePolicies(['ADMIN', 'PREMIUM']), productsController.updateProduct)
 
-router.delete('/:id', handlePolicies(['ADMIN']), productsController.deleteProduct)
+router.delete('/:id', handlePolicies(['ADMIN', 'PREMIUM']), productsController.deleteProduct)
 
 export default router

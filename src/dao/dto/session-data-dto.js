@@ -4,7 +4,7 @@ class GetSessionDataDto {
             this.fullName = sessionData.first_name + ' ' + sessionData.last_name
         } else if (!sessionData.first_name) {
             this.last_name = sessionData.last_name
-        } else if (!sessionData.last) {
+        } else if (!sessionData.last_name) {
             this.first_name = sessionData.first_name
         }
         this.email = sessionData.email

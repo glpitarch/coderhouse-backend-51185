@@ -11,3 +11,4 @@
 {"level":"fatal","message":"fatal logger test"}
 {"level":"error","message":"error logger test"}
 {"level":"fatal","message":"fatal logger test"}
+{"level":"error","message":"Product creation failed"}
