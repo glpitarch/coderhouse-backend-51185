@@ -1,239 +1,220 @@
-/*----->_[ MARGIN ]_<-----*/
-.m-0 {
-    margin: 0;
-}
+/*||=====> MAX NUMBER OF CLASSES TO GENERATE <=====||*/
+$rem-values: 50; 
 
-.m-1 {
-    margin: 1rem;
-}
-
-.m-2 {
-    margin: 2rem;
-}
-
+/*||=====> MARGINS <=====||*/
 .m-02e5 {
     margin: 0.5rem;
 }
 
-/*----->_[ margin +Y-Y ]_<-----*/
-.my-1 {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+@for $i from 0 through $rem-values { 
+    .m-#{$i} {
+      margin: $i * 1rem; 
+    }
+  }
+
+/*||=====> MARGIN +Y-Y <=====||*/
+.my-02e5 {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
-.my-2 {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+@for $i from 0 through $rem-values { 
+  .my-#{$i} {
+    margin-top: $i * 1rem;
+    margin-bottom: $i * 1rem; 
+  }
 }
 
-/*----->_[ margin +Y ]_<-----*/
+/*||=====> MARGIN +Y <=====||*/
 .mt-02e5 {
     margin-top: 0.5rem;
 }
 
-.mt-1 {
-    margin-top: 1rem;
-}
+@for $i from 0 through $rem-values { 
+    .mt-#{$i} {
+      margin-top: $i * 1rem;
+    }
+  }
 
-.mt-2 {
-    margin-top: 2rem;
-}
-
-.mt-3 {
-    margin-top: 3rem;
-}
-
-/*----->_[ margin -Y ]_<-----*/
+/*||=====> MARGIN -Y <=====||*/
 .mb-02e5 {
     margin-bottom: 0.5rem;
 }
 
-.mb-1 {
-    margin-bottom: 1rem;
-}
+@for $i from 0 through $rem-values { 
+    .mb-#{$i} {
+      margin-bottom: $i * 1rem;
+    }
+  }
 
-.mb-2 {
-    margin-bottom: 2rem;
-}
-
-/*----->_[ margin -X]_<-----*/
-.ml-02e5 {
+/*||=====> MARGIN +X-X <=====||*/
+.mx-02e5 {
+    margin-right: 0.5rem;
     margin-left: 0.5rem;
 }
 
-/*----->_[ margin +X]_<-----*/
+@for $i from 0 through $rem-values { 
+    .mx-#{$i} {
+      margin-right: $i * 1rem;
+      margin-left: $i * 1rem;
+    }
+  }
+
+/*||=====> MARGIN +X <=====||*/
 .mr-02e5 {
     margin-right: 0.5rem;
 }
 
-.mr-1 {
-    margin-right: 1rem;
+@for $i from 0 through $rem-values { 
+    .mr-#{$i} {
+      margin-right: $i * 1rem;
+    }
+  }
+
+/*||=====> MARGIN -X <=====||*/
+.ml-02e5 {
+    margin-left: 0.5rem;
 }
 
-.mr-2 {
-    margin-right: 2rem;
-}
+@for $i from 0 through $rem-values { 
+    .ml-#{$i} {
+      margin-left: $i * 1rem;
+    }
+  }
 
-.mr-3 {
-    margin-right: 3rem;
-}
-
-.mr-4 {
-    margin-right: 4rem;
-}
-
-.mr-8 {
-    margin-right: 8rem;
-}
-
-.mr-10 {
-    margin-right: 13rem;
-}
-
-/*----->_[ margin +X-X]_<-----*/
-.mx-1 {
-    margin-left: 1rem;
-    margin-right: 1rem;
-}
-
-/*----->_[ padding ]_<-----*/
-.p-0 {
-    padding: 0;
-}
-
+/*||=====> PADDINGS <=====||*/
 .p-02e5 {
     padding: 0.5rem;
 }
 
-.p-1 {
-    padding: 1rem;
+@for $i from 0 through $rem-values { 
+    .p-#{$i} {
+      padding: $i * 1rem; 
+    }
+  }
+
+/*||=====> PADDING +Y-Y <=====||*/
+.py-02e5 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
-.p-2 {
-    padding: 2rem;
+@for $i from 0 through $rem-values { 
+  .py-#{$i} {
+    padding-top: $i * 1rem;
+    padding-bottom: $i * 1rem; 
+  }
 }
 
-.p-3 {
-    padding: 3rem;
+/*||=====> PADDING +Y-Y <=====||*/
+.py-02e5 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
-.p-5 {
-    padding: 5rem;
+@for $i from 0 through $rem-values { 
+  .py-#{$i} {
+    padding-top: $i * 1rem;
+    padding-bottom: $i * 1rem; 
+  }
 }
 
-/*----->_[ padding -Y ]_<-----*/
-.pb-0 {
-    padding-bottom: 0;
+/*||=====> PADDING +Y <=====||*/
+.pt-02e5 {
+    padding-top: 0.5rem;
 }
 
-.pb-1 {
-    padding-bottom: 1rem;
+@for $i from 0 through $rem-values { 
+  .pt-#{$i} {
+    padding-top: $i * 1rem;
+  }
 }
 
-/*----->_[ padding +X ]_<-----*/
-.pr-1 {
+/*||=====> PADDING -Y <=====||*/
+.pb-02e5 {
+    padding-bottom: 0.5rem;
+}
+
+@for $i from 0 through $rem-values { 
+  .pb-#{$i} {
+    padding-bottom: $i * 1rem; 
+  }
+}
+
+/*||=====> PADDING +X-X <=====||*/
+.px-02e5 {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+@for $i from 0 through $rem-values { 
+  .px-#{$i} {
+    padding-right: $i * 1rem;
+    padding-left: $i * 1rem; 
+  }
+}
+
+/*||=====> PADDING +X <=====||*/
+.pr-02e5 {
     padding-right: 0.5rem;
 }
 
-/*----->_[ padding +Y-Y ]_<-----*/
-.py-1 {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+@for $i from 0 through $rem-values { 
+  .pr-#{$i} {
+    padding-right: $i * 1rem;
+  }
 }
 
-.py-2 {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+/*||=====> PADDING -X <=====||*/
+.pl-02e5 {
+    padding-left: 0.5rem; 
 }
 
-/*----->_[ DIMENSION ]_<-----*/
-/*----->_[ width ]_<-----*/
-.w-1 {
-    width: 1rem;
+@for $i from 0 through $rem-values { 
+  .pl-#{$i} {
+    padding-left: $i * 1rem; 
+  }
 }
 
-.w-5 {
-    width: 5rem;
+/*||=====> DIMENSION <=====||*/
+/*||=====> WIDTH <=====||*/
+@for $i from 0 through $rem-values { 
+  .width-#{$i} {
+    width: $i * 1rem; 
+  }
 }
 
-/*----->_[ max width ]_<-----*/
-.max-w-5 {
-    max-width: 5rem;
+/*||=====> MAX WIDTH <=====||*/
+@for $i from 0 through $rem-values { 
+  .max-width-#{$i} {
+    max-width: $i * 1rem; 
+  }
 }
 
-.max-w-10 {
-    max-width: 10rem;
+/*||=====> MIN WIDTH <=====||*/
+@for $i from 0 through $rem-values { 
+  .min-width-#{$i} {
+    min-width: $i * 1rem; 
+  }
 }
 
-.max-w-15 {
-    max-width: 15rem;
+/*||=====> HEIGHT <=====||*/
+@for $i from 0 through $rem-values { 
+  .height-#{$i} {
+    height: $i * 1rem; 
+  }
 }
 
-.max-w-17 {
-    max-width: 17rem;
+/*||=====> MAX HEIGHT <=====||*/
+@for $i from 0 through $rem-values { 
+  .max-height-#{$i} {
+    max-height: $i * 1rem; 
+  }
 }
 
-.max-w-48 {
-    max-width: 48rem;
+/*||=====> MIN HEIGHT <=====||*/
+@for $i from 0 through $rem-values { 
+  .min-height-#{$i} {
+    min-height: $i * 1rem; 
+  }
 }
-
-/*----->_[ min width ]_<-----*/
-.min-w-1 {
-    min-width: 1rem;
-}
-
-.min-w-5 {
-    min-width: 5rem;
-}
-
-.min-w-8 {
-    min-width: 8rem;
-}
-
-.min-w-15 {
-    min-width: 15rem;
-}
-
-/*----->_[ height ]_<-----*/
-.h-2 {
-    height: 2rem;
-}
-
-/*----->_[ max height ]_<-----*/
-.max-h-1 {
-    max-height: 1rem;
-}
-
-.max-h-2 {
-    max-height: 2rem;
-}
-
-/*----->_[ min height ]_<-----*/
-.min-h-2 {
-    min-height: 2rem;
-}
-
-.min-h-3 {
-    min-height: 3rem;
-}
-
-.min-h-5 {
-    min-height: 5rem;
-}
-
-.min-h-10 {
-    min-height: 10rem;
-}
-
-.min-h-12 {
-    min-height: 12rem;
-}
-
-.min-h-15 {
-    min-height: 15rem;
-}
-
-.min-h-50 {
-    min-height: 50rem;
-}
-

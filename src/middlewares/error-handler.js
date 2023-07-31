@@ -39,8 +39,8 @@ export const errorHandler = (error, req, res, next) => {
             break
         default:
             res.json({
-                status: "error", 
-                message: "An error has ocurred, please contact support."
+                status: 'error', 
+                message: `An error has ocurred: ${error.message}, please contact support.`
             })
             break
     }

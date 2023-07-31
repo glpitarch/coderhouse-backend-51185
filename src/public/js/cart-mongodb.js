@@ -28,15 +28,15 @@ checkoutButton.addEventListener('click', () => {
         if (response.ok) {
             console.log(userEmail)
             fetch('/api/carts/purchase/email/confirmation', {
-                method: 'GET',
+                method: 'POST',
+                body: JSON.stringify({ email: userEmail}),
                 headers: {
-                    'Content-Type': 'application/json',
-                    'User-Email': userEmail 
+                    'Content-Type': 'application/json'
                   }
             })
                 .then(response => {
                     if (response.ok) {
-                        window.location.replace('/cart')
+                      window.location.replace('/successfully-user-request')
                     }
                 })        
                 .catch(error => {

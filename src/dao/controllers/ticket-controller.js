@@ -118,12 +118,12 @@ export default class TicketController {
 
     async purchaseEmail (req, res) {
         try {
-            const userEmail = req.headers['user-email']
-            console.log(userEmail)
+            const userEmail = req.body
+            req.logger.info(userEmail)
             purchaseEmailTemplate
             const email = await transporter.sendMail({
                 from: emailMailerAccount,
-                to: userEmail,
+                to: userEmail.email,
                 subject: "Confirmación de pedido",
                 html: purchaseEmailTemplate
             })

@@ -19,17 +19,6 @@ export default class HandlebarsUtils {
         }
     }
 
-    async addCartIdToProducts (cid, products) {
-        try {
-            products.forEach(product => {
-                product['cartId'] = cid
-            })
-            return products
-        } catch (error) {
-            return error.message
-        }
-    }
-
     async totalPricePucharse (productsInCart) {
         try {
             let totalPrices = []

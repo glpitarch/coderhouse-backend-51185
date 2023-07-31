@@ -17,7 +17,7 @@ router.post('/:cid/product/:pid', handlePolicies(['ONLY_USERS']), cartsControlle
 
 router.post('/:cid/purchase', ticketController.createTicket)
 
-router.get('/purchase/email/confirmation', ticketController.purchaseEmail)
+router.post('/purchase/email/confirmation', ticketController.purchaseEmail)
 
 router.put('/:cid/product/:pid', cartsController.updateProductQuantityInCart)
 

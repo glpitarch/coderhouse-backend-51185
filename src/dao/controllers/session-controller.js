@@ -1,6 +1,9 @@
-import { validatePassword } from "./../../utils.js"
+import { validatePassword, createHash } from "./../../utils.js"
 import { config } from "./../../config/config.js"
 import GetSessionDataDto from "./../dto/session-data-dto.js"
+import userModel from "../persistence/mongodb/models/user-model.js"
+import { generateEmailToken, verifyEmailToken } from "./../../helpers/token/token-functions.js"
+import { sendResetPassword } from "./../../helpers/email/reset-password.js"
 
 export default class SessionController {
     async register (req, res, next) {
@@ -70,12 +73,65 @@ export default class SessionController {
                         error: "Session could not be closed"
                     })
                 }
-                res.redirect('/')
+                return res.redirect('/')
             })
         } catch (error) {
             res.json({ 
                 status: "error", 
                 message: "logout failed"
+            })
+        }
+    }
+
+    async forgottenPassword (req, res, next) {
+        try {
+            const { email } = req.body
+            const user = await userModel.findOne({ email: email})
+            if(!user){
+                return res.status(400).json({
+                    status: "error",
+                    error: "User does not exist"
+                })
+            }
+            const token = generateEmailToken(email, 3600)
+            await sendResetPassword(email, token)
+            return res.redirect('/reset-password-mail')
+        } catch (error) {
+            res.json({ 
+                status: "error", 
+                message: error.message
+            })
+        }
+    }
+
+    async resetPassword (req, res, next) {
+        try {
+            const token = req.query.token
+            const { email, newPassword } = req.body
+            const validEmail = verifyEmailToken(token) 
+            if (!validEmail){
+                return res.redirect('/reset-password-expired-token-mail')
+            }
+            const user = await userModel.findOne({ email: email})
+            if (!user){
+                return res.status(400).json({
+                    status: "error",
+                    error: "User does not exist"
+                })
+            }
+            if (validatePassword(newPassword, user)) {
+                return res.send("No puedes usar la misma contraseña.")
+            }
+            const userData = {
+                ...user._doc,
+                password: createHash(newPassword)
+            }
+            await userModel.findOneAndUpdate({ email: email }, userData)
+            return res.redirect('/successfully-user-request')
+        } catch (error) {
+            res.json({ 
+                status: "error", 
+                message: error.message
             })
         }
     }

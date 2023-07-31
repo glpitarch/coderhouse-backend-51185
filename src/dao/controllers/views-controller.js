@@ -38,6 +38,83 @@ export default class ViewsController {
         }
     }  
 
+    async forgottenPassword (req, res) {
+        try {
+            const titleTag = 'Contraseña olvidada'
+            res.render('forgotten-password', { 
+                title: titleTag,
+                style: 'styles.css'
+            })
+        } catch (error) {
+            res.send({
+                error: "error",
+                message: error.message
+            })
+        }
+    }
+
+    async resetPasswordMailConfirmation (req, res) {
+        try {
+            const titleTag = 'Email confirmation'
+            res.render('reset-password-mail', { 
+                title: titleTag,
+                style: 'styles.css'
+            })
+        } catch (error) {
+            res.send({
+                error: "error",
+                message: error.message
+            })
+        }
+    }
+
+    async resetPasswordMailExpired (req, res) {
+        try {
+            const titleTag = 'Password link expired'
+            res.render('reset-password-expired-token-mail', { 
+                title: titleTag,
+                style: 'styles.css'
+            })
+        } catch (error) {
+            res.send({
+                error: "error",
+                message: error.message
+            })
+        }
+    }
+
+    async resetPassword (req, res) {
+        try {
+            const titleTag = 'Restablecer contraseña'
+            const token = req.query.token
+            res.render('reset-password', { 
+                title: titleTag,
+                style: 'styles.css',
+                token: token
+            })
+        } catch (error) {
+            res.send({
+                error: "error",
+                message: error.message
+            })
+        }
+    }
+
+    async successfullyUserRequest (req, res) {
+        try {
+            const titleTag = 'Petición exitosa'
+            res.render('successfully-user-request', { 
+                title: titleTag,
+                style: 'styles.css'
+            })
+        } catch (error) {
+            res.send({
+                error: "error",
+                message: error.message
+            })
+        }
+    }
+
     async profile (req, res) {
         try {
             const titleTag = 'Perfil'

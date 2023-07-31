@@ -16,6 +16,10 @@ router.get('/loginFailed', sessionController.loginFailed)
 
 router.get('/logout', sessionController.logout)
 
+router.post('/forgotten-password', sessionController.forgottenPassword)
+
+router.post('/reset-password', sessionController.resetPassword)
+
 router.get('/current', authSession, sessionController.currentSessionData)
 
 router.get('/github', passport.authenticate('github'))
