@@ -13,7 +13,7 @@ export default class CartsController {
             const carts = await cartsServices.getCarts()
             res.json({
                 status: "success",
-                result: carts
+                payload: carts
         })
         } catch (error) {
             next(error)
@@ -25,7 +25,7 @@ export default class CartsController {
             const newCart = await cartsServices.createCart()
             res.json({
                 status: "success",
-                result: newCart
+                payload: newCart
             }) 
         } catch (error) {
             req.logger.fatal('The cart creation proccess has failed')
@@ -55,7 +55,7 @@ export default class CartsController {
             }
             res.json({
                 status: "success",
-                result: cart
+                payload: cart
             })
         } catch (error) {
             next(error)
@@ -95,14 +95,14 @@ export default class CartsController {
                     const updatedCart = await cartsServices.addProductToCart(cartId, productId)
                     res.json({
                         status: "success",
-                        result: updatedCart
+                        payload: updatedCart
                     })
                 }
             }
             const updatedCart = await cartsServices.addProductToCart(cartId, productId)
             res.json({
                 status: "success",
-                result: updatedCart
+                payload: updatedCart
             })
         } catch (error) {
             if (error.message === "An error occurred trying to get HTTP ID parameter") {
@@ -148,7 +148,7 @@ export default class CartsController {
             const updatedCart = await cartsServices.updateProductQuantityInCart(cartId, productId, newQuantity)
             res.json({
                 status: "success",
-                result: updatedCart
+                payload: updatedCart
             })
         } catch (error) {
             if (error.message === "An error occurred trying to get HTTP ID parameter" || error.message === "An error occurred trying to update product quantity in cart") {
@@ -177,7 +177,7 @@ export default class CartsController {
             const updatedCart = await cartsServices.updateFullCart(cartId, productsList)
             res.json({
                 status: "success",
-                result: updatedCart
+                payload: updatedCart
             })
         } catch (error) {
             if (error.message === "An error occurred trying to get HTTP ID parameter") {
@@ -205,7 +205,7 @@ export default class CartsController {
             let updatedCart = await cartsServices.deleteEveryProductInCart(cartId)
             res.json({
                 status: "success",
-                result: updatedCart
+                payload: updatedCart
             })
         } catch (error) {
             if (error.message === "An error occurred trying to get HTTP ID parameter") {
@@ -242,7 +242,7 @@ export default class CartsController {
             let updatedCart = await cartsServices.deleteProductInCart(cartId, productId)
             res.json({
                 status: "success",
-                result: updatedCart
+                payload: updatedCart
             })
         } catch (error) {
             if (error.message === "An error occurred trying to get HTTP ID parameter") {

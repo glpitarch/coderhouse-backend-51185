@@ -6,7 +6,7 @@ export default class UsersController {
             const users = await usersServices.getUsers()
             res.json({
                 status: "success",
-                result: users
+                payload: users
             })
         } catch (error) {
             req.logger.error('GET users failed')
@@ -20,7 +20,7 @@ export default class UsersController {
             const user = await usersServices.getUserById(uid)
             res.json({
                 status: "success",
-                result: user
+                payload: user
             })
         } catch (error) {
             throw new Error(error.message)
@@ -33,7 +33,7 @@ export default class UsersController {
             const updatedUser = await usersServices.changeUserRole(uid)
             res.json({
                 status: "success",
-                result: updatedUser
+                payload: updatedUser
             })
         } catch (error) {
             req.logger.error(

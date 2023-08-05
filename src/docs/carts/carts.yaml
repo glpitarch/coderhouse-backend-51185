@@ -1,0 +1,378 @@
+paths:
+  /api/carts/:
+    get:
+      summary: Obtener todos los carritos.
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Los carritos se obtuvieron correctamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: array
+                    $ref: "#components/schemas/Carts"
+        "500":
+          description: Error interno del servidor.
+    post:
+      summary: Crear un carrito.
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Carrito creado correctamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: object
+                    properties:
+                      products:
+                        type: array
+                        example: '[]'
+                      _id:
+                        type: ObjectId
+                        example: 64c0494a349a2e5f44594234
+        "500":
+          description: Error interno del servidor. La creación del carrito falló.
+  /api/carts/{cid}:
+    get:
+      summary: Obtener un carrito mediante su ID { cid }.
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito que desea obtener.
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: El carrito se obtuvo correctamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: object
+                    properties:
+                      products:
+                        type: array
+                        example: '[]'
+                      _id:
+                        type: ObjectId
+                        example: 64c0494a349a2e5f44594234
+        "500":
+          description: Error interno del servidor.
+    put:
+      summary: Obtener un carrito mediante su ID { cid } y actualizar la totalidad de su contenido (productos) con una lista de productos. De no existir algún producto de la lista de productos dentro del carrito, los mismos serán agregados. De existir algún producto de la lista de productos dentro del carrito, se adicionará a la cantidad del producto preexistente en el carrito.
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito que desea actualizar.
+          schema:
+            $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/UpdateFullCart"                                   
+      responses:
+        "200":
+          description: El carrito se actualizó correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responses/modifiedSuccess"
+        "500":
+          description: Error interno del servidor. El carrito no pudo actualizarse.
+    delete:
+      summary: Eliminar un carrito mediante su ID { cid }.
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito que desea eliminar.
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: El carrito se eliminó correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responses/deleteSuccess"
+        "500":
+          description: Error interno del servidor. El carrito no pudo eliminarse.
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: Agrega un producto identificado por su ID { pid } a un carrito identificado por su ID { cid }.
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito que desea actualizar.
+          schema:
+            $type: string
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto que desea agregar al carrito.
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: Carrito actualizado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responses/modifiedSuccess"
+        "401":
+          description: Error por falta de permisos.
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Not authorized
+        "500":
+          description: Error interno del servidor. La actualización del carrito falló.
+    put:
+      summary: Actualiza la cantidad presente de un producto identificado por su ID { pid } de un carrito identificado por su ID { cid }.
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito que desea actualizar.
+          schema:
+            $type: string
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto que desea actualizar del carrito.
+          schema:
+            $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/UpdateProductQuantity"
+      responses:
+        "200":
+          description: Carrito actualizado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responses/modifiedSuccess"
+        "401":
+          description: Error por falta de permisos.
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Not authorized
+        "500":
+          description: Error interno del servidor. La actualización del carrito falló.
+    delete:
+      summary: Elimina un producto identificado por su ID { pid } de un carrito identificado por su ID { cid }.
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito que desea actualizar.
+          schema:
+            $type: string
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto que desea actualizar del carrito.
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: Producto eliminado del carrito correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responses/deleteSuccess"
+        "500":
+          description: Error interno del servidor. No se pudo eliminar el producto del carrito.  
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Crear un ticket con el precio total de la suma de todos los productos presentes en un carrito identificado con ID { cid } y el email del usuario asociado a dicho carrito.
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito asociado al usuario que realizó el pedido de compra.
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: Ticket creado correctamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#components/schemas/Ticket"
+        "401":
+          description: Error por falta de permisos.
+        "500":
+          description: Error interno del servidor. La creación del ticket falló.
+  /api/carts/purchase/email/confirmation:
+    post:
+      summary: Envio de mail de confirmación de recepeción de pedido de compra al email asociado en el carrito del usuario que realizó la compra.
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Mail enviado correctamente.
+        "500":
+          description: Error interno del servidor. El envio del mail falló.
+
+components:
+  schemas:
+    Carts:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID del producto.
+        products:
+          type: array
+          require: true
+          description: Productos dentro del carrito.
+      example:
+        _id: ObjectId('64a083c9c88b8cbb1a9b42c0')
+        products: [
+          {
+            _id: "64611fb9263348ab32189694",
+            quantity: 10
+          },
+          {
+            _id: "6461203e263348ab32189698",
+            quantity: 5
+          }
+        ]
+    Ticket:
+      type: object
+      properties:
+        code:
+          type: string
+          description: ID del ticket
+        purchase_datatime:
+          type: string
+          description: Fecha y hora de la creación del ticket (pedido de compra).
+        amount:
+          type: number
+          description: Precio total de la compra.
+        purchaser:
+          type: string
+          description: Mail del usuario que realizó el pedido de compra.
+      example:
+        code: 6ce39c51-0c1b-4b27-86a7-98ae889d3230
+        purchase_datatime: "Fecha: 6/7/2023 - Hora: 18:26:16"
+        amount: 1750
+        purchaser: "mail_ejemplo@servidor.com"
+  requestBodies:
+    UpdateFullCart:
+      type: array
+      properties:
+        products:
+          type: object
+          description: Productos para actualizar cantidades en el carrito.
+      example:      
+          _id: "646124868ccb2c03e992b260"
+          quantity: 1
+    UpdateProductQuantity:
+      type: object
+      properties:
+        quantity:
+          type: number
+          description: Valor que actualizará la cantidad actual del producto en el carrito.
+      example:      
+          quantity: 7
+  responses:
+    modifiedSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        payload:
+          type: object
+          properties:
+            acknowledged:
+              type: boolean
+              example: true
+            modifiedCount:
+              type: number
+              example: 1
+            upsertedId:
+              type: number
+              example: null
+            upsertedCount:
+              type: number
+              example: 0
+            matchedCount:
+              type: number
+              example: 1
+    deleteSuccess:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        payload:
+          type: object
+          properties:
+            acknowledged:
+              type: boolean
+              example: true
+            modifiedCount:
+              type: number
+              example: 0
+            upsertedId:
+              type: number
+              example: null
+            upsertedCount:
+              type: number
+              example: 0
+            matchedCount:
+              type: number
+              example: 1
+
+       
+
+        
+      

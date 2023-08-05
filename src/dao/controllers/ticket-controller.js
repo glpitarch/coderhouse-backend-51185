@@ -13,7 +13,7 @@ export default class TicketController {
             const tickets = await ticketServices.getTickets()
             res.json({
                 status: "success",
-                result: tickets
+                payload: tickets
         })
         } catch (error) {
             next(error)
@@ -34,7 +34,7 @@ export default class TicketController {
             const result = await ticketServices.checkOutProductsQuantity(cartId)
             res.json({
                 status: "success",
-                result: result
+                payload: result
             }) 
         } catch (error) {
             next(error)
@@ -88,7 +88,7 @@ export default class TicketController {
             await cartsServices.cleaningCartPostPurchase(cartId, inStock)
             res.json({
                 status: "success",
-                result: result
+                payload: result
             })
         } catch (error) {
             req.logger.error('An error occurred trying to create a purchase ticket')
@@ -109,7 +109,7 @@ export default class TicketController {
             const ticket = await ticketServices.getTicketById(tid)
             res.json({
                 status: "success",
-                result: ticket
+                payload: ticket
             })
         } catch (error) {
             next(error)

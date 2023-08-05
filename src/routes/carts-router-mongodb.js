@@ -13,18 +13,18 @@ router.get('/', cartsController.getCarts)
 
 router.get('/:cid', cartsController.getCartById)
 
-router.post('/:cid/product/:pid', handlePolicies(['ONLY_USERS']), cartsController.addProductToCart)
-
-router.post('/:cid/purchase', ticketController.createTicket)
-
-router.post('/purchase/email/confirmation', ticketController.purchaseEmail)
-
-router.put('/:cid/product/:pid', cartsController.updateProductQuantityInCart)
-
 router.put('/:cid', cartsController.updateFullCart)
 
 router.delete('/:cid', cartsController.deleteEveryProductInCart)
 
-router.delete('/:cid/products/:pid', cartsController.deleteProductInCart)
+router.post('/:cid/product/:pid', handlePolicies(['ONLY_USERS']), cartsController.addProductToCart)
+
+router.put('/:cid/product/:pid', cartsController.updateProductQuantityInCart)
+
+router.delete('/:cid/product/:pid', cartsController.deleteProductInCart)
+
+router.post('/:cid/purchase', ticketController.createTicket)
+
+router.post('/purchase/email/confirmation', ticketController.purchaseEmail)
 
 export default router

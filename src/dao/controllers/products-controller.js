@@ -45,7 +45,7 @@ export default class ProductsController {
             req.logger.info('Product created successfully')
             res.json({
                 status: "success",
-                result: productAdded,
+                payload: productAdded,
                 message: "product added"
             })
         } catch (error) {
@@ -143,7 +143,7 @@ export default class ProductsController {
                         }
                         res.status(400).json({
                             status: "error",
-                            result: resultInfo
+                            payload: resultInfo
                         })
                     } else {
                         const resultInfo = {
@@ -160,7 +160,7 @@ export default class ProductsController {
                         }
                         res.status(200).json({
                             status: "success",
-                            result: resultInfo
+                            payload: resultInfo
                         })
                     }
             })
@@ -191,7 +191,7 @@ export default class ProductsController {
             }
             res.status(200).json({
                 status: "success",
-                result: product
+                payload: product
             })
         } catch (error) {
             next(error)
@@ -210,8 +210,7 @@ export default class ProductsController {
                 })
             }
             const valuesToUpdate = req.body
-            const productUpdated = await productsServices.updateProduct(id, valuesToUpdate)
-            if (productUpdated === null || valuesToUpdate.stock < 0 || valuesToUpdate.price < 0 || (valuesToUpdate.status != true && valuesToUpdate.status != false)) {
+            if (valuesToUpdate === null || valuesToUpdate.stock < 0 || valuesToUpdate.price < 0 || (valuesToUpdate.status != true && valuesToUpdate.status != false)) {
                 CustomError.createError({
                     name: "Update product error",
                     message: "An error occurred while processing your update product request",
@@ -219,10 +218,12 @@ export default class ProductsController {
                     errorCode: EError.INVALID_JSON,
                 })
             }
+            const productUpdated = await productsServices.updateProduct(id, valuesToUpdate)
             res.json({
                 status:"success",
-                result: productUpdated,
-                message: "product successfully updated"})
+                payload: productUpdated,
+                message: "product successfully updated"
+            })
         } catch (error) {
             next(error)
         }
@@ -245,7 +246,7 @@ export default class ProductsController {
                 const productDeleted = await productsServices.deleteProduct(id)
                 res.json({
                     status:"success",
-                    result: productDeleted
+                    payload: productDeleted
                 })
             }
             if (req.session.user.role != 'admin') {
@@ -267,7 +268,8 @@ export default class ProductsController {
             }
             res.json({
                 status:"success",
-                result: productDeleted
+                payload: productDeleted,
+                message: "product successfully deleted"
             })
         } catch (error) {
             next(error)

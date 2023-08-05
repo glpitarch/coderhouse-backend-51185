@@ -14,6 +14,9 @@ import __dirname from './utils.js'
 import initializePassport from './config/passport-config.js'
 import { errorHandler } from './middlewares/error-handler.js'
 import { addLogger } from './helpers/logger/logger.js'
+import { swaggerSpecs } from './config/doc-config.js'
+import swaggerUi from 'swagger-ui-express'
+import path from 'path'
 
 /*-----//_ MongoDB _//-----*/
 import productModel from './dao/persistence/mongodb/models/products-model.js'
@@ -35,7 +38,7 @@ app.use(express.urlencoded({extended:true}))
 
 /*-----//_ Handlebars configuration _//-----*/
 app.engine('handlebars', handlebars.engine())
-app.set('views', __dirname + '/views')
+app.set('views', path.join(__dirname,'/views'))
 app.set('view engine', 'handlebars')
 
 /*-----//_ Database connection  _//-----*/
@@ -78,6 +81,7 @@ app.use('/api/session', sessionRouter)
 app.use('/chat', chatRouterMongo)
 app.use('/loggerTest', loggerRouter)
 app.use('/mockingproducts', mocksRouter) 
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs))
 
 /*-----//_ All Routes error handler middleware _//-----*/
 app.use(errorHandler)

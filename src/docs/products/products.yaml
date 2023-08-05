@@ -1,0 +1,324 @@
+paths:
+  /api/products/:
+    get:
+      summary: Obtener todos los productos.
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Los productos se obtuvieron correctamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: array
+                    $ref: "#components/schemas/Products"
+                  totalPages:
+                    type: number
+                    example: 2
+                  prevPage:
+                    type: number
+                    example: null
+                  nextPage:
+                    type: number
+                    example: 2
+                  page:
+                    type: number
+                    example: 1
+                  hasPrevPage:
+                    type: boolean
+                    example: false
+                  hasNextPage: 
+                    type: boolean
+                    example: true
+                  prevLink: 
+                    type: string
+                    example: null
+                  nextLink: 
+                    type: string
+                    example: http://localhost:8080/api/products?page=2&limit=10 
+        "500":
+          description: Error interno del servidor.
+    post:
+      summary: Crear un producto.
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/CreateProduct"
+      responses:
+        "200":
+          description: Producto creado correctamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    $ref: "#components/schemas/Products"
+                  message:
+                    type: string
+                    example: product added
+        "401":
+          description: Error por falta de permisos.
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Not authorized
+        "500":
+          description: Error interno del servidor. La creación del producto falló.
+  /api/products/{id}:
+    get:
+      summary: Obtener un producto mediante su ID { id }.
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del producto que desea obtener.
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: El producto se obtuvo correctamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    $ref: "#components/schemas/Products"
+        "500":
+          description: Error interno del servidor.
+    put:
+      summary: Actualizar campo/s de un producto identificado por su ID { id }.
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del producto que desea actualizar.
+          schema:
+            $type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/UpdateProduct"
+      responses:
+        "200":
+          description: Producto actualizado correctamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    $ref: "#components/schemas/Products"
+                  message:
+                    type: string
+                    example: product successfully updated
+        "401":
+          description: Error por falta de permisos.
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Not authorized
+        "500":
+          description: Error interno del servidor. La creación del producto falló.
+    delete:
+      summary: Eliminar un producto identificado por su ID { id }.
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del producto que desea eliminar.
+          schema:
+            $type: string
+      responses:
+        "200":
+          description: Producto eliminado correctamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    $ref: "#components/schemas/Products"
+                  message:
+                    type: string
+                    example: product successfully deleted
+        "401":
+          description: Error por falta de permisos.
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Not authorized
+        "500":
+          description: Error interno del servidor. No se pudo eliminar el producto.  
+
+components:
+  schemas:
+    Products:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID del producto.
+        category:
+          type: string
+          require: true
+          description: Categoria del producto.
+        title:
+          type: string
+          require: true
+          description: Nombre del producto.
+        description:
+          type: string
+          require: true
+          description: Descripción del producto.
+        price:
+          type: number
+          require: true
+          description: Precio del producto.
+        stock:
+          type: number
+          require: true
+          description: Precio del producto.
+        code:
+          type: string
+          require: true
+          unique: true
+          description: Código del producto.
+        thumbnail:
+          type: array
+          description: Imagen del producto.
+        status:
+          type: boolean
+          description: Disponibilidad del producto.
+        owner:
+          type: string
+          default: 'admin'
+          description: Creador del producto.
+      example:
+        _id: ObjectId('64611fb9263348ab32189694')
+        category: Sahumerio
+        title: Sahumerio con palo santo
+        description: Sahumerio artesanal con esencia natural de palo santo.
+        price: 800
+        stock: 100
+        code: 01a0103
+        thumbnail: "./images/01a0102.png"
+        status: true
+        owner: 'premium'
+  requestBodies:
+    CreateProduct:
+      type: object
+      properties:
+        category:
+          type: string
+          require: true
+          description: Categoria del producto.
+        title:
+          type: string
+          require: true
+          description: Nombre del producto.
+        description:
+          type: string
+          require: true
+          description: Descripción del producto.
+        price:
+          type: number
+          require: true
+          description: Precio del producto. Debe ser mayor a 0.
+        stock:
+          type: number
+          require: true
+          description: Precio del producto. Debe ser mayor a 0.
+        code:
+          type: string
+          require: true
+          unique: true
+          description: Código del producto.
+        thumbnail:
+          type: array
+          require: false
+          description: Directorio de la imagen del producto.
+        status:
+          type: boolean
+          require: false
+          description: Disponibilidad del producto.
+      example:
+        category: Sahumerio
+        title: Sahumerio con palo santo
+        description: Sahumerio artesanal con esencia natural de palo santo
+        price: 800
+        stock: 100
+        code: 01a0102
+        thumbnail: "./images/01a0102.png"
+        status: true
+    UpdateProduct:
+      type: object
+      properties:
+        category:
+          type: string
+          description: Categoria del producto.
+        title:
+          type: string
+          description: Nombre del producto.
+        description:
+          type: string
+          description: Descripción del producto.
+        price:
+          type: number
+          description: Precio del producto. Debe ser mayor a 0.
+        stock:
+          type: number
+          description: Precio del producto. Debe ser mayor a 0.
+        code:
+          type: string
+          unique: true
+          description: Código del producto.
+        thumbnail:
+          type: array
+        status:
+          type: boolean
+      example:
+        category: Sahumerio
+        title: Sahumerio con palo santo
+        description: Sahumerio artesanal con esencia natural de palo santo
+        price: 800
+        stock: 100
+        code: 01a0102
+        thumbnail: "./images/01a0102.png"
+        status: true
+
+  
