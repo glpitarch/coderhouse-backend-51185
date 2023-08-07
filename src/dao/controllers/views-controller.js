@@ -23,6 +23,36 @@ export default class ViewsController {
         }
     }
 
+    async registerFailed (req, res) {
+        try {
+            const titleTag = 'Registro fallido'
+            res.render('register-failed', { 
+                title: titleTag,
+                style: 'styles.css'
+            })
+        } catch (error) {
+            res.send({
+                error: "error",
+                message: error.message
+            })
+        }
+    }
+
+    async registerSuccess (req, res) {
+        try {
+            const titleTag = 'Registro exitoso'
+            res.render('register-success', { 
+                title: titleTag,
+                style: 'styles.css'
+            })
+        } catch (error) {
+            res.send({
+                error: "error",
+                message: error.message
+            })
+        }
+    }
+
     async login (req, res) {
         try {
             const titleTag = 'login'

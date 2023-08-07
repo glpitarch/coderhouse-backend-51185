@@ -10,6 +10,10 @@ router.get('/', handlePolicies(['PUBLIC']), viewsController.login)
 
 router.get('/register', handlePolicies(['PUBLIC']), viewsController.register)
 
+router.get('/register-success', viewsController.registerSuccess)
+
+router.get('/register-failed', viewsController.registerFailed)
+
 router.get('/forgotten-password', handlePolicies(['PUBLIC']), viewsController.forgottenPassword)
 
 router.get('/reset-password-mail', handlePolicies(['PUBLIC']), viewsController.resetPasswordMailConfirmation)

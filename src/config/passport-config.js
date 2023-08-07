@@ -89,11 +89,11 @@ const initializePassport = () => {
                         last_name: null,
                         email: profile.emails[0].value,
                         age: null,
-                        password: '',
+                        password: 'github',
                         cart: newCart,
                         role: 'user'
                 }
-                const result = await userModel.create(newUser);
+                const result = await userModel.create(newUser)
                 done(null, result)
             } else {
                 done(null, user)

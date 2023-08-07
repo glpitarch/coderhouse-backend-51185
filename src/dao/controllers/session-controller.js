@@ -16,10 +16,7 @@ export default class SessionController {
 
     async registerFailed (req, res, next) {
         req.logger.info('User registration failed')
-            res.json({ 
-                status: "error", 
-                message: "User registration failed"
-            })
+        res.redirect('/register-failed')
     }
 
     async login (req, res, next) {
