@@ -38,7 +38,7 @@
                                 {{/if}}
                             </div>
                             <div class="txt-center mt-02e5">
-                                <a href="/api/session/logout"><button>Cerrar sesión</button></a>
+                                <a href="/api/session/logout"><button class="border-r-02e5 border-color-3">Cerrar sesión</button></a>
                             </div>
                             {{else}}
                             <div class="txt-left">
@@ -50,7 +50,7 @@
             </div>
         </nav>
         <div id="advancedSearchButtonContainer" class="r-flex justify-content-center align-items-center min-height-5 bg-color-2">
-            <button id="advancedSearchButton" class="min-height-2">Búsqueda avanzada</button>
+            <button id="advancedSearchButton" class="min-height-2 p-02e5 border-r-02e5 border-color-3">Búsqueda avanzada</button>
         </div>
         <div id="advancedSearchBarContainer" class="ani-appear hidden">
             <div class="c-flex align-items-center min-height-15 bg-color-2">
@@ -60,13 +60,13 @@
                         <div class="mb-1">
                             <input type="checkbox" id="checkboxProductName">Nombre del producto:
                         </div>
-                        <input type="text" id="productNameInput">
+                        <input type="text" id="productNameInput" class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic">
                     </div>
                     <div class="c-flex justify-self-start mr-2 ml-02e5 txt-center">
                         <div class="mb-1">
                             <input type="checkbox" name="" id="checkboxCategory">Categoría:
                         </div>
-                        <select name="productsCategory" id="productsCategory">
+                        <select name="productsCategory" id="productsCategory" class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic">
                             <option value=""></option>
                             <option value="Sahumerios">Sahumerios</option>
                             <option value="Defumacion">Defumacion</option>
@@ -106,8 +106,8 @@
                     </div>
                 </div>
             </div>
-            <div class="r-flex justify-content-center align-items-center bg-color-1 min-height-2">
-                <button id="searchButton">Buscar</button>
+            <div class="r-flex justify-content-center align-items-center bg-color-1 min-height-3">
+                <button id="searchButton" class="p-02e5 border-r-02e5 border-color-3">Buscar</button>
             </div>
         </div>
     </header>
@@ -125,7 +125,7 @@
                         <p><strong>Stock: </strong>{{this.stock}}</p>
                         <p><strong>Código: </strong>{{this.code}}</p>
                         <div class="r-flex justify-content-center">
-                            <button id="addButton-{{this._id}}" data-product-id="{{this._id}}" class="m-1 p-02e5">Agregar al carrito</button>
+                            <button id="addButton-{{this._id}}" data-product-id="{{this._id}}" class="m-1 p-02e5 border-r-02e5 border-color-3">Agregar al carrito</button>
                         </div>
                     </div>
                 {{/each}}
@@ -135,10 +135,10 @@
             </div>
             <div class="r-flex justify-content-center">
                 {{#if hasPrevPage}}
-                    <a href="/products?page={{prevPage}}"><button class="m-2 p-02e5">Anterior</button></a>
+                    <a href="/products?page={{prevPage}}"><button class="p-02e5 border-r-02e5 border-color-3">Anterior</button></a>
                 {{/if}}
                 {{#if hasNextPage}}
-                    <a href="/products?page={{nextPage}}"><button class="m-2 p-02e5">Siguiente</button></a>
+                    <a href="/products?page={{nextPage}}"><button class="p-02e5 border-r-02e5 border-color-3">Siguiente</button></a>
                 {{/if}}
             </div>
         </div>

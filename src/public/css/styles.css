@@ -3541,6 +3541,12 @@
 body {
   font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif; }
 
+.font-italic {
+  font-style: italic; }
+
+.line-height-12e5 {
+  line-height: 1.5rem; }
+
 /*----->_[ ALIGN ]_<-----*/
 .txt-center {
   text-align: center; }
@@ -3565,9 +3571,22 @@ body {
 .bg-color-2 {
   background-color: #573a057a; }
 
+.bg-color-3 {
+  background-color: ghostwhite; }
+
+.bg-color-4 {
+  background-color: #ded5c6; }
+
 .border-form {
   border-style: solid;
+  border-color: snow;
   border-radius: 2rem; }
+
+.border-color-3 {
+  border-color: ghostwhite; }
+
+.border-r-02e5 {
+  border-radius: 0.5rem; }
 
 /*----->_[ DISPLAY ]_<-----*/
 .hidden {
@@ -3742,5 +3761,6 @@ body {
   box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.5); }
 
 .productCard:hover {
-  background-color: #acabaa7a;
-  box-shadow: inset 0 -2px 0 5px rgba(0, 0, 0, 0.5); }
+  background-color: #d8d2c8;
+  box-shadow: inset 0 -2px 0 5px rgba(0, 0, 0, 0.5);
+  border-radius: 1rem; }

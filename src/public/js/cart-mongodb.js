@@ -7,7 +7,7 @@ const productId = deleteProductButton.getAttribute('data-product-id')
 const cartId = checkoutButton.getAttribute('data-cart-id')
 
 deleteProductButton.addEventListener('click', () => {
-      fetch(`/api/carts/${cartId}/products/${productId}`, {
+      fetch(`/api/carts/${cartId}/product/${productId}`, {
         method: 'DELETE'
       })
         .then(response => {

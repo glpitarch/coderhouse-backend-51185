@@ -1,7 +1,7 @@
 <div>
     <header>
-        <nav class="bg-color-1 min-h-12">
-            <div class="r-flex justify-content-center align-items-center min-h-12 min-w-15">
+        <nav class="bg-color-1 min-height-12">
+            <div class="r-flex justify-content-center align-items-center min-height-12 min-width-15">
                 <div>
                     <a href="/products"><img src="./images/icons/brand-logo.png" alt=""></a>
                 </div>
@@ -30,7 +30,7 @@
                                 {{/if}}
                             </div>
                             <div class="txt-center mt-02e5">
-                                <a href="/api/session/logout"><button>Cerrar sesión</button></a>
+                                <a href="/api/session/logout"><button class="border-r-02e5 border-color-3">Cerrar sesión</button></a>
                             </div>
                             {{else}}
                             <div class="txt-left">
@@ -59,12 +59,12 @@
                     <tbody>
                         {{#each productsInCart}}
                             <tr>
-                                <td class="txt-center min-w-5">{{quantity}}</td>
+                                <td class="txt-center min-width-5">{{quantity}}</td>
                                 <td class="txt-center max-w-15">{{_id.title}}</td>
-                                <td class="txt-center min-w-5">{{_id.price}}</td>
-                                <td class="txt-center min-w-5">{{totalPrice}}</td>
+                                <td class="txt-center min-width-5">{{_id.price}}</td>
+                                <td class="txt-center min-width-5">{{totalPrice}}</td>
                                 <td>
-                                    <button id="deleteProductButton" data-product-id="{{_id._id}}"> X </button>
+                                    <button id="deleteProductButton" data-product-id="{{_id._id}}" class="p-02e5 border-r-02e5 border-color-3"> X </button>
                                 </td>
                             </tr>
                         {{/each}}
@@ -76,7 +76,7 @@
             </div>
             {{#if user.cart._id}}
                 <div class="r-flex justify-content-center">
-                    <button id="checkoutButton" data-cart-id="{{user.cart._id}}" class="m-1 p-02e5">Realizar compra</button>
+                    <button id="checkoutButton" data-cart-id="{{user.cart._id}}" class="m-1 p-02e5 border-r-02e5 border-color-3 txt-center">Realizar compra</button>
                 </div>
             {{/if}}
         {{else}}
