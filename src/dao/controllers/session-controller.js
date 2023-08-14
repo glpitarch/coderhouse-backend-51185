@@ -9,7 +9,7 @@ export default class SessionController {
     async register (req, res, next) {
         req.logger.info('User registered successfully')
         res.json({ 
-            status: "succes", 
+            status: "success", 
             message: "User registered"
         })
     }

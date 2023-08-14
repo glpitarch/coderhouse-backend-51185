@@ -6,6 +6,7 @@ const router = Router()
 const usersController = new UsersController()
 
 router.get('/', handlePolicies(['ADMIN']), usersController.getUsers)
+
 router.put('/premium/:uid', handlePolicies(['ADMIN']), usersController.changeUserRole)
 
 export default router

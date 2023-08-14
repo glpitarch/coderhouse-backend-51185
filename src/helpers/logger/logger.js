@@ -62,6 +62,5 @@ export const addLogger = (req, res, next) => {
     } else if (config.logger.environment === "production") {
         req.logger = prodLogger
     }
-    /* req.logger.http(`${req.method} en ${req.url}}`) */
     next()
 }

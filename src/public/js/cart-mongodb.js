@@ -1,7 +1,6 @@
 const checkoutButton = document.getElementById('checkoutButton')
 const deleteProductButton = document.getElementById('deleteProductButton')
 const getUserEmail = document.getElementById('userEmail')
-
 const userEmail = getUserEmail.getAttribute('data-user-email')
 const productId = deleteProductButton.getAttribute('data-product-id')
 const cartId = checkoutButton.getAttribute('data-cart-id')
@@ -26,7 +25,6 @@ checkoutButton.addEventListener('click', () => {
   })
     .then(response => {
         if (response.ok) {
-            console.log(userEmail)
             fetch('/api/carts/purchase/email/confirmation', {
                 method: 'POST',
                 body: JSON.stringify({ email: userEmail}),

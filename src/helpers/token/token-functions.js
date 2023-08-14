@@ -16,4 +16,3 @@ export const verifyEmailToken = (token) => {
         return null
     }
 }
-/*<=====|| END EMAIL TOKEN ||=====>*/

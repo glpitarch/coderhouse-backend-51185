@@ -1,12 +1,14 @@
 {
   "name": "coderhouse-backend-51185-project",
   "version": "1.0.0",
-  "description": "desafio entregable n°3",
+  "description": "Ecommerce project",
   "type": "module",
   "main": "src/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/app.js",
+    "productsTest": "mocha test/products.test.js",
+    "cartsTest": "mocha test/carts.test.js",
+    "sessionsTest": "mocha test/sessions.test.js",
     "build-css": "node-sass --include-path scss src/scss/styles.scss src/public/css/styles.css",
     "watch-css": "nodemon -e scss -x \"npm run build-css\""
   },
@@ -23,6 +25,7 @@
   "dependencies": {
     "@faker-js/faker": "^8.0.2",
     "bcrypt": "^5.1.0",
+    "commander": "^11.0.0",
     "connect-mongo": "^5.0.0",
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
@@ -41,5 +44,10 @@
     "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.0",
     "winston": "^3.10.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "supertest": "^6.3.3"
   }
 }

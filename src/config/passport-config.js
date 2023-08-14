@@ -22,8 +22,8 @@ const initializePassport = () => {
                 let newCart = {}
                 newCart = await cartModel.create(newCart)
 
-                let role = 'user'
-                password == config.auth.pass && email == config.auth.email ? role = 'admin' : role = 'user'
+                let role
+                password == config.auth.pass && email.endsWith("@coder.com") ? role = 'admin' : role = 'user'
                 
                 const newUser = {
                         first_name,
@@ -89,7 +89,7 @@ const initializePassport = () => {
                         last_name: null,
                         email: profile.emails[0].value,
                         age: null,
-                        password: 'github',
+                        password: ' ',
                         cart: newCart,
                         role: 'user'
                 }

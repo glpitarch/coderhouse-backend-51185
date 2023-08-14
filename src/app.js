@@ -1,6 +1,5 @@
-/*-----//_ App config _//-----*/
+/*||=====> App config <=====||*/
 import { config } from './config/config.js'
-
 import express from 'express'
 import { dbConnection } from './config/dbConnection.js'
 import { Server } from 'socket.io'
@@ -9,7 +8,7 @@ import session from 'express-session'
 import passport from 'passport'
 import MongoStore from 'connect-mongo'
 
-/*-----//_ Helpers & configs _//-----*/
+/*||=====> Helpers and configs <=====||*/
 import __dirname from './utils.js'
 import initializePassport from './config/passport-config.js'
 import { errorHandler } from './middlewares/error-handler.js'
@@ -18,7 +17,7 @@ import { swaggerSpecs } from './config/doc-config.js'
 import swaggerUi from 'swagger-ui-express'
 import path from 'path'
 
-/*-----//_ MongoDB _//-----*/
+/*||=====> MongoDB <=====||*/
 import productModel from './dao/persistence/mongodb/models/products-model.js'
 import chatModel from './dao/persistence/mongodb/models/chat-model.js'
 import productsRouterMongo from './routes/products-router-mongodb.js'
@@ -32,16 +31,16 @@ import mocksRouter from './routes/mocks-router.js'
 
 const app = express()
 
-/*-----//_ Data received handler middleware  _//-----*/
+/*||=====> Data received handler middleware <=====||*/
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
-/*-----//_ Handlebars configuration _//-----*/
+/*||=====> Handlebars configuration <=====||*/
 app.engine('handlebars', handlebars.engine())
 app.set('views', path.join(__dirname,'/views'))
 app.set('view engine', 'handlebars')
 
-/*-----//_ Database connection  _//-----*/
+/*||=====> Database connection <=====||*/
 dbConnection()
 
 const httpServer = app.listen(config.server.port, () => {
@@ -50,10 +49,10 @@ const httpServer = app.listen(config.server.port, () => {
     `)
 })
 
-/*-----//_ Static content  _//-----*/
+/*||=====> Static content <=====||*/
 app.use(express.static(__dirname + '/public'))
 
-/*-----//_ Session configuration _//-----*/
+/*||=====> Session configuration <=====||*/
 app.use(session({
     store: new MongoStore({
         mongoUrl: config.mongo.url,
@@ -64,15 +63,15 @@ app.use(session({
     saveUninitialized: false
 }))
 
-/*-----//_ Passport configuration _//-----*/
+/*||=====> Passport configuration <=====||*/
 initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
-/*-----//_ Logger middleware _//-----*/
+/*||=====> Logger middleware <=====||*/
 app.use(addLogger)
 
-/*-----//_ Routes for MongoDB _//-----*/
+/*||=====> Routes for MongoDB <=====||*/
 app.use('/', viewsRouterMongo)
 app.use('/api/products', productsRouterMongo)
 app.use('/api/carts', cartsRouterMongo)
@@ -83,10 +82,10 @@ app.use('/loggerTest', loggerRouter)
 app.use('/mockingproducts', mocksRouter) 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs))
 
-/*-----//_ All Routes error handler middleware _//-----*/
+/*||=====> All Routes error handler middleware <=====||*/
 app.use(errorHandler)
 
-/*-----//_ Mongodb socket.io _//-----*/
+/*||=====> Mongodb socket.io <=====||*/
 const io = new Server(httpServer)
 
 let products = await productModel.find().lean()
@@ -95,7 +94,7 @@ let mongoDbMessages = await chatModel.find().lean()
 io.on('connection', socket => {
     console.log('A user has been connected to the server')
 
-    /*-----//_ Listenings and emits for realTimeProducts _//-----*/
+    /*||=====> Listenings and emits for realTimeProducts <=====||*/
     io.emit('productsList', products)
 
     socket.on('productToDelete', async productId => {
@@ -117,7 +116,7 @@ io.on('connection', socket => {
         }
     })
 
-    /*-----//_ Listenings and emits for Chat _//-----*/
+    /*||=====> Listenings and emits for Chat <=====||*/
     io.emit('updateMessages', mongoDbMessages)
 
     socket.on('authenticated', async userEmail => {
@@ -135,5 +134,5 @@ io.on('connection', socket => {
     })
 })
 
-
+export default app
 

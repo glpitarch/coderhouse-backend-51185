@@ -1,6 +1,21 @@
 import dotenv from 'dotenv'
+import path from "path"
+import __dirname from './../utils.js';
+import { Command } from 'commander'
 
-dotenv.config()
+const program = new Command();
+
+program
+.option("-mode <modo>", "Modo de inicio", "dev") 
+program.parse()
+
+const environment = program.opts()
+
+console.log(environment)
+
+const pathEnvironment = environment.Mode === "prod" ? path.join(__dirname, "../.env.production") : path.join(__dirname, "../.env.development")
+
+dotenv.config({ path: pathEnvironment })
 
 const PORT = process.env.PORT
 const MONGO_URL = process.env.MONGO_URL
