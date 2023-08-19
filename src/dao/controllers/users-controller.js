@@ -38,7 +38,7 @@ export default class UsersController {
         } catch (error) {
             req.logger.error(
                 `Change user role has failed'.
-                ${error}`
+                ${ error }`
             )
             next(error)
         }

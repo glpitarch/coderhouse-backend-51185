@@ -24,6 +24,25 @@ const schema = new mongoose.Schema({
     role: {
         type: String,
         required: true,
+    },
+    documents: {
+        type: [
+            {
+                name: {
+                    type: String,
+                    required: true
+                },
+                reference: {
+                    type: String,
+                    required: true
+                }
+            }
+        ],
+        default: []
+    },
+    last_connection: {
+        type: String,
+        default: null
     }
 })
 

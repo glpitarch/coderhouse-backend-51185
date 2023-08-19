@@ -2,7 +2,7 @@ import productModel from './../models/products-model.js'
 
 export class ProductsManagerMongo {
 
-    async createProduct(product){
+    async createProduct(product) {
         try {
             const newProduct = await productModel.create(product)
             return newProduct
@@ -11,7 +11,7 @@ export class ProductsManagerMongo {
         }
     }
 
-    async getProductById(id){
+    async getProductById(id) {
         try {
             const product = await productModel.findById(id)
                 return product
@@ -20,7 +20,7 @@ export class ProductsManagerMongo {
         }
     }
 
-    async updateProduct(id, product){
+    async updateProduct(id, product) {
         try {
             const productUpdated = await productModel.findByIdAndUpdate(id, product, {new:true})
             return productUpdated
@@ -29,7 +29,7 @@ export class ProductsManagerMongo {
         }
     }
 
-    async deleteProduct(id){
+    async deleteProduct(id) {
         try {
             const product = await productModel.findByIdAndDelete(id)
             return product

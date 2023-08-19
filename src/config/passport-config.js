@@ -2,7 +2,7 @@ import passport from 'passport'
 import local from 'passport-local'
 import userModel from './../dao/persistence/mongodb/models/user-model.js'
 import cartModel from './../dao/persistence/mongodb/models/carts-model.js'
-import { createHash, validatePassword } from './../utils.js'
+import { createHash, validatePassword } from './../helpers/utils.js'
 import GitHubStrategy from 'passport-github2'
 import { config } from './config.js'
 
@@ -32,7 +32,7 @@ const initializePassport = () => {
                         age,
                         password: createHash(password),
                         cart: newCart,
-                        role,
+                        role
                 }
 
                 let result = await userModel.create(newUser)
@@ -64,10 +64,8 @@ const initializePassport = () => {
             return done(null, user)
 
         } catch (error) {
-            return done(`Error trying to login: ${ error }`)
-            
+            return done(`Error trying to login: ${ error }`)          
         }
-
     }))
 
     passport.use('github', new GitHubStrategy({

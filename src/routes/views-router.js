@@ -1,6 +1,6 @@
 import { Router } from "express"
-import { handlePolicies } from './../middlewares/policies.js'
-import ViewsController from './../dao/controllers/views-controller.js'
+import { handlePolicies } from '../middlewares/policies.js'
+import ViewsController from '../dao/controllers/views-controller.js'
 
 const viewsController = new ViewsController()
 

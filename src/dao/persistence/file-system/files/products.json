@@ -1,46 +1,227 @@
 [
 	{
-		"id": 1,
-		"category": "frutas",
-		"title": "kiwi",
-		"description": "fruta",
-		"price": 30,
+		"_id": "64d41f0c517b8668429651ce",
+		"category": "Sahumerios",
+		"title": "Sahumerio con Palo santo y champa",
+		"description": "Sahumerios artesanales con esencia natural de palo santo y champa. 10 unidades por paquete.",
+		"price": 500,
+		"stock": 471,
+		"code": "01a0102",
+		"thumbnail": [
+			"./images/01a0102.png"
+		],
+		"status": true,
+		"owner": "admin",
+		"__v": 0
+	},
+	{
+		"_id": "64d41f21517b8668429651d1",
+		"category": "Sahumerios",
+		"title": "Sahumerio con laurel y eucalipto",
+		"description": "Sahumerios artesanales con esencia natural de laurel y eucalipto. 10 unidades por paquete.",
+		"price": 500,
+		"stock": 1,
+		"code": "01a0304",
+		"thumbnail": [
+			"./images/01a0304.png"
+		],
+		"status": true,
+		"owner": "admin",
+		"__v": 0
+	},
+	{
+		"_id": "64d41f30517b8668429651d4",
+		"category": "Sahumerios",
+		"title": "Sahumerio con palo santo y mirra",
+		"description": "Sahumerios artesanales con esencia natural de palo santo y mirra. 10 unidades por paquete.",
+		"price": 500,
+		"stock": 17,
+		"code": "01a0109",
+		"thumbnail": [
+			"./images/01a0109.png"
+		],
+		"status": true,
+		"owner": "admin",
+		"__v": 0
+	},
+	{
+		"_id": "64d41f3a517b8668429651d7",
+		"category": "Sahumerios",
+		"title": "Sahumerio con rosas",
+		"description": "Sahumerios artesanales con esencia natural de rosas. 10 unidades por paquete.",
+		"price": 500,
+		"stock": 13,
+		"code": "01a07",
+		"thumbnail": [
+			"./images/01a07.png"
+		],
+		"status": true,
+		"owner": "admin",
+		"__v": 0
+	},
+	{
+		"_id": "64d41f42517b8668429651da",
+		"category": "Sahumerios",
+		"title": "Sahumerio con sandalo",
+		"description": "Sahumerios artesanales con esencia natural de sandalo. 10 unidades por paquete.",
+		"price": 500,
+		"stock": 48,
+		"code": "01a12",
+		"thumbnail": [
+			"./images/01a12.png"
+		],
+		"status": true,
+		"owner": "admin",
+		"__v": 0
+	},
+	{
+		"_id": "64d41f4a517b8668429651dd",
+		"category": "Defumacion",
+		"title": "Bombitas herbales de defumacion (mix 1)",
+		"description": "Bombitas artesanales para defumacion a bases de resinas (copal) y hierbas naturales (eucalipto). 4 unidades por paquete.",
+		"price": 200,
+		"stock": 21,
+		"code": "02a01",
+		"thumbnail": [
+			"./images/02a01.png"
+		],
+		"status": true,
+		"owner": "admin",
+		"__v": 0
+	},
+	{
+		"_id": "64d41f5b517b8668429651e1",
+		"category": "Defumacion",
+		"title": "Bombitas herbales de defumacion (mix 2)",
+		"description": "Bombitas artesanales para defumacion a bases de resinas (mirra) y hierbas naturales (contrayerba). 4 unidades por paquete.",
+		"price": 200,
+		"stock": 50,
+		"code": "02a02",
+		"thumbnail": [
+			"./images/02a02.png"
+		],
+		"status": true,
+		"owner": "admin",
+		"__v": 0
+	},
+	{
+		"_id": "64d41f6a517b8668429651e4",
+		"category": "Defumacion",
+		"title": "Carbones de defumacion",
+		"description": "Carbones artesanales para defumacion a base de hierbas naturales (salvia). 4 unidades por paquete.",
+		"price": 200,
 		"stock": 5,
-		"code": "fruki01",
-		"thumbnail": [],
-		"status": true
+		"code": "02b13",
+		"thumbnail": [
+			"./images/02b13.png"
+		],
+		"status": true,
+		"owner": "admin",
+		"__v": 0
 	},
 	{
-		"id": 2,
-		"category": "frutas",
-		"title": "manzana",
-		"description": "fruta",
-		"price": 50,
-		"stock": 300,
-		"code": "fruman01",
-		"thumbnail": [],
-		"status": true
+		"_id": "64d41f6e517b8668429651e7",
+		"category": "Sahumerios",
+		"title": "Tibetanos con frutos rojos",
+		"description": "Tibetanos artesanales con esencia natural de frutos rojos. 8 unidades por paquete.",
+		"price": 700,
+		"stock": 10,
+		"code": "01b14",
+		"thumbnail": [
+			"./images/01b14.png"
+		],
+		"status": true,
+		"owner": "admin",
+		"__v": 0
 	},
 	{
-		"id": 3,
-		"category": "frutas",
-		"title": "banana",
-		"description": "fruta",
-		"price": 25,
-		"stock": 100,
-		"code": "fruban01",
-		"thumbnail": [],
-		"status": true
+		"_id": "64d4205f517b8668429651f1",
+		"category": "Sahumerios",
+		"title": "Sahumerio con lavanda",
+		"description": "Sahumerios artesanales con esencia natural de lavanda. 10 unidades por paquete.",
+		"price": 500,
+		"stock": 8,
+		"code": "01a06",
+		"thumbnail": [
+			"./images/01a06.png"
+		],
+		"status": true,
+		"owner": "admin",
+		"__v": 0
 	},
 	{
-		"id": 4,
-		"category": "frutas",
-		"title": "pera",
-		"description": "fruta",
-		"price": 30,
-		"stock": 200,
-		"code": "fruper01",
-		"thumbnail": [],
-		"status": true
+		"_id": "64d421b4517b8668429651f7",
+		"category": "Sahumerios",
+		"title": "Sahumerio con yagra",
+		"description": "Sahumerios artesanales con esencia natural de yagra. 10 unidades por paquete.",
+		"price": 500,
+		"stock": 8,
+		"code": "01a11",
+		"thumbnail": [
+			"./images/01a11.png"
+		],
+		"status": true,
+		"owner": "admin",
+		"__v": 0
+	},
+	{
+		"_id": "64d42245517b866842965203",
+		"category": "Sahumerios",
+		"title": "Tibetanos con vainilla",
+		"description": "Tibetanos artesanales con esencia de vainilla. 8 unidades por paquete.",
+		"price": 500,
+		"stock": 8,
+		"code": "01b15",
+		"thumbnail": [
+			"./images/01b15.png"
+		],
+		"status": true,
+		"owner": "admin",
+		"__v": 0
+	},
+	{
+		"_id": "64d42340517b866842965206",
+		"category": "Conos y cascadas",
+		"title": "Mix de conos artesanales",
+		"description": "Mix de conos artesanales con esencia de palo santo, eucalipto, rosas y vainilla. 6 unidades por paquete.",
+		"price": 1000,
+		"stock": 8,
+		"code": "03a01040715",
+		"thumbnail": [
+			"./images/03a01040715.png"
+		],
+		"status": true,
+		"owner": "admin",
+		"__v": 0
+	},
+	{
+		"_id": "64d4237e517b866842965209",
+		"category": "Conos y cascadas",
+		"title": "Conos artesanales con sandalo indu",
+		"description": "Conos artesanales con esencia de sandalo indu. 6 unidades por paquete.",
+		"price": 1000,
+		"stock": 8,
+		"code": "03b16",
+		"thumbnail": [
+			"./images/03b16.png"
+		],
+		"status": true,
+		"owner": "admin",
+		"__v": 0
+	},
+	{
+		"_id": "64d423d2517b86684296520c",
+		"category": "Sahumos",
+		"title": "Sahumo mix de hierbas",
+		"description": "Sahumos artesanales con eucalipto, cedro y romero. 4 unidades por paquete.",
+		"price": 1500,
+		"stock": 80,
+		"code": "04a040508",
+		"thumbnail": [
+			"./images/04a040508.png"
+		],
+		"status": true,
+		"owner": "admin",
+		"__v": 0
 	}
 ]

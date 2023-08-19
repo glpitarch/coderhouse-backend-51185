@@ -20,9 +20,9 @@ switch (persistence) {
     break
     
     case "file":
-        const { CartsManagerFileSystem } = await import("./persistence/file-system/managers/cart-manager-fs")
+        const { CartsManagerFileSystem } = await import("./persistence/file-system/managers/cart-manager-fs.js")
         cartsDao = new CartsManagerFileSystem()
-        const { ProductsManagerFileSystem } = await import("./persistence/file-system/managers/product-manager-fs")
+        const { ProductsManagerFileSystem } = await import("./persistence/file-system/managers/product-manager-fs.js")
         productsDao = new ProductsManagerFileSystem()
     break
 }

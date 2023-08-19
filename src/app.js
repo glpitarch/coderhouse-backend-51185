@@ -9,7 +9,7 @@ import passport from 'passport'
 import MongoStore from 'connect-mongo'
 
 /*||=====> Helpers and configs <=====||*/
-import __dirname from './utils.js'
+import __dirname from './absolute-path.js'
 import initializePassport from './config/passport-config.js'
 import { errorHandler } from './middlewares/error-handler.js'
 import { addLogger } from './helpers/logger/logger.js'
@@ -17,15 +17,17 @@ import { swaggerSpecs } from './config/doc-config.js'
 import swaggerUi from 'swagger-ui-express'
 import path from 'path'
 
-/*||=====> MongoDB <=====||*/
+/*||=====> MongoDB Models <=====||*/
 import productModel from './dao/persistence/mongodb/models/products-model.js'
 import chatModel from './dao/persistence/mongodb/models/chat-model.js'
-import productsRouterMongo from './routes/products-router-mongodb.js'
-import cartsRouterMongo from './routes/carts-router-mongodb.js'
-import viewsRouterMongo from './routes/views-router-mongodb.js'
-import chatRouterMongo from './routes/chat-router-mongodb.js'
+
+/*||=====> Routes <=====||*/
+import productsRouter from './routes/products-router.js'
+import cartsRouter from './routes/carts-router.js'
+import viewsRouter from './routes/views-router.js'
+import chatRouter from './routes/chat-router.js'
 import sessionRouter from './routes/sessions-router.js'
-import usersRouter from './routes/users-router-mongodb.js'
+import usersRouter from './routes/users-router.js'
 import loggerRouter from './routes/logger-router.js'
 import mocksRouter from './routes/mocks-router.js'
 
@@ -38,6 +40,7 @@ app.use(express.urlencoded({extended:true}))
 /*||=====> Handlebars configuration <=====||*/
 app.engine('handlebars', handlebars.engine())
 app.set('views', path.join(__dirname,'/views'))
+
 app.set('view engine', 'handlebars')
 
 /*||=====> Database connection <=====||*/
@@ -71,13 +74,13 @@ app.use(passport.session())
 /*||=====> Logger middleware <=====||*/
 app.use(addLogger)
 
-/*||=====> Routes for MongoDB <=====||*/
-app.use('/', viewsRouterMongo)
-app.use('/api/products', productsRouterMongo)
-app.use('/api/carts', cartsRouterMongo)
+/*||=====> Routes <=====||*/
+app.use('/', viewsRouter)
+app.use('/api/products', productsRouter)
+app.use('/api/carts', cartsRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/session', sessionRouter)
-app.use('/chat', chatRouterMongo)
+app.use('/chat', chatRouter)
 app.use('/loggerTest', loggerRouter)
 app.use('/mockingproducts', mocksRouter) 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs))

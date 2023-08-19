@@ -1,4 +1,4 @@
-import { validatePassword, createHash } from "./../../utils.js"
+import { validatePassword, createHash, timestamp } from './../../helpers/utils.js'
 import { config } from "./../../config/config.js"
 import GetSessionDataDto from "./../dto/session-data-dto.js"
 import userModel from "../persistence/mongodb/models/user-model.js"
@@ -38,8 +38,12 @@ export default class SessionController {
                 email: req.user.email,
                 age: req.user.age,
                 role: req.user.role,
-                cart: req.user.cart
+                cart: req.user.cart,
+                last_connection: timestamp()
             }
+            let userFilter = { email: req.user.email }
+            let userUpdate = { last_connection: timestamp() }
+            await userModel.findOneAndUpdate(userFilter, userUpdate)
             res.json({
                 status: "success",
                 payload: req.user,
@@ -70,8 +74,11 @@ export default class SessionController {
                         error: "Session could not be closed"
                     })
                 }
-                return res.redirect('/')
             })
+            let userFilter = { email: req.user.email }
+            let userUpdate = { last_connection: timestamp() }
+            await userModel.findOneAndUpdate(userFilter, userUpdate)
+            return res.redirect('/')
         } catch (error) {
             res.json({ 
                 status: "error", 

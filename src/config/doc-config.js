@@ -1,4 +1,4 @@
-import __dirname from './../utils.js'
+import __dirname from './../absolute-path.js'
 import swaggerJsDoc from 'swagger-jsdoc'
 import path from 'path'
 

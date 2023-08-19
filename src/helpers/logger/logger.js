@@ -1,5 +1,5 @@
 import winston from 'winston'
-import __dirname from './../../utils.js'
+import __dirname from './../../absolute-path.js'
 import { config } from './../../config/config.js'
 
 const customLevels = {

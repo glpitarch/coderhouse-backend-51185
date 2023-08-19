@@ -36,14 +36,6 @@ export default class CartsController {
     async getCartById (req, res, next) {
         try {
             const cid = req.params.cid
-            if (cid.length != 24) {
-                CustomError.createError({
-                    name: "Invalid ID param",
-                    message: "An error occurred trying to get HTTP ID parameter",
-                    cause: idErrorInfo(cid),
-                    errorCode: EError.INVALID_PARAM,
-                })
-            }
             const cart = await cartsServices.getCartById(cid)
             if (cart === null) {
                 CustomError.createError({

@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 import path from "path"
-import __dirname from './../utils.js';
+import __dirname from './../absolute-path.js'
 import { Command } from 'commander'
 
 const program = new Command();

@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import ProductsController from './../dao/controllers/products-controller.js'
-import { handlePolicies } from './../middlewares/policies.js'
+import ProductsController from '../dao/controllers/products-controller.js'
+import { handlePolicies } from '../middlewares/policies.js'
 
 const router = Router()
 const productsController = new ProductsController()

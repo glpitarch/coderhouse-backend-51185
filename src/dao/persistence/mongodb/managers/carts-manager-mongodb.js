@@ -1,5 +1,9 @@
 import mongoose from "mongoose"
 import cartModel from './../models/carts-model.js'
+import { CustomError } from "./../../../../helpers/errors/custom-error.js"
+import { idErrorInfo } from "./../../../../helpers/errors/general/invalid-id-error.js"
+import { EError } from "./../../../../helpers/errors/enums/EError.js"
+import { nonexistentIdErrorInfo } from "./../../../../helpers/errors/general/nonexistent-id-error.js"
 
 export class CartsManagerMongo {
 
@@ -26,8 +30,13 @@ export class CartsManagerMongo {
 
     async getCartById(id) {
         try {
-            if (id.trim().length != 24) {
-                throw new Error('The cart ID is not valid')
+            if (id.length != 24) {
+                CustomError.createError({
+                    name: "Invalid ID param",
+                    message: "An error occurred trying to get HTTP ID parameter",
+                    cause: idErrorInfo(id),
+                    errorCode: EError.INVALID_PARAM,
+                })
             }
             const cart = await cartModel.findById(id).populate('products._id')
             if(cart){
