@@ -34,7 +34,7 @@
                             </div>
                             <div class="txt-center">
                                 <strong><p id="cartId" data-cart-id="{{user.cart._id}}" class="m-0">{{user.role}}: {{user.first_name}} {{user.last_name}}</p></strong> 
-                                <strong><p id="userEmail" data-user-email="{{user.email}}" class="m-0">email: {{user.email}}</p></strong>  
+                                <strong><p class="m-0">email: {{user.email}}</p></strong> 
                                 {{#if isAdmin}}
                                     <p class="m-0 orangered">Esta cuenta tiene derechos de administrador</p>
                                 {{/if}}
@@ -113,29 +113,33 @@
             </div>
         </div>
     </header>
-<main>
-    <div class="txt-center">
-        <h1>Chat público</h1>
-        <div id="logInContainer" class="m-2">
-            <p class="mb-2">Bienvenido al chat público. Si deseas participar en el chat deberás ingresar una dirección de email que te identificará:</p>
-            <form>
-                <label>Dirección de correo electrónico:</label>
-                <input type="text" placeholder="nombre@servidor.com" id="userEmailInput">
-            </form>
-            <button id="userConfirmationButton" class="mt-1">Confirmar</button>
-        </div>  
-        <div id="chatContainer" class="hidden">
-            <div class="mb-2 min-h-15 min-w-15">
-                <p id="messagesLogs"></p>
-            </div>
-            <div class="flex-row-center">        
-                <input placeholder="escribe tu mensaje aqui" id="chatbox" class="chatInput">
-                <button id="sendMessageButton">Enviar</button>   
-            </div>
+    <main>
+        <h1 class="txt-center">Listado de usuarios en la base de datos</h1>
+        <h2 id="delete-user-info" class="txt-center orangered"></h2>
+        <div class="r-flex justify-content-center wrap">
+            {{#each users}}
+                <div class="min-w-15 p-5 border-form bg-color-3">
+                    <strong><p>Nombre de usuario: </strong><span class="font-italic">{{this.first_name}} {{this.last_name}}</span></p>
+                    <strong><p>Dirección de correo electrónico: </strong><span class="font-italic">{{this.email}}</span> </p>
+                    <strong><p>Rol: </strong><span class="font-italic">{{this.role}}</span></p>
+                    <strong><p>Documentacion: </strong><span class="font-italic">{{this.status}}</span></p>
+                    <p id="documentation-info-{{this.id}}" class="orangered"></p>
+                    <button id="changeRoleButton-{{this.id}}" class="m-1 p-02e5 border-r-02e5 border-color-3" data-user-id="{{this.id}}">Cambiar rol</button>
+                    <strong><p>Ultima conexión: </strong><span class="font-italic">{{this.last_connection}}</span></p>
+                    <button id="deleteUserButton-{{this.id}}" class="m-1 p-02e5 border-r-02e5 border-color-3" data-user-id="{{this.id}}">Eliminar usuario</button>
+                </div>
+            {{/each}}
         </div>
-    </div>
-</main>
+        <div class="r-flex justify-content-center">
+            {{#if hasPrevPage}}
+                <a href="/products?page={{prevPage}}"><button class="p-02e5 border-r-02e5 border-color-3">Anterior</button></a>
+            {{/if}}
+            {{#if hasNextPage}}
+                <a href="/products?page={{nextPage}}"><button class="p-02e5 border-r-02e5 border-color-3">Siguiente</button></a>
+            {{/if}}
+        </div>
+    </main>
+</div>
 
 <script src="/js/index.js"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/chat.js"></script>
+<script src="/js/update-role.js"></script>

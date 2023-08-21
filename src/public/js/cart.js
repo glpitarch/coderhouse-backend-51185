@@ -3,7 +3,6 @@ const deleteProductButton = document.getElementById('deleteProductButton')
 const getUserEmail = document.getElementById('userEmail')
 const userEmail = getUserEmail.getAttribute('data-user-email')
 const productId = deleteProductButton.getAttribute('data-product-id')
-const cartId = checkoutButton.getAttribute('data-cart-id')
 
 deleteProductButton.addEventListener('click', () => {
       fetch(`/api/carts/${cartId}/product/${productId}`, {

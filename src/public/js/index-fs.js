@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io()
 
 const deleteProductButton = document.getElementById('deleteButton');
 const addProductButton = document.getElementById('addButton');

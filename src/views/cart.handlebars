@@ -1,19 +1,30 @@
 <div>
     <header>
-        <nav class="bg-color-1 min-height-12">
-            <div class="r-flex justify-content-center align-items-center min-height-12 min-width-15">
+        <nav class="r-flex justify-content-center bg-color-1 min-height-12">
+            <div class="r-flex align-items-center min-height-12 min-w-15">
                 <div>
                     <a href="/products"><img src="./images/icons/brand-logo.png" alt=""></a>
                 </div>
                 <div class="navbarMenuContainer">
-                    <ul id="navbarMenu">
-                        <li><a href="/products">Productos</a></li>
-                        <li><a href="/realtimeproducts">Real Time Products</a></li>
+                    <ul id="navbarMenu" class="min-height-5 align-items-center">
+                        <li id="navbarProducts">Productos</li>
+                            <ul id="dropdownCategoryMenu" class="hidden ani-appear absolute">
+                                <a href="/products"><li>Todos los porductos</li></a>
+                                <a href="/products?query={%22category%22%3A%22Sahumerios%22}"><li>Sahumerios</li></a>
+                                <a href="/products?query={%22category%22%3A%22Defumacion%22}"><li>Defumacion</li></a>
+                                <a href="/products?query={%22category%22%3A%22Conos y Cascadas%22}"><li>Conos y Cascadas</li></a>
+                                <a href="/products?query={%22category%22%3A%22Sahumos%22}"><li>Sahumos</li></a>
+                            </ul>
                         <li><a href="/chat">Chat online</a></li>
                         <li><a href="/cart">Carrito</a></li>
+                        {{#if isAdmin}}
+                            <li><a href="/realtimeproducts">Real Time Products</a></li>
+                            <li><a href="/updateRole">Cambiar rol</a></li>
+                        {{/if}}
                     </ul> 
                 </div>
-                <div class="r-flex justify-content-end align-items-center txt-center">
+            </div>
+            <div class="r-flex justify-content-end align-items-center txt-center">
                 <div>
                     <div class="txt-center m-0 p-0">
                         <a href="/profile"><img  src="./images/icons/user.png" alt=""></a>
@@ -23,8 +34,8 @@
                                 <strong><p class="m-0 mb-02e5">¡Bienvenido!</p></strong> 
                             </div>
                             <div class="txt-center">
-                                <strong><p class="m-0">{{user.role}}: {{user.first_name}} {{user.last_name}}</p></strong> 
-                                <strong><p id="userEmail" data-user-email="{{user.email}}" class="m-0">email: {{user.email}}</p></strong> 
+                                <strong><p id="cartId" data-cart-id="{{user.cart._id}}" class="m-0">{{user.role}}: {{user.first_name}} {{user.last_name}}</p></strong> 
+                                <strong><p id="userEmail" data-user-email="{{user.email}}" class="m-0">email: {{user.email}}</p></strong>  
                                 {{#if isAdmin}}
                                     <p class="m-0 orangered">Esta cuenta tiene derechos de administrador</p>
                                 {{/if}}
@@ -41,6 +52,67 @@
                 </div>
             </div>
         </nav>
+        <div id="advancedSearchButtonContainer" class="r-flex justify-content-center align-items-center min-height-5 bg-color-2">
+            <button id="advancedSearchButton" class="min-height-2 p-02e5 border-r-02e5 border-color-3">Búsqueda avanzada</button>
+        </div>
+        <div id="advancedSearchBarContainer" class="ani-appear hidden">
+            <div class="c-flex align-items-center min-height-15 bg-color-2">
+                <h3>Filtrar por:</h3>
+                <div class="r-flex justify-content-center align-self-center max-w-48">
+                    <div class="c-flex justify-self-start mr-2 txt-center">
+                        <div class="mb-1">
+                            <input type="checkbox" id="checkboxProductName">Nombre del producto:
+                        </div>
+                        <input type="text" id="productNameInput" class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic">
+                    </div>
+                    <div class="c-flex justify-self-start mr-2 ml-02e5 txt-center">
+                        <div class="mb-1">
+                            <input type="checkbox" name="" id="checkboxCategory">Categoría:
+                        </div>
+                        <select name="productsCategory" id="productsCategory" class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic">
+                            <option value=""></option>
+                            <option value="Sahumerios">Sahumerios</option>
+                            <option value="Defumacion">Defumacion</option>
+                            <option value="Conos y Cascadas">Conos y Cascadas</option>
+                            <option value="Sahumos">Sahumos</option>
+                        </select>
+                    </div>
+                    <div class="c-flex justify-content-around mr-2 txt-center">
+                        <div>
+                            <input type="checkbox" id="checkboxPrice">Precio:
+                        </div>
+                            <span class="mt-1 txt-left">Valor mínimo</span>
+                        <div class="r-flex align-self-center">
+                            <input class="mr-02e5" type="range" id="minValuePriceRange" min="0" max="2000" onchange="showValue()">
+                            <span id="minValuePrice">1000</span>
+                        </div>
+                            <span class="mt-1 txt-left">Valor máximo</span>
+                        <div class="r-flex align-self-center">
+                            <input class="mr-02e5" type="range" id="maxValuePriceRange" min="0" max="2000" onchange="showValue()">
+                            <span id="maxValuePrice">1000</span>
+                        </div>
+                    </div>
+                    <div class="c-flex justify-content-around mr-02e5 txt-center">
+                        <div>
+                            <input type="checkbox" id="checkboxStock">Stock:
+                        </div>
+                            <span class="mt-1 txt-left">Valor mínimo</span>
+                        <div class="r-flex align-self-center">
+                            <input class="mr-02e5" type="range" id="minValueStockRange" min="0" max="100" onchange="showValue()">
+                            <span id="minValueStock">50</span>
+                        </div>
+                            <span  class="mt-1 txt-left">Valor máximo</span>
+                        <div class="r-flex align-self-center">
+                            <input class="mr-02e5" type="range" id="maxValueStockRange" min="0" max="100" onchange="showValue()">
+                            <span id="maxValueStock">50</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="r-flex justify-content-center align-items-center bg-color-1 min-height-3">
+                <button id="searchButton" class="p-02e5 border-r-02e5 border-color-3">Buscar</button>
+            </div>
+        </div>
     </header>
     <main>
         <h1 class="txt-center">Lista de productos en carrito</h1>
@@ -76,7 +148,7 @@
             </div>
             {{#if user.cart._id}}
                 <div class="r-flex justify-content-center">
-                    <button id="checkoutButton" data-cart-id="{{user.cart._id}}" class="m-1 p-02e5 border-r-02e5 border-color-3 txt-center">Realizar compra</button>
+                    <button id="checkoutButton" class="m-1 p-02e5 border-r-02e5 border-color-3 txt-center">Realizar compra</button>
                 </div>
             {{/if}}
         {{else}}
@@ -87,4 +159,5 @@
     </main>
 </div>  
 
-<script src="/js/cart-mongodb.js"></script>
+<script src="/js/index.js"></script>
+<script src="/js/cart.js"></script>

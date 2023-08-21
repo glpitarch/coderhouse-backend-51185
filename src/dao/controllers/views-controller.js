@@ -1,5 +1,6 @@
 import productModel from './../persistence/mongodb/models/products-model.js'
-import { cartsServices } from './../repositories/index.js'
+import { cartsServices, usersServices } from './../repositories/index.js'
+import userModel from './../persistence/mongodb/models/user-model.js'
 import HandlebarsUtils from './../../helpers/handlebars/hb-utils.js'
 import { EError } from './../../helpers/errors/enums/EError.js'
 import { CustomError } from './../../helpers/errors/custom-error.js'
@@ -149,12 +150,95 @@ export default class ViewsController {
         try {
             const titleTag = 'Perfil'
             let user = req.session.user
+            let userData = await userModel.findOne({ email: user.email })
+            user._id = userData._id
+            user.documents = userData.documents
+            user.status = userData.status
+            if (user.status === 'incompleto' || user.status === 'pendiente') {
+                let userDocumentation = await usersServices.checkDocumentation(userData)
+                user.identificacionExist = userDocumentation[0]
+                user.domicilioExist = userDocumentation[1]
+                user.estadoDeCuentaExist = userDocumentation[2]
+            }
+            const isDocumentationIncomplete = user.status === 'incompleto' || user.status === 'pendiente'
             const isAdmin = await handlebarsUtils.isAdmin(user)
             const isExternalAcces = await handlebarsUtils.isExternalAcces(user)
             res.render('profile', {
-                user: req.session.user,
+                user,
                 isAdmin,
                 isExternalAcces,
+                isDocumentationIncomplete,
+                title: titleTag,
+                style: 'styles.css'
+            })
+        } catch (error) {
+            res.send({
+                error: "error",
+                message: error.message
+            })
+        }
+    }
+
+    async updateRole (req, res) {
+        try {
+            const titleTag = 'Cambiar rol'
+            let user = req.session.user
+            let userData = await userModel.findOne({ email: user.email })
+            const isAdmin = await handlebarsUtils.isAdmin(user)
+            const isExternalAcces = await handlebarsUtils.isExternalAcces(user)
+
+            const regex = /^[0-9]*$/
+            let query = req.query.query
+            let limit = parseInt(req.query.limit)
+            let sort = req.query.sort
+            let { page = 1 } = req.query
+
+            let isNumber = regex.test(page)
+            if(page < 0 || isNumber == false || page.length > 3) {
+                CustomError.createError({
+                    name: "Invalid query",
+                    message: "An error occurred trying to get HTTP query",
+                    cause: productQueryErrorInfo(query),
+                    errorCode: EError.INVALID_QUERY,
+                })
+            }
+        
+            let queryFilter = {}
+            if (query) {
+                queryFilter = JSON.parse(query)
+            }
+        
+            let limitOption = 10
+            if (limit) {
+                limitOption = limit
+            }
+        
+            let sortOption = {}
+            if (sort == 'asc') {
+                sortOption = { price: 1 }
+            } else if (sort == 'desc') {
+                sortOption = { price: -1 }
+            }
+            const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await userModel.paginate( queryFilter, 
+                { limit: limitOption, 
+                    page: page, 
+                    sort: sortOption, 
+                    lean: true }
+            )
+            let users = docs
+            user._id = userData._id
+            user.documents = userData.documents
+            const isDocumentationIncomplete = user.status === 'incompleto' || user.status === 'pendiente'
+            res.render('update-role', {
+                user,
+                users,
+                hasPrevPage,
+                hasNextPage,
+                prevPage,
+                nextPage,
+                isAdmin,
+                isExternalAcces,
+                isDocumentationIncomplete,
                 title: titleTag,
                 style: 'styles.css'
             })
@@ -218,7 +302,7 @@ export default class ViewsController {
             let productsLength = products.length
         
             let searchError = ''
-            if (productsLength == 0) {
+            if (productsLength === 0) {
                 searchError = 'No se ha encontrado ningun producto con los filtros solicitados'
             }
         
@@ -267,9 +351,15 @@ export default class ViewsController {
     async realTimeProducts (req, res) {
         try {
             const titleTag = 'Real time products'
+            let user = req.session.user
+            const isAdmin = await handlebarsUtils.isAdmin(user)
+            const isExternalAcces = await handlebarsUtils.isExternalAcces(user)
             res.render('realTimeProducts', { 
                 title: titleTag,
-                style: 'styles.css'
+                style: 'styles.css',
+                user,
+                isAdmin,
+                isExternalAcces
             })
         } catch (error) {
             res.send({

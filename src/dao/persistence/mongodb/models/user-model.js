@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import mongoosePaginate from 'mongoose-paginate-v2'
 
 const collection = 'user'
 
@@ -40,11 +41,23 @@ const schema = new mongoose.Schema({
         ],
         default: []
     },
+    status:{
+        type: String,
+        require: true,
+        enums: ['completo', 'incompleto', 'pendiente'],
+        default: 'pendiente'
+    },
     last_connection: {
         type: String,
         default: null
+    },
+    avatar:{
+        type: String,
+        default: ""
     }
 })
+
+schema.plugin(mongoosePaginate)
 
 const userModel = mongoose.model(collection, schema);
 

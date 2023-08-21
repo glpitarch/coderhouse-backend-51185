@@ -1,19 +1,170 @@
+<header>
+    <nav class="r-flex justify-content-center bg-color-1 min-height-12">
+        <div class="r-flex align-items-center min-height-12 min-w-15">
+            <div>
+                <a href="/products"><img src="./images/icons/brand-logo.png" alt=""></a>
+            </div>
+            <div class="navbarMenuContainer">
+                <ul id="navbarMenu" class="min-height-5 align-items-center">
+                    <li id="navbarProducts">Productos</li>
+                        <ul id="dropdownCategoryMenu" class="hidden ani-appear absolute">
+                            <a href="/products"><li>Todos los porductos</li></a>
+                            <a href="/products?query={%22category%22%3A%22Sahumerios%22}"><li>Sahumerios</li></a>
+                            <a href="/products?query={%22category%22%3A%22Defumacion%22}"><li>Defumacion</li></a>
+                            <a href="/products?query={%22category%22%3A%22Conos y Cascadas%22}"><li>Conos y Cascadas</li></a>
+                            <a href="/products?query={%22category%22%3A%22Sahumos%22}"><li>Sahumos</li></a>
+                        </ul>
+                    <li><a href="/chat">Chat online</a></li>
+                    <li><a href="/cart">Carrito</a></li>
+                    {{#if isAdmin}}
+                        <li><a href="/realtimeproducts">Real Time Products</a></li>
+                        <li><a href="/updateRole">Cambiar rol</a></li>
+                    {{/if}}
+                </ul> 
+            </div>
+        </div>
+        <div class="r-flex justify-content-end align-items-center txt-center">
+            <div>
+                <div class="txt-center m-0 p-0">
+                    <a href="/profile"><img  src="./images/icons/user.png" alt=""></a>
+                </div>
+                    {{#if user}}
+                        <div>
+                            <strong><p class="m-0 mb-02e5">¡Bienvenido!</p></strong> 
+                        </div>
+                        <div class="txt-center">
+                            <strong><p id="cartId" data-cart-id="{{user.cart._id}}" class="m-0">{{user.role}}: {{user.first_name}} {{user.last_name}}</p></strong> 
+                            <strong><p id="userEmail" data-user-email="{{user.email}}" class="m-0">email: {{user.email}}</p></strong>  
+                            {{#if isAdmin}}
+                                <p class="m-0 orangered">Esta cuenta tiene derechos de administrador</p>
+                            {{/if}}
+                        </div>
+                        <div class="txt-center mt-02e5">
+                            <a href="/api/session/logout"><button class="border-r-02e5 border-color-3">Cerrar sesión</button></a>
+                        </div>
+                        {{else}}
+                        <div class="txt-left">
+                            <strong><p class="m-0">Iniciar sesión: <a href="/">aquí</a></p></strong>
+                            <strong><p class="m-0">Registrarse: <a href="/register">aquí</a></p></strong> 
+                        </div>
+                    {{/if}}
+            </div>
+        </div>
+    </nav>
+    <div id="advancedSearchButtonContainer" class="r-flex justify-content-center align-items-center min-height-5 bg-color-2">
+        <button id="advancedSearchButton" class="min-height-2 p-02e5 border-r-02e5 border-color-3">Búsqueda avanzada</button>
+    </div>
+    <div id="advancedSearchBarContainer" class="ani-appear hidden">
+        <div class="c-flex align-items-center min-height-15 bg-color-2">
+            <h3>Filtrar por:</h3>
+            <div class="r-flex justify-content-center align-self-center max-w-48">
+                <div class="c-flex justify-self-start mr-2 txt-center">
+                    <div class="mb-1">
+                        <input type="checkbox" id="checkboxProductName">Nombre del producto:
+                    </div>
+                    <input type="text" id="productNameInput" class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic">
+                </div>
+                <div class="c-flex justify-self-start mr-2 ml-02e5 txt-center">
+                    <div class="mb-1">
+                        <input type="checkbox" name="" id="checkboxCategory">Categoría:
+                    </div>
+                    <select name="productsCategory" id="productsCategory" class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic">
+                        <option value=""></option>
+                        <option value="Sahumerios">Sahumerios</option>
+                        <option value="Defumacion">Defumacion</option>
+                        <option value="Conos y Cascadas">Conos y Cascadas</option>
+                        <option value="Sahumos">Sahumos</option>
+                    </select>
+                </div>
+                <div class="c-flex justify-content-around mr-2 txt-center">
+                    <div>
+                        <input type="checkbox" id="checkboxPrice">Precio:
+                    </div>
+                        <span class="mt-1 txt-left">Valor mínimo</span>
+                    <div class="r-flex align-self-center">
+                        <input class="mr-02e5" type="range" id="minValuePriceRange" min="0" max="2000" onchange="showValue()">
+                        <span id="minValuePrice">1000</span>
+                    </div>
+                        <span class="mt-1 txt-left">Valor máximo</span>
+                    <div class="r-flex align-self-center">
+                        <input class="mr-02e5" type="range" id="maxValuePriceRange" min="0" max="2000" onchange="showValue()">
+                        <span id="maxValuePrice">1000</span>
+                    </div>
+                </div>
+                <div class="c-flex justify-content-around mr-02e5 txt-center">
+                    <div>
+                        <input type="checkbox" id="checkboxStock">Stock:
+                    </div>
+                        <span class="mt-1 txt-left">Valor mínimo</span>
+                    <div class="r-flex align-self-center">
+                        <input class="mr-02e5" type="range" id="minValueStockRange" min="0" max="100" onchange="showValue()">
+                        <span id="minValueStock">50</span>
+                    </div>
+                        <span  class="mt-1 txt-left">Valor máximo</span>
+                    <div class="r-flex align-self-center">
+                        <input class="mr-02e5" type="range" id="maxValueStockRange" min="0" max="100" onchange="showValue()">
+                        <span id="maxValueStock">50</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="r-flex justify-content-center align-items-center bg-color-1 min-height-3">
+            <button id="searchButton" class="p-02e5 border-r-02e5 border-color-3">Buscar</button>
+        </div>
+    </div>
+</header>
 <div class="c-flex align-items-center">
     <h1 class="txt-center">Tu perfil</h1>
     {{#if isExternalAcces}}
-        <div>
-            <strong><p>Nombre de usuario:</strong> {{user.first_name}} {{user.last_name}}</p>
-            <strong><p>Dirección de correo electrónico:</strong> {{user.email}}</p>
-            <strong><p>Rol:</strong> {{user.role}}</p>
+        <div class="min-w-15 p-5 border-form bg-color-3">
+            <strong><p>Nombre de usuario: </strong><span class="font-italic">{{user.first_name}} {{user.last_name}}</span></p>
+            <strong><p>Dirección de correo electrónico: </strong><span class="font-italic">{{user.email}}</span> </p>
+            <strong><p>Rol: </strong><span class="font-italic">{{user.role}}</span></p>
+            <div class="r-flex justify-content-center border-form bg-color-3 mt-4">
+                <a href="/api/session/logout"><button class="p-02e5 border-r-02e5 border-color-3">Cierre su sesión</button></a>
+            </div>
         </div>
         {{else}}
-            <div>
-                <strong><p>Nombre de usuario:</strong> {{user.first_name}} {{user.last_name}}</p>
-                <strong><p>Dirección de correo electrónico:</strong> {{user.email}}</p>
-                <strong><p>Edad:</strong> {{user.age}}</p>
-                <strong><p>Rol:</strong> {{user.role}}</p>
+            <div class="min-w-15 p-5 border-form bg-color-3">
+                <strong><p>Nombre de usuario: </strong><span class="font-italic">{{user.first_name}} {{user.last_name}}</span></p>
+                <strong><p>Dirección de correo electrónico: </strong><span class="font-italic">{{user.email}}</span> </p>
+                <strong><p>Edad: </strong><span class="font-italic">{{user.age}}</span></p>
+                <strong><p>Rol: </strong><span class="font-italic">{{user.role}}</span></p>
+                <div class="r-flex justify-content-center border-form bg-color-3 mt-4">
+                    <a href="/api/session/logout"><button class="p-02e5 border-r-02e5 border-color-3">Cierre su sesión</button></a>
+                </div>
             </div>
     {{/if}}
-    <p>Ir la sección de productos: <a href="/products">Volver</a></p>
-    <a href="/api/session/logout"><button>Cierre su sesión</button></a>
+
+    <h2 class="mt-5">Conviertete en usuario PREMIUM</h2>
+    <div class="c-flex txt-center max-width-30 border-form p-3 bg-color-3">
+        <p class="bold">Para convertirte en un usuario PREMIUM y tener algunos privilegios extras tienes que subir tres distintas documentaciones listadas a continuación.</p>
+        <p class="font-italic">Recuerda que a pesar de existir algún documento previamente subido y tener la documentación INCOMPLETA, se requiere subir toda la documentación nuevamente para realizar alguna actualización.</p>
+        {{#if isDocumentationIncomplete}}
+        <p>Estado de tu documentación: <strong>incompleto</strong></p>
+            {{else}}
+        <p>Estado de tu documentación: <strong>completo</strong></p>
+        {{/if}}
+    </div>
+    <div class="min-w-15 mt-2 p-5 border-form bg-color-3">
+        <form action="/api/users/{{user._id}}/documents" method="POST" enctype="multipart/form-data" class="txt-center">
+            <div class="pb-02e5">
+                <strong><label for="identificacion">Identificación:</label></strong>
+            </div>
+                <input type="file" name="identificacion" class="mb-2">
+            <div class="pb-02e5">
+                <strong><label for="domicilio" class="bold">Domicilio:</label></strong>
+            </div>
+                <input type="file" name="domicilio" class="mb-2">
+            <div class="pb-02e5">
+                <strong><label for="estadoDeCuenta">Estado de Cuenta:</label></strong>
+            </div>
+                <input type="file" name="estadoDeCuenta" class="mb-2">
+            <div>
+                <input type="submit" value="Cargar Archivos" class="p-02e5 border-r-02e5 border-color-3 mt-2">
+            </div>
+        </form>
+    </div>
 </div>
+
+<script src="/js/index.js"></script>

@@ -2,7 +2,7 @@ import userModel from './../models/user-model.js'
 
 export class UsersManagerMongo {
 
-    async getUsers() {
+    async getUsers () {
         try {
             const users = await userModel.find()
             return users
@@ -11,7 +11,7 @@ export class UsersManagerMongo {
         }
     }
 
-    async getUserById(uid) {
+    async getUserById (uid) {
         try {
             const user = await userModel.findById(uid)
             return user
@@ -20,13 +20,24 @@ export class UsersManagerMongo {
         }
     }
 
-    async changeUserRole(uid, userRole) {
+    async deleteUser (uid) {
+        try {
+            const deletedUser = await userModel.findByIdAndDelete(uid)
+            return deletedUser
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
+    async changeUserRole (uid, userRole, userStatus) {
         try {      
             if(userRole === 'premium') {
                 userRole = 'user'
             }
-            else if (userRole === 'user') {
+            else if (userRole === 'user' && userStatus === 'completo') {
                 userRole = 'premium'
+            } else {
+                throw new Error(`El usuario no tiene la documentación completa para hacer el cambio a usuario PREMIUM`)
             }
             const updatedUser = await userModel.findByIdAndUpdate(uid, { role: userRole })
             return updatedUser

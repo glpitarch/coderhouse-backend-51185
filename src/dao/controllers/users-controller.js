@@ -1,4 +1,5 @@
 import { usersServices } from './../repositories/index.js'
+import userModel from './../persistence/mongodb/models/user-model.js'
 
 export default class UsersController {
     async getUsers (req, res, next) {
@@ -27,6 +28,19 @@ export default class UsersController {
         }
     }
 
+    async deleteUser (req, res, next) {
+        try {
+            let uid = req.params.uid
+            const deletedUser = await usersServices.deleteUser(uid)
+            res.json({
+                status: "success",
+                payload: deletedUser
+            })
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
     async changeUserRole (req, res, next) {
         try {
             let uid = req.params.uid
@@ -41,6 +55,38 @@ export default class UsersController {
                 ${ error }`
             )
             next(error)
+        }
+    }
+
+    async uploadUserDocuments (req, res, next) {
+        try {
+            const userId = req.params.uid
+            const user = await userModel.findById(userId)
+            const identificacion = req.files['identificacion']?.[0] || null
+            const domicilio = req.files['domicilio']?.[0] || null
+            const estadoDeCuenta = req.files['estadoDeCuenta']?.[0] || null
+            const docs = []
+            if(identificacion) {
+                docs.push({ name: "identificacion", reference: identificacion.filename })
+            }
+            if(domicilio) {
+                docs.push({ name: "domicilio", reference: domicilio.filename })
+            }
+            if(estadoDeCuenta) {
+                docs.push({ name: "estadoDeCuenta", reference: estadoDeCuenta.filename })
+            }
+            if(docs.length === 3) {
+                user.status = "completo"
+            } else {
+                user.status = "incompleto"
+            }
+            user.documents = docs
+            await userModel.findByIdAndUpdate(user._id,user)
+
+            req.logger.info('Document uploaded')
+            res.redirect('/profile')
+        } catch (error) {
+            throw new Error(error.message)
         }
     }
 }

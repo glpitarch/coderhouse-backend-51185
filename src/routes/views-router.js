@@ -24,6 +24,8 @@ router.get('/reset-password', handlePolicies(['PUBLIC']), viewsController.resetP
 
 router.get('/profile', handlePolicies(['PRIVATE']), viewsController.profile)
 
+router.get('/updateRole', handlePolicies(['ADMIN']), viewsController.updateRole)
+
 router.get('/products', handlePolicies(['PRIVATE']), viewsController.products)
 
 router.get('/realtimeproducts', handlePolicies(['ADMIN']), viewsController.realTimeProducts)

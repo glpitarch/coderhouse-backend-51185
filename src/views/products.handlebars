@@ -15,9 +15,12 @@
                                 <a href="/products?query={%22category%22%3A%22Conos y Cascadas%22}"><li>Conos y Cascadas</li></a>
                                 <a href="/products?query={%22category%22%3A%22Sahumos%22}"><li>Sahumos</li></a>
                             </ul>
-                        <li><a href="/realtimeproducts">Real Time Products</a></li>
                         <li><a href="/chat">Chat online</a></li>
                         <li><a href="/cart">Carrito</a></li>
+                        {{#if isAdmin}}
+                            <li><a href="/realtimeproducts">Real Time Products</a></li>
+                            <li><a href="/updateRole">Cambiar rol</a></li>
+                        {{/if}}
                     </ul> 
                 </div>
             </div>
@@ -32,7 +35,7 @@
                             </div>
                             <div class="txt-center">
                                 <strong><p id="cartId" data-cart-id="{{user.cart._id}}" class="m-0">{{user.role}}: {{user.first_name}} {{user.last_name}}</p></strong> 
-                                <strong><p class="m-0">email: {{user.email}}</p></strong> 
+                                <strong><p id="userEmail" data-user-email="{{user.email}}" class="m-0">email: {{user.email}}</p></strong>  
                                 {{#if isAdmin}}
                                     <p class="m-0 orangered">Esta cuenta tiene derechos de administrador</p>
                                 {{/if}}
@@ -148,4 +151,4 @@
     </footer>    
 </div>
 
-<script src="/js/index-mongoDB.js"></script>
+<script src="/js/index.js"></script>

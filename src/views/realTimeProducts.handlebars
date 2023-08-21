@@ -1,67 +1,165 @@
-<div>
 <header>
-        <nav class="bg-color-1 min-height-12">
-            <div class="r-flex justify-content-center align-items-center min-height-12 min-width-15">
-                <div>
-                    <a href="/products"><img src="./images/icons/brand-logo.png" alt=""></a>
-                </div>
-                <div class="navbarMenuContainer">
-                    <ul id="navbarMenu">
+    <nav class="r-flex justify-content-center bg-color-1 min-height-12">
+        <div class="r-flex align-items-center min-height-12 min-w-15">
+            <div>
+                <a href="/products"><img src="./images/icons/brand-logo.png" alt=""></a>
+            </div>
+            <div class="navbarMenuContainer">
+                <ul id="navbarMenu" class="min-height-5 align-items-center">
+                    <li id="navbarProducts">Productos</li>
+                        <ul id="dropdownCategoryMenu" class="hidden ani-appear absolute">
+                            <a href="/products"><li>Todos los porductos</li></a>
+                            <a href="/products?query={%22category%22%3A%22Sahumerios%22}"><li>Sahumerios</li></a>
+                            <a href="/products?query={%22category%22%3A%22Defumacion%22}"><li>Defumacion</li></a>
+                            <a href="/products?query={%22category%22%3A%22Conos y Cascadas%22}"><li>Conos y Cascadas</li></a>
+                            <a href="/products?query={%22category%22%3A%22Sahumos%22}"><li>Sahumos</li></a>
+                        </ul>
+                    <li><a href="/chat">Chat online</a></li>
+                    <li><a href="/cart">Carrito</a></li>
+                    {{#if isAdmin}}
                         <li><a href="/realtimeproducts">Real Time Products</a></li>
-                    </ul> 
+                        <li><a href="/updateRole">Cambiar rol</a></li>
+                    {{/if}}
+                </ul> 
+            </div>
+        </div>
+        <div class="r-flex justify-content-end align-items-center txt-center">
+            <div>
+                <div class="txt-center m-0 p-0">
+                    <a href="/profile"><img  src="./images/icons/user.png" alt=""></a>
+                </div>
+                    {{#if user}}
+                        <div>
+                            <strong><p class="m-0 mb-02e5">¡Bienvenido!</p></strong> 
+                        </div>
+                        <div class="txt-center">
+                            <strong><p id="cartId" data-cart-id="{{user.cart._id}}" class="m-0">{{user.role}}: {{user.first_name}} {{user.last_name}}</p></strong> 
+                            <strong><p id="userEmail" data-user-email="{{user.email}}" class="m-0">email: {{user.email}}</p></strong>  
+                            {{#if isAdmin}}
+                                <p class="m-0 orangered">Esta cuenta tiene derechos de administrador</p>
+                            {{/if}}
+                        </div>
+                        <div class="txt-center mt-02e5">
+                            <a href="/api/session/logout"><button class="border-r-02e5 border-color-3">Cerrar sesión</button></a>
+                        </div>
+                        {{else}}
+                        <div class="txt-left">
+                            <strong><p class="m-0">Iniciar sesión: <a href="/">aquí</a></p></strong>
+                            <strong><p class="m-0">Registrarse: <a href="/register">aquí</a></p></strong> 
+                        </div>
+                    {{/if}}
+            </div>
+        </div>
+    </nav>
+    <div id="advancedSearchButtonContainer" class="r-flex justify-content-center align-items-center min-height-5 bg-color-2">
+        <button id="advancedSearchButton" class="min-height-2 p-02e5 border-r-02e5 border-color-3">Búsqueda avanzada</button>
+    </div>
+    <div id="advancedSearchBarContainer" class="ani-appear hidden">
+        <div class="c-flex align-items-center min-height-15 bg-color-2">
+            <h3>Filtrar por:</h3>
+            <div class="r-flex justify-content-center align-self-center max-w-48">
+                <div class="c-flex justify-self-start mr-2 txt-center">
+                    <div class="mb-1">
+                        <input type="checkbox" id="checkboxProductName">Nombre del producto:
+                    </div>
+                    <input type="text" id="productNameInput" class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic">
+                </div>
+                <div class="c-flex justify-self-start mr-2 ml-02e5 txt-center">
+                    <div class="mb-1">
+                        <input type="checkbox" name="" id="checkboxCategory">Categoría:
+                    </div>
+                    <select name="productsCategory" id="productsCategory" class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic">
+                        <option value=""></option>
+                        <option value="Sahumerios">Sahumerios</option>
+                        <option value="Defumacion">Defumacion</option>
+                        <option value="Conos y Cascadas">Conos y Cascadas</option>
+                        <option value="Sahumos">Sahumos</option>
+                    </select>
+                </div>
+                <div class="c-flex justify-content-around mr-2 txt-center">
+                    <div>
+                        <input type="checkbox" id="checkboxPrice">Precio:
+                    </div>
+                        <span class="mt-1 txt-left">Valor mínimo</span>
+                    <div class="r-flex align-self-center">
+                        <input class="mr-02e5" type="range" id="minValuePriceRange" min="0" max="2000" onchange="showValue()">
+                        <span id="minValuePrice">1000</span>
+                    </div>
+                        <span class="mt-1 txt-left">Valor máximo</span>
+                    <div class="r-flex align-self-center">
+                        <input class="mr-02e5" type="range" id="maxValuePriceRange" min="0" max="2000" onchange="showValue()">
+                        <span id="maxValuePrice">1000</span>
+                    </div>
+                </div>
+                <div class="c-flex justify-content-around mr-02e5 txt-center">
+                    <div>
+                        <input type="checkbox" id="checkboxStock">Stock:
+                    </div>
+                        <span class="mt-1 txt-left">Valor mínimo</span>
+                    <div class="r-flex align-self-center">
+                        <input class="mr-02e5" type="range" id="minValueStockRange" min="0" max="100" onchange="showValue()">
+                        <span id="minValueStock">50</span>
+                    </div>
+                        <span  class="mt-1 txt-left">Valor máximo</span>
+                    <div class="r-flex align-self-center">
+                        <input class="mr-02e5" type="range" id="maxValueStockRange" min="0" max="100" onchange="showValue()">
+                        <span id="maxValueStock">50</span>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <main>
-        <h1 class="txt-center">Real time products with websockets</h1>
-
-        {{!-- DELETE & ADD PRODUCTS FORM --}}
-        <div class="r-flex justify-content-center">
-            <div class="p-3 txt-center">
-                <h2>Eliminar producto</h2>
-                <p>Ingrese el ID del producto que desea eliminar:</p>
-                <input type="text" id="deleteInput"> <button id="deleteButton">Eliminar producto</button>
-            </div>
-            <div class="p-3 txt-center">
-                <h2>Agregar producto</h2>
-                <p>Complete los siguientes campos para agregar el producto:</p>
-                <form class="txt-align-center">
-                    <label>Categoría:</label><br>
-                    <input class="mb-1" type="text" id="categoryInput"><br>
-                    <label >Nombre:</label><br>
-                    <input class="mb-1" type="text" id="titleInput"><br>
-                    <label>Descripción:</label><br>
-                    <input class="mb-1" type="text" id="descriptionInput"><br>
-                    <label>Precio:</label><br>
-                    <input class="mb-1" type="text" id="priceInput"><br>
-                    <label>Stock:</label><br>
-                    <input class="mb-1" type="text" id="stockInput"><br>
-                    <label>Código:</label><br>
-                    <input class="mb-1" type="text" id="codeInput"><br>
-                    <label>Thumbnail:</label><br>
-                    <input class="mb-1" type="text" id="thumbnailInput"><br>
-                    <label>Estado:</label><br>
-                    <input class="mb-1" type="text" id="statusInput"><br>
-                    <button id="addButton">Agregar producto</button>
-                </form>
-            </div>
         </div>
-
-        {{!-- PRODUCTS CONTAINER RENDER --}}
-        <div id="productContainer" class="r-flex justify-content-center wrap">
+        <div class="r-flex justify-content-center align-items-center bg-color-1 min-height-3">
+            <button id="searchButton" class="p-02e5 border-r-02e5 border-color-3">Buscar</button>
         </div>
-    </main>
-    <footer class="min-height-5 bg-color-1">
+    </div>
+</header>
+<main>
+    <h1 class="txt-center">Real time products with websockets</h1>
 
-    </footer> 
-</div>
+    {{!-- DELETE & ADD PRODUCTS FORM --}}
+    <div class="r-flex justify-content-center">
+        <div class="p-3 txt-center border-form bg-color-3">
+            <h2>Eliminar producto</h2>
+            <p>Ingrese el ID del producto que desea eliminar:</p>
+            <input class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic mb-1" type="text" id="deleteInput">
+            <button id="deleteButton" class="p-02e5 border-r-02e5 border-color-3">Eliminar producto</button>
+        </div>
+        <div class="p-3 txt-center border-form bg-color-3">
+            <h2>Agregar producto</h2>
+            <p>Complete los siguientes campos para agregar el producto:</p>
+            <form class="txt-align-center">
+                <label><strong>Categoría:</strong></label><br>
+                <input class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic mb-1" placeholder="Categoría del producto" type="text" id="categoryInput"><br>
+                <label><strong>Nombre:</strong></label><br>
+                <input class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic mb-1" placeholder="Nombre del producto" type="text" id="titleInput"><br>
+                <label><strong>Descripción:</strong></label><br>
+                <input class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic mb-1" placeholder="Descripción del producto" type="text" id="descriptionInput"><br>
+                <label><strong>Precio:</strong></label><br>
+                <input class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic mb-1" placeholder="Precio del producto" type="text" id="priceInput"><br>
+                <label><strong>Stock:</strong></label><br>
+                <input class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic mb-1" placeholder="Stock del producto" type="text" id="stockInput"><br>
+                <label><strong>Código:</strong></label><br>
+                <input class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic mb-1" placeholder="Código del producto" type="text" id="codeInput"><br>
+                <label><strong>Thumbnail:</strong></label><br>
+                <input class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic mb-1" placeholder="Thumbnail del producto" type="text" id="thumbnailInput"><br>
+                <label><strong>Estado:</strong></label><br>
+                <input class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic mb-1" placeholder="Estado del producto" type="text" id="statusInput"><br>
+                <button id="addButton" class="p-02e5 border-r-02e5 border-color-3">Agregar producto</button>
+            </form>
+        </div>
+    </div>
+
+    {{!-- PRODUCTS CONTAINER RENDER --}}
+    <div id="productContainer" class="r-flex justify-content-center wrap">
+    </div>
+</main>
+<footer class="min-height-5 bg-color-1"></footer> 
 
 <script src="/socket.io/socket.io.js"></script>
 
 {{!-- Index for MongoDB --}}
 <script src="/js/realTimeProducts.js"></script>
-<script src="/js/index-mongoDB.js"></script>
+<script src="/js/index.js"></script>
 
 {{!-- Index for fileSystem --}}
 {{!-- <script src="/js/index-fs.js"></script> --}}
