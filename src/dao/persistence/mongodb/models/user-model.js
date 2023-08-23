@@ -41,7 +41,7 @@ const schema = new mongoose.Schema({
         ],
         default: []
     },
-    status:{
+    status: {
         type: String,
         require: true,
         enums: ['completo', 'incompleto', 'pendiente'],
@@ -51,9 +51,13 @@ const schema = new mongoose.Schema({
         type: String,
         default: null
     },
-    avatar:{
+    avatar: {
         type: String,
         default: ""
+    },
+    premium_images: {
+        type: Array,
+        default: []
     }
 })
 

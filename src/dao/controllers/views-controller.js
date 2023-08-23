@@ -154,17 +154,16 @@ export default class ViewsController {
             user._id = userData._id
             user.documents = userData.documents
             user.status = userData.status
+            let userDocumentation
             if (user.status === 'incompleto' || user.status === 'pendiente') {
-                let userDocumentation = await usersServices.checkDocumentation(userData)
-                user.identificacionExist = userDocumentation[0]
-                user.domicilioExist = userDocumentation[1]
-                user.estadoDeCuentaExist = userDocumentation[2]
+                userDocumentation = await usersServices.checkDocumentation(userData)
             }
             const isDocumentationIncomplete = user.status === 'incompleto' || user.status === 'pendiente'
             const isAdmin = await handlebarsUtils.isAdmin(user)
             const isExternalAcces = await handlebarsUtils.isExternalAcces(user)
             res.render('profile', {
                 user,
+                userDocumentation,
                 isAdmin,
                 isExternalAcces,
                 isDocumentationIncomplete,

@@ -37,36 +37,6 @@ export class UsersRepository {
         }
     }
 
-    async checkDocumentation (userData) {
-        try {
-            let checkDocumentation = []
-            let identificacion = await userData.documents.find(doc => doc.name === 'identificacion')
-            if (identificacion != undefined) {
-                identificacion = true
-            } else {
-                identificacion = false
-            }
-            checkDocumentation.push(identificacion)
-            let domicilio = await userData.documents.find(doc => doc.name === 'domicilio')
-            if (domicilio != undefined) {
-                domicilio = true
-            } else {
-                domicilio = false
-            }
-            checkDocumentation.push(domicilio)
-            let estadoDeCuenta = await userData.documents.find(doc => doc.name === 'estadoDeCuenta')
-            if (estadoDeCuenta != undefined) {
-                estadoDeCuenta = true
-            } else {
-                estadoDeCuenta = false
-            }
-            checkDocumentation.push(estadoDeCuenta)
-            return checkDocumentation
-        } catch (error) {
-            return error.message
-        }
-    }
-
     async changeUserRole(uid){
         try {
             const user = await this.getUserById(uid)
@@ -74,6 +44,63 @@ export class UsersRepository {
             const userStatus = user.status
             const updatedUser = await this.usersDao.changeUserRole(uid, userRole, userStatus)
             return updatedUser
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+    
+    async checkDocumentation (userData) {
+        try {
+            let checkDocumentation = {}
+            let identificacion = await userData.documents.find(doc => doc.name === 'identificacion')
+            if (identificacion != undefined) {
+                identificacion = 'completo'
+            } else {
+                identificacion = 'faltante'
+            }
+            checkDocumentation.identificacion = identificacion
+            let domicilio = await userData.documents.find(doc => doc.name === 'domicilio')
+            if (domicilio != undefined) {
+                domicilio = 'completo'
+            } else {
+                domicilio = 'faltante'
+            }
+            checkDocumentation.domicilio = domicilio
+            let estadoDeCuenta = await userData.documents.find(doc => doc.name === 'estadoDeCuenta')
+            if (estadoDeCuenta != undefined) {
+                estadoDeCuenta = 'completo'
+            } else {
+                estadoDeCuenta = 'faltante'
+            }
+            checkDocumentation.estadoDeCuenta = estadoDeCuenta
+            return checkDocumentation
+        } catch (error) {
+            return error.message
+        }
+    }
+
+    async uploadUserDocuments (userId, receivedDocs) {
+        try {
+            const updateUser = await this.usersDao.uploadUserDocuments(userId, receivedDocs)
+            return updateUser
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
+    async uploadUserProfileImage (userId, filePath) {
+        try {
+            const updateUser = await this.usersDao.uploadUserProfileImage(userId, filePath)
+            return updateUser
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
+    async uploadUserProductsImages (userId, filePath) {
+        try {
+            const result = await this.usersDao.uploadUserProductsImages(userId, filePath)
+            return result
         } catch (error) {
             throw new Error(error.message)
         }
