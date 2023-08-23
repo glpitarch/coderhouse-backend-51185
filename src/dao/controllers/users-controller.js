@@ -88,7 +88,7 @@ export default class UsersController {
             const userData = await usersServices.getUserById(userId)
             const documentationStatus = await usersServices.checkDocumentation(userData)
             req.logger.info(`Document uploaded by user ID: ${userId}`)
-            res.json({ documentationStatus })
+            res.json(documentationStatus.docs_status)
         } catch (error) {
             throw new Error(error.message)
         }

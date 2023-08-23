@@ -41,11 +41,21 @@ const schema = new mongoose.Schema({
         ],
         default: []
     },
-    status: {
-        type: String,
-        require: true,
-        enums: ['completo', 'incompleto', 'pendiente'],
-        default: 'pendiente'
+    docs_status: {
+        overall: {
+            type: String,
+            require: true,
+            enums: ['completo', 'incompleto', 'pendiente'],
+            default: 'pendiente'
+        },
+        each: {
+            type: Object,
+            default: {
+                identificacion: null,
+                domicilio: null,
+                estadoDeCuenta: null
+            }
+        }
     },
     last_connection: {
         type: String,

@@ -153,12 +153,12 @@ export default class ViewsController {
             let userData = await userModel.findOne({ email: user.email })
             user._id = userData._id
             user.documents = userData.documents
-            user.status = userData.status
+            user.docs_status = userData.docs_status
             let userDocumentation
-            if (user.status === 'incompleto' || user.status === 'pendiente') {
+            if (user.docs_status.overall === 'incompleto' || user.docs_status.overall === 'pendiente') {
                 userDocumentation = await usersServices.checkDocumentation(userData)
             }
-            const isDocumentationIncomplete = user.status === 'incompleto' || user.status === 'pendiente'
+            const isDocumentationIncomplete = user.docs_status.overall === 'incompleto' || user.docs_status.overall === 'pendiente'
             const isAdmin = await handlebarsUtils.isAdmin(user)
             const isExternalAcces = await handlebarsUtils.isExternalAcces(user)
             res.render('profile', {
@@ -182,7 +182,6 @@ export default class ViewsController {
         try {
             const titleTag = 'Cambiar rol'
             let user = req.session.user
-            let userData = await userModel.findOne({ email: user.email })
             const isAdmin = await handlebarsUtils.isAdmin(user)
             const isExternalAcces = await handlebarsUtils.isExternalAcces(user)
 
@@ -214,9 +213,9 @@ export default class ViewsController {
         
             let sortOption = {}
             if (sort == 'asc') {
-                sortOption = { price: 1 }
+                sortOption = { role: 1 }
             } else if (sort == 'desc') {
-                sortOption = { price: -1 }
+                sortOption = { role: -1 }
             }
             const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await userModel.paginate( queryFilter, 
                 { limit: limitOption, 
@@ -225,9 +224,6 @@ export default class ViewsController {
                     lean: true }
             )
             let users = docs
-            user._id = userData._id
-            user.documents = userData.documents
-            const isDocumentationIncomplete = user.status === 'incompleto' || user.status === 'pendiente'
             res.render('update-role', {
                 user,
                 users,
@@ -237,7 +233,6 @@ export default class ViewsController {
                 nextPage,
                 isAdmin,
                 isExternalAcces,
-                isDocumentationIncomplete,
                 title: titleTag,
                 style: 'styles.css'
             })

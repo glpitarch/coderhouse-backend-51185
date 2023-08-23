@@ -48,14 +48,46 @@ export class UsersManagerMongo {
         }
     }
 
+    async checkDocumentation (userData) {
+        try {
+            let documentationStatus = {}
+            let identificacion = await userData.documents.find(doc => doc.name === 'identificacion')
+            if (identificacion != undefined) {
+                identificacion = 'completo'
+            } else {
+                identificacion = 'faltante'
+            }
+            documentationStatus.identificacion = identificacion
+            let domicilio = await userData.documents.find(doc => doc.name === 'domicilio')
+            if (domicilio != undefined) {
+                domicilio = 'completo'
+            } else {
+                domicilio = 'faltante'
+            }
+            documentationStatus.domicilio = domicilio
+            let estadoDeCuenta = await userData.documents.find(doc => doc.name === 'estadoDeCuenta')
+            if (estadoDeCuenta != undefined) {
+                estadoDeCuenta = 'completo'
+            } else {
+                estadoDeCuenta = 'faltante'
+            }
+            documentationStatus.estadoDeCuenta = estadoDeCuenta
+            userData.docs_status.each = documentationStatus
+            const updatedDocumentationStatus = await userModel.findByIdAndUpdate(userData._id, { $set: { 'docs_status.each': userData.docs_status.each }}, { new: true })
+            return updatedDocumentationStatus
+        } catch (error) {
+            return error.message
+        }
+    }
+
     async uploadUserDocuments (userId, receivedDocs) {
         try {
             const user = await userModel.findById(userId)
             user.documents = receivedDocs
             if(receivedDocs.length === 3) {
-                user.status = "completo"
+                user.docs_status.overall = "completo"
             } else {
-                user.status = "incompleto"
+                user.docs_status.overall = "incompleto"
             }
             const updateUser = await userModel.findByIdAndUpdate(user._id, user)
             return updateUser

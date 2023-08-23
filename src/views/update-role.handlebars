@@ -122,10 +122,15 @@
                     <strong><p>Nombre de usuario: </strong><span class="font-italic">{{this.first_name}} {{this.last_name}}</span></p>
                     <strong><p>Dirección de correo electrónico: </strong><span class="font-italic">{{this.email}}</span> </p>
                     <strong><p>Rol: </strong><span class="font-italic">{{this.role}}</span></p>
-                    <strong><p>Documentacion: </strong><span class="font-italic">{{this.status}}</span></p>
+                    <strong><p>Documentación: </strong><span class="font-italic">{{this.docs_status.overall}}</span></p>
+                    <div class="txt-center">
+                        <strong><p>Identificación: </strong><span class="font-italic">{{this.docs_status.each.identificacion}}</span></p>
+                        <strong><p>Domicilio: </strong><span class="font-italic">{{this.docs_status.each.domicilio}}</span></p>
+                        <strong><p>Estado de Cuenta: </strong><span class="font-italic">{{this.docs_status.each.estadoDeCuenta}}</span></p>
+                    </div>
                     <p id="documentation-info-{{this.id}}" class="orangered"></p>
                     <button id="changeRoleButton-{{this.id}}" class="m-1 p-02e5 border-r-02e5 border-color-3" data-user-id="{{this.id}}">Cambiar rol</button>
-                    <strong><p>Ultima conexión: </strong><span class="font-italic">{{this.last_connection}}</span></p>
+                    <strong><p>Última conexión: </strong><span class="font-italic">{{this.last_connection}}</span></p>
                     <button id="deleteUserButton-{{this.id}}" class="m-1 p-02e5 border-r-02e5 border-color-3" data-user-id="{{this.id}}">Eliminar usuario</button>
                 </div>
             {{/each}}

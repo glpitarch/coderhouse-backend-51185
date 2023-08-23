@@ -10,11 +10,11 @@ updateRoleButton.forEach(button => {
           if (data.status === 'error') {
             document.getElementById(`documentation-info-${userId}`).innerHTML = 'Falta documentación. Actualización fallida.'
           } else {
-            document.getElementById(`documentation-info-${userId}`).innerHTML = 'Actualizacion exitosa de rol.'
+            document.getElementById(`documentation-info-${userId}`).innerHTML = 'Actualización exitosa de rol.'
 
             setTimeout(() => {
                 window.location.replace('/updateRole')
-              }, 4000)
+              }, 2500)
           }
         })
         .catch(error => {
@@ -37,7 +37,7 @@ deleteUserButton.forEach(button => {
 
             setTimeout(() => {
               window.location.replace('/updateRole');
-            }, 4000)
+            }, 2500)
           }
         })
         .catch(error => {
