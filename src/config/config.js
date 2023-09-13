@@ -33,7 +33,7 @@ const ENVIRONMENT = process.env.ENVIRONMENT
 
 export const config = {
     server: {
-        port: PORT,
+        port: PORT||8080,
         persistence: PERSISTENCE
     },
     mongo: {
