@@ -11,10 +11,14 @@ form.addEventListener('submit', e => {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(result => {
-        if (result.status === 200) {
+    }).then(response => {
+        if (response.ok) {
             window.location.replace('/register-success')
         } else {
+            throw new Error('Registration failed')
+        }
+    }).catch(error => {
+        if (error) {
             window.location.replace('/register-failed')
         }
     })

@@ -30,6 +30,14 @@
     flex-wrap: nowrap;
 }
 
+.top-100 {
+    top: 100%;
+}
+
+.left-0 {
+    left: 0;
+}
+
 /*----->_[ JUSTIFY ]_<-----*/
 
 .justify-content-center {
@@ -89,4 +97,18 @@
 
 .absolute {
     position: absolute;
+}
+
+.fullScreenDiv {
+    height: 100vh;
+}
+
+.brand-logo {
+    border-radius: 6rem;
+    height: 250px;
+    width: 250px;
+}
+
+main {
+    min-height: 75vh;
 }

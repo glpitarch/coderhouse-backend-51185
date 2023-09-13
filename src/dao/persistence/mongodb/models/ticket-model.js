@@ -1,5 +1,4 @@
 import mongoose from "mongoose"
-import { timestamp } from './../../../../helpers/utils.js'
 
 const collection = 'ticket'
 
@@ -9,8 +8,7 @@ const schema = new mongoose.Schema({
         unique: true
     },
     purchase_datetime: {
-        type: String,
-        default: timestamp()
+        type: String
     },
     amount: Number,
     purchaser: String

@@ -1,6 +1,8 @@
-import path from 'path'
 import userModel from './../models/user-model.js'
 import __dirname from './../../../../absolute-path.js'
+import { DAY_IN_MS } from '././../../../../helpers/utils.js'
+import { transporter, emailMailerAccount } from './../../../../config/gmail-config.js'
+import { deletedUserEmailTemplate } from './../../../../helpers/email/deleted-user.js'
 
 export class UsersManagerMongo {
 
@@ -22,10 +24,61 @@ export class UsersManagerMongo {
         }
     }
 
+    async getUserByEmail (email) {
+        try {
+            const user = await userModel.findOne({ email: email })
+            return user
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
     async deleteUser (uid) {
         try {
             const deletedUser = await userModel.findByIdAndDelete(uid)
             return deletedUser
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
+    async deleteUsers () {
+        try {
+            const users = await this.getUsers()
+            const actualDate = new Date().getTime() / DAY_IN_MS
+            let usersToDelete = []
+            users.forEach(user => {
+                if (user.role === 'user' || user.role === 'premium') {
+                    if (user.last_connection === null) {
+                        usersToDelete.push(user.email)
+                    } else {
+                        let last_connection = user.last_connection
+                        const dateRegex = /Fecha: (\d{1,2}\/\d{1,2}\/\d{4})/
+                        const dateMatch = last_connection.match(dateRegex)
+                        let date = dateMatch[1]
+                        date = date.split('/')
+                        const day = parseInt(date[0], 10)
+                        const month = parseInt(date[1], 10)
+                        const year = parseInt(date[2], 10)
+                        let newDate = new Date(year, month - 1, day)
+                        last_connection = newDate.getTime() / DAY_IN_MS
+                        let timeDifference = actualDate - last_connection
+                        if (timeDifference > 2) {
+                            usersToDelete.push(user.email)
+                        }
+                    }
+                }
+            })
+            usersToDelete.forEach(async (userEmail) => {
+                await transporter.sendMail({
+                    from: emailMailerAccount,
+                    to: userEmail,
+                    subject: "Usuario eliminado",
+                    html: deletedUserEmailTemplate()
+                })
+                await userModel.findOneAndDelete({ email: userEmail })
+            })
+            return usersToDelete
         } catch (error) {
             throw new Error(error.message)
         }

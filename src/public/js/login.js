@@ -11,9 +11,16 @@ form.addEventListener('submit', e => {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(result => {
-        if (result.status === 200){
+    }).then(response => {
+        if (response.ok) {
+
             window.location.replace('/products')
+        } else {
+            throw new Error('login failed')
+        }
+    }).catch(error => {
+        if (error) {
+            alert('Error al intentar logearse')
         }
     })
 })

@@ -86,7 +86,7 @@ export default class ViewsController {
 
     async resetPasswordMailConfirmation (req, res) {
         try {
-            const titleTag = 'Email confirmation'
+            const titleTag = 'Confirmación de email'
             res.render('reset-password-mail', { 
                 title: titleTag,
                 style: 'styles.css'
@@ -99,9 +99,24 @@ export default class ViewsController {
         }
     }
 
+    async resetPasswordSuccess (req, res) {
+        try {
+            const titleTag = 'Password cambiado'
+            res.render('reset-password-success', { 
+                title: titleTag,
+                style: 'styles.css'
+            })
+        } catch (error) {
+            res.send({
+                error: "error",
+                message: error.message
+            })
+        }
+    }
+    
     async resetPasswordMailExpired (req, res) {
         try {
-            const titleTag = 'Password link expired'
+            const titleTag = 'Password link expirado'
             res.render('reset-password-expired-token-mail', { 
                 title: titleTag,
                 style: 'styles.css'
@@ -135,6 +150,21 @@ export default class ViewsController {
         try {
             const titleTag = 'Petición exitosa'
             res.render('successfully-user-request', { 
+                title: titleTag,
+                style: 'styles.css'
+            })
+        } catch (error) {
+            res.send({
+                error: "error",
+                message: error.message
+            })
+        }
+    }
+
+    async documentationSuccess (req, res) {
+        try {
+            const titleTag = 'Documentación enviada'
+            res.render('documentation-success', { 
                 title: titleTag,
                 style: 'styles.css'
             })
@@ -286,10 +316,12 @@ export default class ViewsController {
             }
             
             const { docs, hasPrevPage, hasNextPage, nextPage, prevPage } = await productModel.paginate( queryFilter, 
-                { limit: limitOption, 
+                { 
+                    limit: limitOption, 
                     page: page, 
                     sort: sortOption, 
-                    lean: true }
+                    lean: true 
+                }
             )
         
             let products = docs
@@ -297,7 +329,7 @@ export default class ViewsController {
         
             let searchError = ''
             if (productsLength === 0) {
-                searchError = 'No se ha encontrado ningun producto con los filtros solicitados'
+                searchError = 'No se ha encontrado ningún producto con los filtros solicitados'
             }
         
             const cid = user.cart._id
@@ -314,7 +346,9 @@ export default class ViewsController {
                 hasPrevPage,
                 hasNextPage,
                 prevPage,
-                nextPage
+                nextPage,
+                sort,
+                query
             })
         } catch (error) {
             next(error)

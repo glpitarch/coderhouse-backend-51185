@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 
 const collection = 'messages'
 
@@ -8,6 +8,10 @@ const schema = new mongoose.Schema({
         require: true
     }, 
     message: {
+        type: String,
+        require: true
+    },
+    timestamp: {
         type: String,
         require: true
     }

@@ -14,11 +14,6 @@ export default class SessionController {
         })
     }
 
-    async registerFailed (req, res, next) {
-        req.logger.info('User registration failed')
-        res.redirect('/register-failed')
-    }
-
     async login (req, res, next) {
         try {
             if(!req.user){
@@ -56,13 +51,6 @@ export default class SessionController {
                 message: "logged in"
             })
         }
-    }
-
-    async loginFailed (req, res, next) {
-        res.json({ 
-            status: "error", 
-            message: "User login failed"
-        })
     }
 
     async logout (req, res, next) {
@@ -131,7 +119,7 @@ export default class SessionController {
                 password: createHash(newPassword)
             }
             await userModel.findOneAndUpdate({ email: email }, userData)
-            return res.redirect('/successfully-user-request')
+            return res.redirect('/reset-password-success')
         } catch (error) {
             res.json({ 
                 status: "error", 

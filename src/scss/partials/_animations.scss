@@ -1,6 +1,7 @@
 .ani-appear {
     animation-duration: 3s;
     animation-name: appear;
+    transition-timing-function: ease-in-out;
   }
 
 @keyframes appear {
@@ -16,8 +17,9 @@
 }
 
 .ani-disappear {
-    animation-duration: 1.5s;
+    animation-duration: 2s;
     animation-name: disappear;
+    transition-timing-function: ease-in-out;
   }
 
 @keyframes disappear {

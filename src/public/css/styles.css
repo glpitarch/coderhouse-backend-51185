@@ -3564,6 +3564,9 @@ body {
 .orangered {
   color: orangered; }
 
+.white {
+  color: snow; }
+
 /*----->_[ BACKGROUND COLOR ]_<-----*/
 .bg-color-1 {
   background-color: #6f4b14c4; }
@@ -3581,6 +3584,14 @@ body {
   border-style: solid;
   border-color: snow;
   border-radius: 2rem; }
+
+.border-users {
+  border-style: solid;
+  border-color: #565656c4;
+  border-radius: 2rem; }
+
+.border-color-2 {
+  border-color: #565656c4; }
 
 .border-color-3 {
   border-color: ghostwhite; }
@@ -3611,6 +3622,12 @@ body {
 
 .nowrap {
   flex-wrap: nowrap; }
+
+.top-100 {
+  top: 100%; }
+
+.left-0 {
+  left: 0; }
 
 /*----->_[ JUSTIFY ]_<-----*/
 .justify-content-center {
@@ -3657,28 +3674,45 @@ body {
 .absolute {
   position: absolute; }
 
+.fullScreenDiv {
+  height: 100vh; }
+
+.brand-logo {
+  border-radius: 6rem;
+  height: 250px;
+  width: 250px; }
+
+main {
+  min-height: 75vh; }
+
 #navbarMenu {
   display: flex;
   justify-content: space-around;
   font-size: larger;
-  font-weight: bold; }
-  #navbarMenu a {
-    text-decoration: none;
-    color: black; }
+  font-weight: bold;
+  position: relative;
+  cursor: pointer; }
   #navbarMenu li {
     list-style: none;
     color: black;
     text-decoration: none;
     margin-right: 2rem;
     min-height: 2rem; }
+  #navbarMenu a {
+    text-decoration: none;
+    color: black; }
 
 #dropdownCategoryMenu {
-  margin-top: 17rem;
-  margin-right: 12rem;
   background-color: rgba(245, 245, 245, 0.5);
   border-style: none;
   border-color: whitesmoke;
-  border-radius: 5%; }
+  border-radius: 5%;
+  position: absolute;
+  top: 100%;
+  left: 0; }
+  #dropdownCategoryMenu a {
+    text-decoration: none;
+    color: black; }
   #dropdownCategoryMenu li {
     margin-top: 1rem;
     margin-right: 2rem;
@@ -3703,7 +3737,8 @@ body {
 
 .ani-appear {
   animation-duration: 3s;
-  animation-name: appear; }
+  animation-name: appear;
+  transition-timing-function: ease-in-out; }
 
 @keyframes appear {
   0% {
@@ -3714,8 +3749,9 @@ body {
     opacity: 100; } }
 
 .ani-disappear {
-  animation-duration: 1.5s;
-  animation-name: disappear; }
+  animation-duration: 2s;
+  animation-name: disappear;
+  transition-timing-function: ease-in-out; }
 
 @keyframes disappear {
   0% {

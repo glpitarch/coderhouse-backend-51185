@@ -5,11 +5,11 @@ import { handlePolicies } from '../middlewares/policies.js'
 const router = Router()
 const productsController = new ProductsController()
 
-router.get('/', productsController.getProducts)
+router.get('/', handlePolicies(['PUBLIC']), productsController.getProducts)
 
 router.post('/', handlePolicies(['ADMIN', 'PREMIUM']), productsController.createProduct)
 
-router.get('/:id', productsController.getProductById)
+router.get('/:id', handlePolicies(['PUBLIC']), productsController.getProductById)
 
 router.put('/:id', handlePolicies(['ADMIN', 'PREMIUM']), productsController.updateProduct)
 

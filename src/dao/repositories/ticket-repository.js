@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid"
+import { timestamp } from "../../helpers/utils.js"
 
 class TicketRepository {
     constructor(ticketDao){
@@ -45,8 +46,10 @@ class TicketRepository {
     async createTicket(totalPricePucharse, purchaser) {
         try {
             const ticketCode = uuidv4()
+            const datetime = timestamp()
             let ticketData = {
                 code: ticketCode,
+                purchase_datetime: datetime,
                 amount: totalPricePucharse,
                 purchaser: purchaser
             }
@@ -60,6 +63,15 @@ class TicketRepository {
     async getTicketById(id) {
         try {
             const ticket = await this.ticketDao.getTicketById(id)
+            return ticket
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
+    async getTicketByCode(code) {
+        try {
+            const ticket = await this.ticketDao.getTicketByCode(code)
             return ticket
         } catch (error) {
             throw new Error(error.message)

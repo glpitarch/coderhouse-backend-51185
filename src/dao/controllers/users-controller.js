@@ -40,6 +40,18 @@ export default class UsersController {
         }
     }
 
+    async deleteUsers (req, res, next) {
+        try {
+            const deletedUsers = await usersServices.deleteUsers()
+            res.json({
+                status: "success",
+                payload: deletedUsers
+            })
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
     async changeUserRole (req, res, next) {
         try {
             const userId = req.params.uid
@@ -88,7 +100,7 @@ export default class UsersController {
             const userData = await usersServices.getUserById(userId)
             const documentationStatus = await usersServices.checkDocumentation(userData)
             req.logger.info(`Document uploaded by user ID: ${userId}`)
-            res.json(documentationStatus.docs_status)
+            return res.redirect('/documentation-success')
         } catch (error) {
             throw new Error(error.message)
         }

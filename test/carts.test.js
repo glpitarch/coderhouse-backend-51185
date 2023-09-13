@@ -15,14 +15,13 @@ describe('Sessions module testing', () => {
     let userPassword
     let userSessionCookie
     let cartAdminMockId
-    let adminSessionCookie
     let productMockId_1
     let productMockId_2
     let productMockId_3
     let emptyCartId
 
     before( async function () {
-        /* Register a testing USER */
+        /*||=====> Register a testing USER <=====||*/
         const userMock = {
             first_name: 'testing',
             last_name: 'user',
@@ -36,7 +35,7 @@ describe('Sessions module testing', () => {
         userEmail = userMock.email
         userPassword = userMock.password
 
-        /* Register a testing ADMIN */
+        /*||=====> Register a testing ADMIN <=====||*/
         const adminMock = {
             first_name: 'testing',
             last_name: 'admin',
@@ -48,7 +47,7 @@ describe('Sessions module testing', () => {
         const newAdmin = await userModel.findOne({ email: 'testingAdmin@coder.com' })
         cartAdminMockId = newAdmin.cart._id
 
-        /* Create three mock products by an ADMIN */
+        /*||=====> Create three mock products by an ADMIN <=====||*/
         let adminLoginResponse = await requester.post('/api/session/login').send({ email: adminMock.email, password: adminMock.password })
         let adminCookie = adminLoginResponse.headers['set-cookie'][0]
         adminSessionCookie = adminCookie

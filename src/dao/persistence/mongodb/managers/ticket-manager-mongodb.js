@@ -67,5 +67,18 @@ export class TicketManagerMongo {
             throw new Error(error.message)
         }
     }
+
+    async getTicketByCode(code) {
+        try {
+            const ticket = await ticketModel.findOne({ code: code})
+            console.log(ticket)
+            if(ticket){
+                return ticket
+            }
+            throw new Error(`The ticket code: ${ code } was not found`)
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
 }
 

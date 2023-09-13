@@ -11,7 +11,7 @@ export const handlePolicies = policies => (req, res, next) => {
         return next()
     }
     if(policies.includes('ONLY_USERS')) {
-        if(user.role == 'admin') {
+        if(user.role === 'admin') {
             return res.status(403).send('Not authorized')
         } 
         else {
@@ -19,12 +19,12 @@ export const handlePolicies = policies => (req, res, next) => {
         }
     }
     if(policies.includes('PREMIUM')) {
-        if (user.role == 'premium')  {
+        if (user.role === 'premium')  {
             return next()
         }
     }
     if(policies.includes('ADMIN')) {
-        if (user.role == 'admin')  {
+        if (user.role === 'admin')  {
             return next()
         }
     }

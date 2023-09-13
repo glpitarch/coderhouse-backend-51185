@@ -1,5 +1,8 @@
 import { productsServices } from './../repositories/index.js'
+import { usersServices } from '././../repositories/index.js'
 import productModel from './../persistence/mongodb/models/products-model.js'
+import { transporter, emailMailerAccount } from './../../config/gmail-config.js'
+import { deletedPremiumProductEmailTemplate } from '../../helpers/email/deleted-premium-product.js'
 import { CustomError } from './../../helpers/errors/custom-error.js'
 import { EError } from './../../helpers/errors/enums/EError.js'
 import { createProductErrorInfo } from './../../helpers/errors/products/create-product-error.js'
@@ -8,6 +11,7 @@ import { idErrorInfo } from './../../helpers/errors/general/invalid-id-error.js'
 import { updateProductErrorInfo } from './../../helpers/errors/products/update-product-error.js'
 import { nonexistentIdErrorInfo } from './../../helpers/errors/general/nonexistent-id-error.js'
 import { rolePermissionErrorInfo } from './../../helpers/errors/users/role-permission-error.js'
+import { premiumUserAddProductErrorInfo } from '../../helpers/errors/carts/premium-user-add-product-error.js'
 
 export default class ProductsController {
     async createProduct (req, res, next) {
@@ -210,7 +214,8 @@ export default class ProductsController {
                 })
             }
             const valuesToUpdate = req.body
-            if (valuesToUpdate === null || valuesToUpdate.stock < 0 || valuesToUpdate.price < 0 || (valuesToUpdate.status != true && valuesToUpdate.status != false)) {
+            console.log(valuesToUpdate)
+            if (Object.keys(valuesToUpdate).length === 0 || (valuesToUpdate.stock && valuesToUpdate.stock < 0) || (valuesToUpdate.price && valuesToUpdate.price < 0) || (valuesToUpdate.status && valuesToUpdate.status != true && valuesToUpdate.status != false)) {
                 CustomError.createError({
                     name: "Update product error",
                     message: "An error occurred while processing your update product request",
@@ -241,7 +246,11 @@ export default class ProductsController {
                 })
             }
             const productToDelete = await productsServices.getProductById(id)
+            const productCode = productToDelete.code
+            const productName = productToDelete.title
             const productOwnerInfo = productToDelete.owner
+            const productCategory = productToDelete.category
+
             if (req.session.user.role == 'premium' && productOwnerInfo == req.session.user.email) {
                 const productDeleted = await productsServices.deleteProduct(id)
                 res.json({
@@ -257,6 +266,7 @@ export default class ProductsController {
                     errorCode: EError.AUTH_ERROR,
                 })
             }
+
             const productDeleted = await productsServices.deleteProduct(id)
             if (productDeleted === null) {
                 CustomError.createError({
@@ -265,6 +275,19 @@ export default class ProductsController {
                     cause: nonexistentIdErrorInfo(id),
                     errorCode: EError.DATABASE_ERROR,
                 })
+            }
+
+            if (req.session.user.role === 'admin') {
+                const user = await usersServices.getUserByEmail(productOwnerInfo)
+                const isPremiumUser = user.role === 'premium'
+                if (isPremiumUser) {
+                     await transporter.sendMail({
+                        from: emailMailerAccount,
+                        to: user.email,
+                        subject: "Producto eliminado por administrador",
+                        html: deletedPremiumProductEmailTemplate(productCategory, productName, productCode, id)
+                    })
+                }
             }
             res.json({
                 status:"success",

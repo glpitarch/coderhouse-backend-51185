@@ -74,20 +74,14 @@ export default class CartsController {
                     errorCode: EError.INVALID_PARAM,
                 })
             }
-            if (req.session.user.role == 'premium') {
+            if (req.session.user.role === 'premium') {
                 const product = await productsServices.getProductById(productId)
-                if (req.session.user.email == product.owner) {
+                if (req.session.user.email === product.owner) {
                     CustomError.createError({
                         name: "Invalid ID param",
                         message: "An error occurred trying to add a product to a cart",
                         cause: premiumUserAddProductErrorInfo(productId, product.owner, req.session.user.email),
                         errorCode: EError.AUTH_ERROR,
-                    })
-                } else {
-                    const updatedCart = await cartsServices.addProductToCart(cartId, productId)
-                    res.json({
-                        status: "success",
-                        payload: updatedCart
                     })
                 }
             }
@@ -166,6 +160,19 @@ export default class CartsController {
                 })
             }
             const productsList = req.body
+            productsList.forEach(product => {
+                const newQuantity = product.quantity
+                const productId = product._id
+                if (newQuantity <= 0) {
+                    CustomError.createError({
+                        name: "Incorrect quantity value",
+                        message: "An error occurred trying to update product quantity in cart",
+                        cause: newQuantityInCartErrorInfo(productId, cartId, newQuantity),
+                        errorCode: EError.INVALID_JSON,
+                    })
+                }
+            })
+
             const updatedCart = await cartsServices.updateFullCart(cartId, productsList)
             res.json({
                 status: "success",

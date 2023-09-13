@@ -1,29 +1,25 @@
 import { Router } from 'express'
 import passport from 'passport'
-import { authSession } from './../middlewares/auth-session.js'
+import { handlePolicies } from './../middlewares/policies.js'
 import SessionController from './../dao/controllers/session-controller.js'
 
 const router = Router()
 const sessionController = new SessionController()
 
-router.post('/register', passport.authenticate('register', { failureRedirect:'/registerFailed' }), sessionController.register)
+router.post('/register', handlePolicies(['PUBLIC']), passport.authenticate('register'), sessionController.register)
 
-router.get('/registerFailed', sessionController.registerFailed)
+router.post('/login', handlePolicies(['PUBLIC']), passport.authenticate('login'), sessionController.login)
 
-router.post('/login', passport.authenticate('login', { failureRedirect: '/loginFailed' }), sessionController.login)
+router.get('/logout', handlePolicies(['PRIVATE']), sessionController.logout)
 
-router.get('/loginFailed', sessionController.loginFailed)
+router.post('/forgotten-password', handlePolicies(['PUBLIC']), sessionController.forgottenPassword)
 
-router.get('/logout', sessionController.logout)
+router.post('/reset-password', handlePolicies(['PUBLIC']), sessionController.resetPassword)
 
-router.post('/forgotten-password', sessionController.forgottenPassword)
+router.get('/current', handlePolicies(['PRIVATE']), sessionController.currentSessionData)
 
-router.post('/reset-password', sessionController.resetPassword)
+router.get('/github', handlePolicies(['PUBLIC']), passport.authenticate('github'))
 
-router.get('/current', authSession, sessionController.currentSessionData)
-
-router.get('/github', passport.authenticate('github'))
-
-router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login' }), sessionController.githubCallback)
+router.get('/githubcallback', handlePolicies(['PUBLIC']), passport.authenticate('github', { failureRedirect: '/login' }), sessionController.githubCallback)
 
 export default router

@@ -50,8 +50,7 @@ describe('Sessions module testing', () => {
             password: '123'
         }
         const response = await requester.post('/api/session/register').send(userMock)
-        expect(response.statusCode).to.be.equal(302)
-        expect(response.headers.location).to.be.equal('/registerFailed')
+        expect(response.ok).to.be.equal(false)
     })
 
     it('Creating a USER without password must FAIL', async () => {
@@ -63,8 +62,7 @@ describe('Sessions module testing', () => {
             password: ''
         }
         const response = await requester.post('/api/session/register').send(userMock)
-        expect(response.statusCode).to.be.equal(302)
-        expect(response.headers.location).to.be.equal('/registerFailed')
+        expect(response.ok).to.be.equal(false)
     })
 
     it('It must SUCCESSFULLY create an ADMIN', async () => {
@@ -89,8 +87,7 @@ describe('Sessions module testing', () => {
             password: '123'
         }
         const response = await requester.post('/api/session/login').send(userMock)
-        expect(response.statusCode).to.be.equal(302)
-        expect(response.headers.location).to.be.equal('/loginFailed')
+        expect(response.ok).to.be.equal(false)
     })
 
     it('Login must FAIL if password does not match with user registered email', async () => {
@@ -99,8 +96,7 @@ describe('Sessions module testing', () => {
             password: 'abc'
         }
         const response = await requester.post('/api/session/login').send(userMock)
-        expect(response.statusCode).to.be.equal(302)
-        expect(response.headers.location).to.be.equal('/loginFailed')
+        expect(response.ok).to.be.equal(false)
     })
 
     it('It must SUCCESSFULLY login an ADMIN and return a cookie', async () => {
@@ -144,7 +140,7 @@ describe('Sessions module testing', () => {
     })
 
     it('It must SUCCESSFULLY logout USER', async () => {
-        const response = await requester.get('/api/session/logout')
+        const response = await requester.get('/api/session/logout').set('Cookie', [`${ userCookie.name } = ${ userCookie.value }`])
         expect(response.statusCode).to.be.equal(302)
         expect(response.headers.location).to.be.equal('/')
     })

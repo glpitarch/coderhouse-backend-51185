@@ -1,8 +1,9 @@
 import { Router } from "express"
+import { handlePolicies } from "./../middlewares/policies.js"
 
 const router = Router()
 
-router.get('/', (req, res) => {
+router.get('/', handlePolicies(['ADMIN']), (req, res) => {
     req.logger.debug('debug logger test')
     req.logger.http('http logger test')
     req.logger.info('info logger test')

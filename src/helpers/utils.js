@@ -1,5 +1,7 @@
 import bcrypt from 'bcrypt'
 
+export const DAY_IN_MS = 24 * 60 * 60 * 1000
+
 /*||=====> BCRYPT <=====||*/
 export const createHash = (password) => bcrypt.hashSync(password, bcrypt.genSaltSync(10))
 export const validatePassword = (password, user) => bcrypt.compareSync(password, user.password)
@@ -11,3 +13,4 @@ export const timestamp = () => {
     const datetime = `Fecha: ${ date } - Hora: ${ time }`
     return datetime
 }
+

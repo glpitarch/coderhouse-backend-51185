@@ -1,9 +1,10 @@
 import { Router } from "express"
 import { generateProduct } from "./../helpers/mocks/products-mock.js"
+import { handlePolicies } from "./../middlewares/policies.js"
 
 const router = Router()
 
-router.get('/', (req,res)=>{
+router.get('/', handlePolicies(['ADMIN']), (req,res) => {
     let qty = req.query.qty
     console.log(qty)
     if (!qty) {
@@ -11,7 +12,7 @@ router.get('/', (req,res)=>{
     }
     let products = []
     for (let i = 0; i < qty; i++) {
-        const product = generateProduct();
+        const product = generateProduct()
         products.push(product)
     }
     res.json({products})

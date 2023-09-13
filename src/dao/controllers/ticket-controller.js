@@ -83,7 +83,8 @@ export default class TicketController {
             const ticket = await ticketServices.createTicket(totalPricePucharse, purchaser)
             const result = {
                 ticket: ticket,
-                productsOutOfStock: outOfStock
+                productsOutOfStock: outOfStock,
+                purchase_timestamp: ticket.purchase_datetime
             }
             await cartsServices.cleaningCartPostPurchase(cartId, inStock)
             res.json({
@@ -118,14 +119,13 @@ export default class TicketController {
 
     async purchaseEmail (req, res) {
         try {
-            const userEmail = req.body
-            req.logger.info(userEmail)
-            purchaseEmailTemplate
+            const { code, purchase_datetime, amount, userEmail, productsOutOfStock } = req.body
+            req.logger.info(`Ticket code created: ${ code }`)
             const email = await transporter.sendMail({
                 from: emailMailerAccount,
-                to: userEmail.email,
+                to: userEmail,
                 subject: "Confirmación de pedido",
-                html: purchaseEmailTemplate
+                html: purchaseEmailTemplate(code, purchase_datetime, amount, productsOutOfStock)
             })
             res.json({
                 status: "sucess", 

@@ -16,12 +16,13 @@ import { addLogger } from './helpers/logger/logger.js'
 import { swaggerSpecs } from './config/doc-config.js'
 import swaggerUi from 'swagger-ui-express'
 import path from 'path'
+import { handlePolicies } from './middlewares/policies.js'
 
 /*||=====> MongoDB Models <=====||*/
 import productModel from './dao/persistence/mongodb/models/products-model.js'
 import chatModel from './dao/persistence/mongodb/models/chat-model.js'
 
-/*||=====> Routes <=====||*/
+/*||=====> Routers <=====||*/
 import productsRouter from './routes/products-router.js'
 import cartsRouter from './routes/carts-router.js'
 import viewsRouter from './routes/views-router.js'
@@ -83,7 +84,7 @@ app.use('/api/session', sessionRouter)
 app.use('/chat', chatRouter)
 app.use('/loggerTest', loggerRouter)
 app.use('/mockingproducts', mocksRouter) 
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs))
+app.use('/api/docs', handlePolicies(['ADMIN']), swaggerUi.serve, swaggerUi.setup(swaggerSpecs))
 
 /*||=====> All Routes error handler middleware <=====||*/
 app.use(errorHandler)
@@ -92,7 +93,7 @@ app.use(errorHandler)
 const io = new Server(httpServer)
 
 let products = await productModel.find().lean()
-let mongoDbMessages = await chatModel.find().lean()
+let petitionStatus = ['success', 'failed']
 
 io.on('connection', socket => {
     console.log('A user has been connected to the server')
@@ -100,30 +101,29 @@ io.on('connection', socket => {
     /*||=====> Listenings and emits for realTimeProducts <=====||*/
     io.emit('productsList', products)
 
-    socket.on('productToDelete', async productId => {
+    socket.on('productToDelete', async () => {
         try {
-            await productModel.deleteOne({_id: productId})
             let products = await productModel.find().lean()
-            io.emit('productsList', products)
+            io.emit('productDeleted', products)
         } catch (error) {
-            console.log(error)
+            io.emit('petition', petitionStatus[1])
         }
     })
-    socket.on('productToAdd', async product => {
+    socket.on('productAdded', async () => {
         try {
-            await productModel.create(product)
             let products = await productModel.find().lean()
-            io.emit('productsList', products)
+            io.emit('newProductAdded', products)
         } catch (error) {
-            console.log(error)
+            io.emit('petition', petitionStatus[1])
         }
     })
 
     /*||=====> Listenings and emits for Chat <=====||*/
-    io.emit('updateMessages', mongoDbMessages)
 
     socket.on('authenticated', async userEmail => {
         io.emit('newUserConnected', userEmail)
+        let mongoDbMessages = await chatModel.find().lean()
+        io.emit('updateMessages', mongoDbMessages)
     })
 
     socket.on('userMessage', async message => {

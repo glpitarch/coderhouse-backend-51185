@@ -34,6 +34,10 @@ body {
     color: orangered;
 }
 
+.white {
+    color: snow;
+}
+
 /*----->_[ BACKGROUND COLOR ]_<-----*/
 
 .bg-color-1 {
@@ -58,9 +62,20 @@ body {
     border-radius: 2rem;
 }
 
+.border-users {
+    border-style: solid;
+    border-color: #565656c4;
+    border-radius: 2rem;
+}
+
+.border-color-2 {
+    border-color: #565656c4;
+}
+
 .border-color-3 {
     border-color: ghostwhite;
 }
+
 .border-r-02e5 {
     border-radius: 0.5rem;
 }

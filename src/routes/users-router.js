@@ -1,13 +1,14 @@
 import { Router } from "express"
 import UsersController from "../dao/controllers/users-controller.js"
 import { handlePolicies } from "../middlewares/policies.js"
-import { authSession } from "../middlewares/auth-session.js"
 import { uploaderDocument, uploaderProduct, uploaderProfile } from "./../middlewares/multer/multer.js"
 
 const router = Router()
 const usersController = new UsersController()
 
 router.get('/', handlePolicies(['ADMIN']), usersController.getUsers)
+
+router.delete('/', handlePolicies(['ADMIN']), usersController.deleteUsers)
 
 router.delete('/:uid', handlePolicies(['ADMIN']), usersController.deleteUser)
 

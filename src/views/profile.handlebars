@@ -2,12 +2,12 @@
     <nav class="r-flex justify-content-center bg-color-1 min-height-12">
         <div class="r-flex align-items-center min-height-12 min-w-15">
             <div>
-                <a href="/products"><img src="./images/icons/brand-logo.png" alt=""></a>
+                <a href="/products"><img src="./images/icons/brand-logo.png" alt="" class="brand-logo my-2"></a>
             </div>
             <div class="navbarMenuContainer">
-                <ul id="navbarMenu" class="min-height-5 align-items-center">
+                <ul id="navbarMenu">
                     <li id="navbarProducts">Productos</li>
-                        <ul id="dropdownCategoryMenu" class="hidden ani-appear absolute">
+                        <ul id="dropdownCategoryMenu" class="hidden ani-appear">
                             <a href="/products"><li>Todos los porductos</li></a>
                             <a href="/products?query={%22category%22%3A%22Sahumerios%22}"><li>Sahumerios</li></a>
                             <a href="/products?query={%22category%22%3A%22Defumacion%22}"><li>Defumacion</li></a>
@@ -18,7 +18,7 @@
                     <li><a href="/cart">Carrito</a></li>
                     {{#if isAdmin}}
                         <li><a href="/realtimeproducts">Real Time Products</a></li>
-                        <li><a href="/updateRole">Cambiar rol</a></li>
+                        <li><a href="/updateRole">Manager Usuarios</a></li>
                     {{/if}}
                 </ul> 
             </div>
@@ -28,90 +28,104 @@
                 <div class="txt-center m-0 p-0">
                     <a href="/profile"><img  src="./images/icons/user.png" alt=""></a>
                 </div>
-                    {{#if user}}
-                        <div>
-                            <strong><p class="m-0 mb-02e5">¡Bienvenido!</p></strong> 
-                        </div>
-                        <div class="txt-center">
-                            <strong><p id="cartId" data-cart-id="{{user.cart._id}}" class="m-0">{{user.role}}: {{user.first_name}} {{user.last_name}}</p></strong> 
-                            <strong><p id="userEmail" data-user-email="{{user.email}}" class="m-0">email: {{user.email}}</p></strong>  
-                            {{#if isAdmin}}
-                                <p class="m-0 orangered">Esta cuenta tiene derechos de administrador</p>
-                            {{/if}}
-                        </div>
-                        <div class="txt-center mt-02e5">
-                            <a href="/api/session/logout"><button class="border-r-02e5 border-color-3">Cerrar sesión</button></a>
-                        </div>
-                        {{else}}
-                        <div class="txt-left">
-                            <strong><p class="m-0">Iniciar sesión: <a href="/">aquí</a></p></strong>
-                            <strong><p class="m-0">Registrarse: <a href="/register">aquí</a></p></strong> 
-                        </div>
-                    {{/if}}
+                {{#if user}}
+                    <div>
+                        <strong><p class="m-0 mb-02e5">¡Bienvenido!</p></strong> 
+                    </div>
+                    <div class="txt-center">
+                        <strong><p id="cartId" data-cart-id="{{user.cart._id}}" class="m-02e5">{{user.role}}</strong>: <span class="white">{{user.first_name}} {{user.last_name}}</span></p> 
+                        <strong><p id="userEmail" data-user-email="{{user.email}}" class="m-02e5">email</strong>: <span class="white">{{user.email}}</span></p>  
+                        {{#if isAdmin}}
+                            <p class="m-0 orangered">Esta cuenta tiene derechos de administrador</p>
+                        {{/if}}
+                    </div>
+                    <div class="txt-center mt-02e5">
+                        <a href="/api/session/logout"><button class="border-r-02e5 border-color-3 py-02e5 mt-1">Cerrar sesión</button></a>
+                    </div>
+                    {{else}}
+                    <div class="txt-left">
+                        <strong><p class="m-0">Iniciar sesión: <a href="/">aquí</a></p></strong>
+                        <strong><p class="m-0">Registrarse: <a href="/register">aquí</a></p></strong> 
+                    </div>
+                {{/if}}
             </div>
         </div>
     </nav>
-    <div id="advancedSearchButtonContainer" class="r-flex justify-content-center align-items-center min-height-5 bg-color-2">
-        <button id="advancedSearchButton" class="min-height-2 p-02e5 border-r-02e5 border-color-3">Búsqueda avanzada</button>
-    </div>
-    <div id="advancedSearchBarContainer" class="ani-appear hidden">
-        <div class="c-flex align-items-center min-height-15 bg-color-2">
-            <h3>Filtrar por:</h3>
-            <div class="r-flex justify-content-center align-self-center max-w-48">
-                <div class="c-flex justify-self-start mr-2 txt-center">
-                    <div class="mb-1">
-                        <input type="checkbox" id="checkboxProductName">Nombre del producto:
+        <div id="advancedSearchButtonContainer" class="r-flex justify-content-center align-items-center min-height-5 bg-color-2">
+            <button id="advancedSearchButton" class="min-height-2 p-02e5 border-r-02e5 border-color-3">Búsqueda avanzada</button>
+        </div>
+        <div id="advancedSearchBarContainer" class="hidden">
+            <div class="c-flex align-items-center min-height-15 bg-color-2">
+                <h3>Filtrar por:</h3>
+                <h4 class="mb-3">¡No te olvides de tildar el checkbox del filtro deseado para que se aplique en la búsqueda!</h4>
+                <div class="r-flex justify-content-center align-self-center">
+                    <div class="c-flex justify-self-start mr-2 txt-center">
+                        <div class="mb-1">
+                            <input type="checkbox" id="checkboxProductName">Nombre del producto:
+                        </div>
+                        <input type="text" id="productNameInput" class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic">
                     </div>
-                    <input type="text" id="productNameInput" class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic">
+                    <div class="c-flex justify-self-start mr-2 ml-02e5 txt-center">
+                        <div class="mb-1">
+                            <input type="checkbox" name="" id="checkboxCategory">Categoría:
+                        </div>
+                        <select name="productsCategory" id="productsCategory" class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic">
+                            <option value=""></option>
+                            <option value="Sahumerios">Sahumerios</option>
+                            <option value="Defumacion">Defumacion</option>
+                            <option value="Conos y Cascadas">Conos y Cascadas</option>
+                            <option value="Sahumos">Sahumos</option>
+                        </select>
+                    </div>
+                    <div class="c-flex justify-content-around mr-2 txt-center">
+                        <div>
+                            <input type="checkbox" id="checkboxPrice">Precio:
+                        </div>
+                            <span class="mt-1 txt-left">Valor mínimo</span>
+                        <div class="r-flex align-self-center">
+                            <input class="mr-02e5" type="range" id="minValuePriceRange" min="0" max="2000" onchange="showValue()">
+                            <span id="minValuePrice">1000</span>
+                        </div>
+                            <span class="mt-1 txt-left">Valor máximo</span>
+                        <div class="r-flex align-self-center">
+                            <input class="mr-02e5" type="range" id="maxValuePriceRange" min="0" max="2000" onchange="showValue()">
+                            <span id="maxValuePrice">1000</span>
+                        </div>
+                    </div>
+                    <div class="c-flex justify-content-around mr-02e5 txt-center">
+                        <div>
+                            <input type="checkbox" id="checkboxStock">Stock:
+                        </div>
+                            <span class="mt-1 txt-left">Valor mínimo</span>
+                        <div class="r-flex align-self-center">
+                            <input class="mr-02e5" type="range" id="minValueStockRange" min="0" max="100" onchange="showValue()">
+                            <span id="minValueStock">50</span>
+                        </div>
+                            <span  class="mt-1 txt-left">Valor máximo</span>
+                        <div class="r-flex align-self-center">
+                            <input class="mr-02e5" type="range" id="maxValueStockRange" min="0" max="100" onchange="showValue()">
+                            <span id="maxValueStock">50</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="c-flex justify-self-start mr-2 ml-02e5 txt-center">
-                    <div class="mb-1">
-                        <input type="checkbox" name="" id="checkboxCategory">Categoría:
-                    </div>
-                    <select name="productsCategory" id="productsCategory" class="p-02e5 border-r-02e5 border-color-3 txt-center font-italic">
-                        <option value=""></option>
-                        <option value="Sahumerios">Sahumerios</option>
-                        <option value="Defumacion">Defumacion</option>
-                        <option value="Conos y Cascadas">Conos y Cascadas</option>
-                        <option value="Sahumos">Sahumos</option>
-                    </select>
-                </div>
-                <div class="c-flex justify-content-around mr-2 txt-center">
-                    <div>
-                        <input type="checkbox" id="checkboxPrice">Precio:
-                    </div>
-                        <span class="mt-1 txt-left">Valor mínimo</span>
-                    <div class="r-flex align-self-center">
-                        <input class="mr-02e5" type="range" id="minValuePriceRange" min="0" max="2000" onchange="showValue()">
-                        <span id="minValuePrice">1000</span>
-                    </div>
-                        <span class="mt-1 txt-left">Valor máximo</span>
-                    <div class="r-flex align-self-center">
-                        <input class="mr-02e5" type="range" id="maxValuePriceRange" min="0" max="2000" onchange="showValue()">
-                        <span id="maxValuePrice">1000</span>
-                    </div>
-                </div>
-                <div class="c-flex justify-content-around mr-02e5 txt-center">
-                    <div>
-                        <input type="checkbox" id="checkboxStock">Stock:
-                    </div>
-                        <span class="mt-1 txt-left">Valor mínimo</span>
-                    <div class="r-flex align-self-center">
-                        <input class="mr-02e5" type="range" id="minValueStockRange" min="0" max="100" onchange="showValue()">
-                        <span id="minValueStock">50</span>
-                    </div>
-                        <span  class="mt-1 txt-left">Valor máximo</span>
-                    <div class="r-flex align-self-center">
-                        <input class="mr-02e5" type="range" id="maxValueStockRange" min="0" max="100" onchange="showValue()">
-                        <span id="maxValueStock">50</span>
-                    </div>
+                <div class="mt-1 txt-center">
+                    <h4>Agregar ordenamiento por precio:</h4>
+                    <div class="r-flex mb-3">
+                        <div class="mr-3">
+                            <span>Menor a mayor:</span>
+                            <input type="checkbox" id="checkboxSortAsc">  
+                        </div>               
+                        <div>     
+                            <span>Mayor a menor:</span>
+                            <input type="checkbox" id="checkboxSortDesc">
+                        </div> 
+                    </div> 
                 </div>
             </div>
+            <div class="r-flex justify-content-center align-items-center bg-color-1 min-height-3">
+                <button id="searchButton" class="p-02e5 border-r-02e5 border-color-3">Buscar</button>
+            </div>
         </div>
-        <div class="r-flex justify-content-center align-items-center bg-color-1 min-height-3">
-            <button id="searchButton" class="p-02e5 border-r-02e5 border-color-3">Buscar</button>
-        </div>
-    </div>
 </header>
 <div class="c-flex align-items-center">
     <h1 class="txt-center">Tu perfil</h1>
@@ -166,5 +180,7 @@
         </form>
     </div>
 </div>
+<footer class="min-height-5 bg-color-1 mt-5">
 
+</footer> 
 <script src="/js/index.js"></script>

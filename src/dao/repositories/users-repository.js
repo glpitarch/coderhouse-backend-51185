@@ -28,10 +28,28 @@ export class UsersRepository {
         }
     }
 
+    async getUserByEmail (email) {
+        try {
+            const user = await this.usersDao.getUserByEmail(email)
+            return user
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+    
     async deleteUser (uid) {
         try {
             const deletedUser = await this.usersDao.deleteUser(uid)
             return deletedUser
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
+    async deleteUsers () {
+        try {
+            const deletedUsers = await this.usersDao.deleteUsers()
+            return deletedUsers
         } catch (error) {
             throw new Error(error.message)
         }

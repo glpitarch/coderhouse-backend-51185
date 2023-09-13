@@ -2,7 +2,7 @@
         <nav class="r-flex justify-content-center bg-color-1 min-height-12">
             <div class="r-flex align-items-center min-height-12 min-w-15">
                 <div>
-                    <a href="/products"><img src="./images/icons/brand-logo.png" alt=""></a>
+                    <a href="/products"><img src="./images/icons/brand-logo.png" alt="" class="brand-logo my-2"></a>
                 </div>
                 <div class="navbarMenuContainer">
                     <ul id="navbarMenu" class="min-height-5 align-items-center">
@@ -18,7 +18,7 @@
                         <li><a href="/cart">Carrito</a></li>
                         {{#if isAdmin}}
                             <li><a href="/realtimeproducts">Real Time Products</a></li>
-                            <li><a href="/updateRole">Cambiar rol</a></li>
+                            <li><a href="/updateRole">Manager Usuarios</a></li>
                         {{/if}}
                     </ul> 
                 </div>
@@ -28,36 +28,37 @@
                     <div class="txt-center m-0 p-0">
                         <a href="/profile"><img  src="./images/icons/user.png" alt=""></a>
                     </div>
-                        {{#if user}}
-                            <div>
-                                <strong><p class="m-0 mb-02e5">¡Bienvenido!</p></strong> 
-                            </div>
-                            <div class="txt-center">
-                                <strong><p id="cartId" data-cart-id="{{user.cart._id}}" class="m-0">{{user.role}}: {{user.first_name}} {{user.last_name}}</p></strong> 
-                                <strong><p class="m-0">email: {{user.email}}</p></strong> 
-                                {{#if isAdmin}}
-                                    <p class="m-0 orangered">Esta cuenta tiene derechos de administrador</p>
-                                {{/if}}
-                            </div>
-                            <div class="txt-center mt-02e5">
-                                <a href="/api/session/logout"><button class="border-r-02e5 border-color-3">Cerrar sesión</button></a>
-                            </div>
-                            {{else}}
-                            <div class="txt-left">
-                                <strong><p class="m-0">Iniciar sesión: <a href="/">aquí</a></p></strong>
-                                <strong><p class="m-0">Registrarse: <a href="/register">aquí</a></p></strong> 
-                            </div>
-                        {{/if}}
+                    {{#if user}}
+                        <div>
+                            <strong><p class="m-0 mb-02e5">¡Bienvenido!</p></strong> 
+                        </div>
+                        <div class="txt-center">
+                            <strong><p id="cartId" data-cart-id="{{user.cart._id}}" class="m-02e5">{{user.role}}</strong>: <span class="white">{{user.first_name}} {{user.last_name}}</span></p> 
+                            <strong><p id="userEmail" data-user-email="{{user.email}}" class="m-02e5">email</strong>: <span class="white">{{user.email}}</span></p>  
+                            {{#if isAdmin}}
+                                <p class="m-0 orangered">Esta cuenta tiene derechos de administrador</p>
+                            {{/if}}
+                        </div>
+                        <div class="txt-center mt-02e5">
+                            <a href="/api/session/logout"><button class="border-r-02e5 border-color-3 py-02e5 mt-1">Cerrar sesión</button></a>
+                        </div>
+                        {{else}}
+                        <div class="txt-left">
+                            <strong><p class="m-0">Iniciar sesión: <a href="/">aquí</a></p></strong>
+                            <strong><p class="m-0">Registrarse: <a href="/register">aquí</a></p></strong> 
+                        </div>
+                    {{/if}}
                 </div>
             </div>
         </nav>
         <div id="advancedSearchButtonContainer" class="r-flex justify-content-center align-items-center min-height-5 bg-color-2">
             <button id="advancedSearchButton" class="min-height-2 p-02e5 border-r-02e5 border-color-3">Búsqueda avanzada</button>
         </div>
-        <div id="advancedSearchBarContainer" class="ani-appear hidden">
+        <div id="advancedSearchBarContainer" class="hidden">
             <div class="c-flex align-items-center min-height-15 bg-color-2">
                 <h3>Filtrar por:</h3>
-                <div class="r-flex justify-content-center align-self-center max-w-48">
+                <h4 class="mb-3">¡No te olvides de tildar el checkbox del filtro deseado para que se aplique en la búsqueda!</h4>
+                <div class="r-flex justify-content-center align-self-center">
                     <div class="c-flex justify-self-start mr-2 txt-center">
                         <div class="mb-1">
                             <input type="checkbox" id="checkboxProductName">Nombre del producto:
@@ -107,6 +108,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="mt-1 txt-center">
+                    <h4>Agregar ordenamiento por precio:</h4>
+                    <div class="r-flex mb-3">
+                        <div class="mr-3">
+                            <span>Menor a mayor:</span>
+                            <input type="checkbox" id="checkboxSortAsc">  
+                        </div>               
+                        <div>     
+                            <span>Mayor a menor:</span>
+                            <input type="checkbox" id="checkboxSortDesc">
+                        </div> 
+                    </div> 
+                </div>
             </div>
             <div class="r-flex justify-content-center align-items-center bg-color-1 min-height-3">
                 <button id="searchButton" class="p-02e5 border-r-02e5 border-color-3">Buscar</button>
@@ -115,10 +129,14 @@
     </header>
     <main>
         <h1 class="txt-center">Listado de usuarios en la base de datos</h1>
-        <h2 id="delete-user-info" class="txt-center orangered"></h2>
+        <div class="txt-center my-5">
+            <h2>Eliminar usuarios inactivos</h2>
+            <p>Haz click en el siguiente botón para eliminar aquellos usuarios que lleven una inactividad mayor a 2 días:</p>
+            <button id="deleteUsersButton" class="m-1 p-02e5 border-r-02e5 border-color-3">Eliminar usuarios</button>
+        </div>
         <div class="r-flex justify-content-center wrap">
             {{#each users}}
-                <div class="min-w-15 p-5 border-form bg-color-3">
+                <div class="min-w-18 p-3 m-3 border-users bg-color-3">
                     <strong><p>Nombre de usuario: </strong><span class="font-italic">{{this.first_name}} {{this.last_name}}</span></p>
                     <strong><p>Dirección de correo electrónico: </strong><span class="font-italic">{{this.email}}</span> </p>
                     <strong><p>Rol: </strong><span class="font-italic">{{this.role}}</span></p>
@@ -129,9 +147,14 @@
                         <strong><p>Estado de Cuenta: </strong><span class="font-italic">{{this.docs_status.each.estadoDeCuenta}}</span></p>
                     </div>
                     <p id="documentation-info-{{this.id}}" class="orangered"></p>
-                    <button id="changeRoleButton-{{this.id}}" class="m-1 p-02e5 border-r-02e5 border-color-3" data-user-id="{{this.id}}">Cambiar rol</button>
+                    <div class="r-flex justify-content-center">
+                        <button id="changeRoleButton-{{this.id}}" class="m-1 p-02e5 border-r-02e5 border-color-3" data-user-id="{{this.id}}">Cambiar rol</button>
+                    </div>
                     <strong><p>Última conexión: </strong><span class="font-italic">{{this.last_connection}}</span></p>
-                    <button id="deleteUserButton-{{this.id}}" class="m-1 p-02e5 border-r-02e5 border-color-3" data-user-id="{{this.id}}">Eliminar usuario</button>
+                    <div class="r-flex justify-content-center">
+                        <button id="deleteUserButton-{{this.id}}" class="m-1 p-02e5 border-r-02e5 border-color-3" data-user-id="{{this.id}}">Eliminar usuario</button>
+                    </div>
+                    <h4 id="delete-user-info-{{this.id}}" class="txt-center orangered"></h4>
                 </div>
             {{/each}}
         </div>
@@ -145,6 +168,8 @@
         </div>
     </main>
 </div>
+<footer class="min-height-5 bg-color-1 mt-5">
 
+</footer> 
 <script src="/js/index.js"></script>
 <script src="/js/update-role.js"></script>

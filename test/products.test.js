@@ -30,7 +30,7 @@ describe('Products module testing', () => {
 
 
     it('Creating a PRODUCT by a user role must FAIL', async () => {
-        /* Create and login a testing user */
+        /*||=====> Create and login a testing user <=====||*/
         const userMock = {
             first_name: 'testing',
             last_name: 'user',
@@ -57,7 +57,7 @@ describe('Products module testing', () => {
     })
 
     it('Creating a PRODUCT by an admin role must SUCCESS', async () => {
-        /* Create and login mock admin */
+        /*||=====> Create and login mock admin <=====||*/
         const adminMock = {
             first_name: 'testing',
             last_name: 'admin',

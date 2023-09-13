@@ -9,22 +9,22 @@ const ticketController = new TicketController()
 
 router.post('/', cartsController.createCart)
 
-router.get('/', cartsController.getCarts)
+router.get('/', handlePolicies(['ADMIN']), cartsController.getCarts)
 
-router.get('/:cid', cartsController.getCartById)
+router.get('/:cid', handlePolicies(['ADMIN']), cartsController.getCartById)
 
-router.put('/:cid', cartsController.updateFullCart)
+router.put('/:cid', handlePolicies(['ONLY_USERS']), cartsController.updateFullCart)
 
-router.delete('/:cid', cartsController.deleteEveryProductInCart)
+router.delete('/:cid', handlePolicies(['ONLY_USERS']), cartsController.deleteEveryProductInCart)
 
 router.post('/:cid/product/:pid', handlePolicies(['ONLY_USERS']), cartsController.addProductToCart)
 
-router.put('/:cid/product/:pid', cartsController.updateProductQuantityInCart)
+router.put('/:cid/product/:pid', handlePolicies(['ONLY_USERS']), cartsController.updateProductQuantityInCart)
 
-router.delete('/:cid/product/:pid', cartsController.deleteProductInCart)
+router.delete('/:cid/product/:pid', handlePolicies(['ONLY_USERS']), cartsController.deleteProductInCart)
 
-router.post('/:cid/purchase', ticketController.createTicket)
+router.post('/:cid/purchase', handlePolicies(['ONLY_USERS']), ticketController.createTicket)
 
-router.post('/purchase/email/confirmation', ticketController.purchaseEmail)
+router.post('/purchase/email/confirmation', handlePolicies(['ONLY_USERS']), ticketController.purchaseEmail)
 
 export default router

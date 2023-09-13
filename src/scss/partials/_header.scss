@@ -3,30 +3,36 @@
     justify-content: space-around;
     font-size: larger;
     font-weight: bold;
-        a {
-            text-decoration: none;
+    position: relative;
+    cursor: pointer;
+        li {
+            list-style: none;
             color: black;
-        }
-            li {
-                list-style: none;
-                color: black;
+            text-decoration: none;
+            margin-right: 2rem;
+            min-height: 2rem;
+        }   
+            a {
                 text-decoration: none;
-                margin-right: 2rem;
-                min-height: 2rem;
-            }   
+                color: black;
+            }
 }
 
 #dropdownCategoryMenu {
-    margin-top: 17rem;
-    margin-right: 12rem;
     background-color: rgba(245, 245, 245, 0.5);
     border-style: none;
     border-color: whitesmoke;
     border-radius: 5%;
+    position: absolute;
+    top: 100%;
+    left: 0; 
+    a {
+        text-decoration: none;
+        color: black;
+    }
         li {
             margin-top: 1rem;
             margin-right: 2rem;
             border-style: none;
         }
 }
-
