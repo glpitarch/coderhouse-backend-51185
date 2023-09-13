@@ -1,7 +1,7 @@
 {
   "name": "coderhouse-backend-51185-project",
   "version": "1.0.0",
-  "description": "Ecommerce project",
+  "description": "Naturalia ecommerce",
   "type": "module",
   "main": "src/app.js",
   "scripts": {
