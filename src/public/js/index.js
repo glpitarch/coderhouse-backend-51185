@@ -55,7 +55,7 @@ const changeClasses = (id, className1, className2, option, className3, className
     }
 }
 
-let advancedFilter = `http://localhost:8080/products?`
+let advancedFilter = `/products?`
 const urlFilterCreator = () => {
     let checkboxSortAsc = document.getElementById('checkboxSortAsc').checked
     let checkboxSortDesc = document.getElementById('checkboxSortDesc').checked
